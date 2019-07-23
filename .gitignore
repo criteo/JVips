@@ -1,0 +1,8 @@
+.idea/
+.iml
+*.iml
+*~
+lib/build-linux/
+lib/build-w64/
+src/main/java/com/criteo/vips/META-INF/
+target/
