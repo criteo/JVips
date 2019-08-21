@@ -38,7 +38,7 @@ public class VipsContextTest {
     }
 
     @Test
-    public void TestSeMaxCacheMem() {
+    public void TestSetMaxCacheMem() {
         VipsContext.setMaxCacheMem(1024);
         Assert.assertEquals(1024, VipsContext.getMaxCacheMem());
     }
