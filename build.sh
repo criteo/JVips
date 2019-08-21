@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 BASEDIR=$(pwd)
 
 BUILD_LINUX=1
@@ -28,7 +30,6 @@ if [ $DEBUG -eq 1 ]; then
     BUILD_TYPE=Debug
 fi
 
-(
 export JOBS
 export DEBUG
 export BUILDDIR=${BASEDIR}/build
@@ -77,9 +78,7 @@ if [ $BUILD_WIN64 -gt 0 ]; then
     fi
     popd
 fi
-)
 
-(
 ##########################
 ###### Build Linux #######
 ##########################
@@ -114,7 +113,5 @@ if [ $BUILD_LINUX -gt 0 ]; then
     fi
     popd
 fi
-)
-)
 
 mvn clean install
