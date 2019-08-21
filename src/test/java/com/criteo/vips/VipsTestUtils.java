@@ -22,7 +22,6 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
 class VipsTestUtils {
-
     static byte[] getByteArray(String filename) throws IOException {
         ClassLoader classLoader = VipsTestUtils.class.getClassLoader();
         filename = classLoader.getResource(filename).getFile();

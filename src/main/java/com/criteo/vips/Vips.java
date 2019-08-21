@@ -17,7 +17,6 @@
 package com.criteo.vips;
 
 import java.io.*;
-import java.nio.ByteBuffer;
 import java.util.logging.Logger;
 
 public class Vips {
