@@ -1,8 +1,11 @@
 .idea/
-.iml
+.settings/
 *.iml
+*.classpath
+*.project
 *~
-lib/build-linux/
-lib/build-w64/
+*.jar
+lib/checkout/
+build/
 src/main/java/com/criteo/vips/META-INF/
 target/
