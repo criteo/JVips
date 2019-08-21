@@ -34,8 +34,7 @@ export JOBS
 export DEBUG
 export BUILDDIR=${BASEDIR}/build
 
-# For Fedora / CentOS
-CMAKE_BIN=cmake3
+CMAKE_BIN=`which cmake3 || which cmake`
 
 if ! [ -x "$(command -v cmake3)" ]; then
     CMAKE_BIN=cmake
