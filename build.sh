@@ -36,11 +36,6 @@ export BUILDDIR=${BASEDIR}/build
 
 CMAKE_BIN=`which cmake3 || which cmake`
 
-if ! [ -x "$(command -v cmake3)" ]; then
-    CMAKE_BIN=cmake
-fi
-
-(
 ##########################
 ###### Build Win64 #######
 ##########################
