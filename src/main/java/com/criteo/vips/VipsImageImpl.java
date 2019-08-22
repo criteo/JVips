@@ -152,9 +152,9 @@ public class VipsImageImpl extends Vips implements VipsImage {
         boolean isMonochrome = pixel.length < 3;
         boolean hasAlpha = pixel.length == 2 || pixel.length == 4;
         if (isMonochrome)
-            return new PixelPacket(pixel[0], pixel[0], pixel[0], hasAlpha ? pixel[1] : 0.0);
+            return new PixelPacket(pixel[0], pixel[0], pixel[0], hasAlpha ? pixel[1] : 255.0);
         else
-            return new PixelPacket(pixel[0], pixel[1], pixel[2], hasAlpha ? pixel[3] : 0.0);
+            return new PixelPacket(pixel[0], pixel[1], pixel[2], hasAlpha ? pixel[3] : 255.0);
     }
 
     private native double[] getPointNative(int x, int y) throws VipsException;
