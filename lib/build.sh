@@ -140,7 +140,7 @@ wget -nv -nc "https://github.com/libvips/libvips/archive/v${VIPS_VERSION}.tar.gz
 mkdir -p "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
 tar zxf "v${VIPS_VERSION}.tar.gz" -C "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}" --strip-components=1
 pushd "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
-./autogen.sh ${HOST}
+./autogen.sh --version # --version makes the underlying ./configure call a noop.
 ./configure \
      CFLAGS="${CFLAGS}" \
      CXXFLAGS="${CXXFLAGS}" \
