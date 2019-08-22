@@ -57,6 +57,7 @@ if [ $BUILD_WIN64 -gt 0 ]; then
     export TARGET=w64
     export PREFIX=${BUILDDIR}/${TARGET}/inst/
     export TOOLCHAIN=${BASEDIR}/Toolchain-x86_64-w64-mingw32.cmake
+    export PKG_CONFIG="x86_64-w64-mingw32-pkg-config"
     pushd "$BASEDIR/lib"
     ./build.sh
     if [ $? -ne 0 ]; then

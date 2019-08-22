@@ -145,7 +145,6 @@ pushd "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
      CFLAGS="${CFLAGS}" \
      CXXFLAGS="${CXXFLAGS}" \
      ${HOST} \
-     PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig" \
      LDFLAGS="-L$PREFIX/lib -Wl,-rpath=$PREFIX/lib" \
      --enable-shared --disable-static \
      --with-jpeg-includes=$PREFIX/include \
