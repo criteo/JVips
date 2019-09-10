@@ -140,7 +140,7 @@ wget -nv -nc "https://github.com/libvips/libvips/archive/v${VIPS_VERSION}.tar.gz
 mkdir -p "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
 tar zxf "v${VIPS_VERSION}.tar.gz" -C "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}" --strip-components=1
 pushd "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
-./autogen.sh ${HOST}
+./autogen.sh ${HOST} -version
 ./configure \
      CFLAGS="${CFLAGS}" \
      CXXFLAGS="${CXXFLAGS}" \
@@ -150,8 +150,8 @@ pushd "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
      --enable-shared --disable-static \
      --with-jpeg-includes=$PREFIX/include \
      --with-jpeg-libraries=$PREFIX/lib \
-     --with-png-includes=$PREFIX/include \
-     --with-png-libraries=$PREFIX/lib \
+     PNG_CFLAGS="-I$PREFIX/include/ -I$PREFIX/include/libpng16/" \
+     PNG_LIBS="-L$PREFIX/lib/ -lpng16" \
      --with-giflib-includes=$PREFIX/include \
      --with-giflib-libraries=$PREFIX/lib \
      --with-libwebp \
@@ -165,6 +165,7 @@ pushd "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
      --without-magick \
      --without-orc \
      --without-gsf \
+     --without-rsvg \
      --prefix="$PREFIX"
 make -j ${JOBS}
 make install

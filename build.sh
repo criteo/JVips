@@ -36,6 +36,10 @@ export BUILDDIR=${BASEDIR}/build
 # For Fedora / CentOS
 CMAKE_BIN=cmake3
 
+if ! [ -x "$(command -v cmake3)" ]; then
+    CMAKE_BIN=cmake
+fi
+
 (
 ##########################
 ###### Build Win64 #######

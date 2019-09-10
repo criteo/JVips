@@ -1,0 +1,32 @@
+language: java
+jdk: openjdk8
+
+branches:
+  only: [ "master" ]
+
+addons:
+  apt:
+    packages:
+      - cmake
+      - automake
+      - nasm
+      - build-essential
+      - autoconf
+      - libtool
+      - libglib2.0-dev
+      - libexpat1-dev
+      - gtk-doc-tools
+      - gobject-introspection
+      - zlib1g-dev
+
+matrix:
+  fast_finish: true
+
+  include:
+      - name: "JVips Linux target"
+        os: linux
+        sudo: required
+        dist: xenial
+        compiler: gcc
+        script:
+          - ./build.sh --without-w64
