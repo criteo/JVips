@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.6.0)
 
 find_package(PkgConfig REQUIRED)
 
-find_package(Java REQUIRED)
+find_package(Java 1.8 REQUIRED)
 include(UseJava)
 
 set(JVIPS_VERSION 1.0.0)
