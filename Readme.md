@@ -44,6 +44,7 @@ Build options:
 - --debug, enable debugging in JVips and its dependencies (default: release mode)
 - --without-w64, disable Windows 64 build (default: disable)
 - --without-linux, disable Linux build (default: disable)
+- --minimal, Build 'minimal' maven profile. JVips dependencies aren't embedded in jar file (default: all)
 - --jobs N, define make jobs number (default: 8)
 
 Clean project with:

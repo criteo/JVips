@@ -7,6 +7,44 @@
     <groupId>JVips</groupId>
     <artifactId>JVips</artifactId>
     <version>1.0.0</version>
+    <profiles>
+        <profile>
+            <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>${project.basedir}/build/linux/inst/lib/</directory>
+                        <includes>
+                            <include>libvips.so</include>
+                            <include>libpng16.so</include>
+                            <include>libjpeg.so</include>
+                            <include>libturbojpeg.so</include>
+                            <include>liborc-0.4.so</include>
+                            <include>libgif.so</include>
+                            <include>libwebp.so</include>
+                            <include>libwebpmux.so</include>
+                            <include>libwebpdemux.so</include>
+                            <include>liblcms2.so</include>
+                            <include>libimagequant.so</include>
+                        </includes>
+                    </resource>
+                    <resource>
+                        <directory>${project.basedir}/build/w64/inst/bin/</directory>
+                        <includes>
+                            <include>libimagequant.dll</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>minimal</id>
+            <!-- no dependencies to include -->
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -41,38 +79,12 @@
                 </includes>
             </resource>
             <resource>
-                <directory>${project.basedir}/build/linux/inst/lib/</directory>
-                <includes>
-                    <include>libvips.so</include>
-                    <include>libpng16.so</include>
-                    <include>libjpeg.so</include>
-                    <include>libturbojpeg.so</include>
-                    <include>libgif.so</include>
-                    <include>libwebp.so</include>
-                    <include>libwebpmux.so</include>
-                    <include>libwebpdemux.so</include>
-                    <include>liblcms2.so</include>
-                    <include>libimagequant.so</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/build/w64/inst/bin/</directory>
-                <includes>
-                    <include>libimagequant.dll</include>
-                </includes>
-            </resource>
-            <resource>
                 <directory>${project.basedir}/build/w64/JVips/src/main/c/</directory>
                 <includes>
                     <include>JVips.dll</include>
                 </includes>
             </resource>
         </resources>
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources/</directory>
-            </testResource>
-        </testResources>
     </build>
     <dependencies>
         <dependency>

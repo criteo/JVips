@@ -4,9 +4,12 @@ jdk: openjdk8
 branches:
   only: [ "master" ]
 
+git:
+  depth: 3
+
 addons:
   apt:
-    packages:
+    packages: &common_linux_packages
       - cmake
       - automake
       - nasm
@@ -28,5 +31,20 @@ matrix:
         sudo: required
         dist: xenial
         compiler: gcc
+        package:
+          - *common_linux_packages
         script:
           - ./build.sh --without-w64
+
+  include:
+      - name: "JVips minimal Linux target"
+        os: linux
+        sudo: required
+        dist: xenial
+        compiler: gcc
+        package:
+          - *common_linux_packages
+        before_script:
+          - export LD_LIBRARY_PATH=./build/linux/inst/lib/
+        script:
+          - ./build.sh --minimal --without-w64
