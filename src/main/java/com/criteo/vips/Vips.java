@@ -23,42 +23,58 @@ public class Vips {
     private final static Logger logger = Logger.getLogger("com.criteo.thirdparty.Vips");
     private static String SystemName = System.getProperty("os.name").toLowerCase();
 
+    private final static String[] linuxLibraries = {
+            "png16",
+            "gif",
+            "jpeg",
+            "turbojpeg",
+            "webp",
+            "webpmux",
+            "webpdemux",
+            "imagequant",
+            "lcms2",
+            "vips"
+    };
+
+    /**
+     * Actually, loading embedded libraries doesn't work on Windows 64.
+     * An UnsatisfiedLinkError exception is thrown with embedded dll:
+     * "Can't find dependent libraries"
+     * Thus, JVips.dll should use system libraries.
+     * We only provide libimagequant because it's out of windows binaries release.
+     *
+     * TODO: add Windows 64 embedded libraries
+     */
+    private final static String[] windowsLibraries = {
+            "libimagequant"
+    };
+
     static {
         try {
+            if (tryLoadLibrariesFromJar())
+                logger.info("JVips dependencies have been loaded from jar");
+            else
+                logger.info("Using JVips dependencies installed on system");
             logger.info("Trying to load JVips");
-            loadLibVips();
+            loadLibraryFromJar("JVips");
             init();
         } catch (IOException e) {
-            throw new RuntimeException("Can't load JVips library and dependencies");
+            throw new RuntimeException("Can't load JVips library and/or dependencies");
         } catch (VipsException e) {
             throw new RuntimeException("Can't init JVips");
         }
     }
 
-    private static void loadLibVips() throws IOException {
-        /**
-         * Actually, loading embedded libraries doesn't work on Windows 64.
-         * An UnsatisfiedLinkError exception is thrown with embedded dll:
-         * "Can't find dependent libraries"
-         * Thus, JVips.dll should use system libraries.
-         *
-         * TODO: add Windows 64 embedded libraries
-         */
-        if (!isWindows()) {
-            loadLibraryFromJar("png16");
-            loadLibraryFromJar("gif");
-            loadLibraryFromJar("jpeg");
-            loadLibraryFromJar("turbojpeg");
-            loadLibraryFromJar("webp");
-            loadLibraryFromJar("webpmux");
-            loadLibraryFromJar("webpdemux");
-            loadLibraryFromJar("imagequant");
-            loadLibraryFromJar("lcms2");
-            loadLibraryFromJar("vips");
+    private static boolean tryLoadLibrariesFromJar() throws IOException {
+        String[] libraries = !isWindows() ? linuxLibraries : windowsLibraries;
+        try {
+            for (String library : libraries) {
+                loadLibraryFromJar(library);
+            }
+        } catch (NullPointerException _) {
+            return false;
         }
-        else
-            loadLibraryFromJar("libimagequant");
-        loadLibraryFromJar("JVips");
+        return true;
     }
 
     private static boolean isWindows() {
