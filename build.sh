@@ -6,6 +6,7 @@ BASEDIR=$(pwd)
 
 BUILD_LINUX=1
 BUILD_WIN64=1
+DIST=0
 DEBUG=0
 JOBS=8
 BUILD_TYPE=Release
@@ -15,6 +16,7 @@ while true; do
   case "$1" in
     --without-w64 ) BUILD_WIN64=0; shift;;
     --without-linux ) BUILD_LINUX=0; shift;;
+    --dist ) DIST=1; shift;;
     --minimal ) MAVEN_ARGS="-Pminimal"; shift;;
     --debug ) DEBUG=1; shift ;;
     --jobs ) JOBS="$2"; shift 2 ;;
@@ -112,3 +114,9 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
 fi
 
 mvn ${MAVEN_ARGS} clean install
+
+if [ ${DIST} -gt 0 ]; then
+    if [ ${BUILD_LINUX} -gt 0 ]; then
+       tar -cvf "JVips-${TARGET}.tar.gz" JVips.jar -C ${BUILDDIR}/${TARGET}/inst/ bin lib include share
+    fi
+fi
