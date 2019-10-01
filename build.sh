@@ -39,6 +39,41 @@ export BUILDDIR=${BASEDIR}/build
 CMAKE_BIN=`which cmake3 || which cmake`
 
 ##########################
+###### Build Linux #######
+##########################
+
+if [ ${BUILD_LINUX} -gt 0 ]; then
+    export CC=gcc
+    export CXX=g++
+    export CPP=cpp
+    export RANLIB=ranlib
+
+    export HOST="--host=x86_64-pc-linux"
+    export TARGET=linux
+    export PREFIX=${BUILDDIR}/${TARGET}/inst/
+    export TOOLCHAIN=${BASEDIR}/Toolchain-linux.cmake
+    pushd "${BASEDIR}/lib"
+    ./build.sh
+    if [ $? -ne 0 ]; then
+        echo "Linux dependencies build failed"
+        exit 1
+    fi
+    popd
+    mkdir -p $BUILDDIR/${TARGET}/JVips
+    rm -rf $BUILDDIR/${TARGET}/JVips/*
+    pushd "${BUILDDIR}/${TARGET}/JVips"
+    ${CMAKE_BIN} ${BASEDIR} \
+    -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
+    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    make -j ${JOBS}
+    if [ $? -ne 0 ]; then
+        echo "Linux JVips build failed"
+        exit 1
+    fi
+    popd
+fi
+
+##########################
 ###### Build Win64 #######
 ##########################
 
@@ -71,41 +106,6 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
     make -j ${JOBS}
     if [ $? -ne 0 ]; then
         echo "Windows 64 JVips build failed"
-        exit 1
-    fi
-    popd
-fi
-
-##########################
-###### Build Linux #######
-##########################
-
-if [ ${BUILD_LINUX} -gt 0 ]; then
-    export CC=gcc
-    export CXX=g++
-    export CPP=cpp
-    export RANLIB=ranlib
-
-    export HOST="--host=x86_64-pc-linux"
-    export TARGET=linux
-    export PREFIX=${BUILDDIR}/${TARGET}/inst/
-    export TOOLCHAIN=${BASEDIR}/Toolchain-linux.cmake
-    pushd "${BASEDIR}/lib"
-    ./build.sh
-    if [ $? -ne 0 ]; then
-        echo "Linux dependencies build failed"
-        exit 1
-    fi
-    popd
-    mkdir -p $BUILDDIR/${TARGET}/JVips
-    rm -rf $BUILDDIR/${TARGET}/JVips/*
-    pushd "${BUILDDIR}/${TARGET}/JVips"
-    ${CMAKE_BIN} ${BASEDIR} \
-    -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
-    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-    make -j ${JOBS}
-    if [ $? -ne 0 ]; then
-        echo "Linux JVips build failed"
         exit 1
     fi
     popd
