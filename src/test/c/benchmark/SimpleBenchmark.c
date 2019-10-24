@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <vips/vips.h>
+#include <gobject/gobject.h>
 
 int benchmark(void *buf, size_t len)
 {

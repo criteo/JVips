@@ -39,7 +39,7 @@ command -v pkg-config || {
 }
 
 command -v vipsthumbnail || {
-    source ./lib/variables.sh
+    source ./lib/VERSIONS
     brew-install-version vips ${VIPS_VERSION} || {
         echo >&2 "Vips not installed."
         exit 1

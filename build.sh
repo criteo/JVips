@@ -65,18 +65,12 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
     export CXX=g++
     export CPP=cpp
     export RANLIB=ranlib
-
     export HOST="--host=x86_64-pc-linux"
     export TARGET=linux
     export PREFIX="${BUILDDIR}/${TARGET}"/inst/
     export TOOLCHAIN="${BASEDIR}"/Toolchain-linux.cmake
     export PKG_CONFIG_PATH=/usr/lib64/pkgconfig
-    pushd "${BASEDIR}"/lib
-    ./build.sh || {
-        echo "Linux dependencies build failed"
-        exit 1
-    }
-    popd
+
     mkdir -p "${BUILDDIR}/${TARGET}"/JVips
     rm -rf "${BUILDDIR}/${TARGET}"/JVips/*
     pushd "${BUILDDIR}/${TARGET}"/JVips
@@ -118,12 +112,7 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
     export TOOLCHAIN="${BASEDIR}"/Toolchain-x86_64-w64-mingw32.cmake
     export PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig/
     export PKG_CONFIG="x86_64-w64-mingw32-pkg-config"
-    pushd "${BASEDIR}"/lib
-    ./build.sh || {
-        echo "Windows 64 dependencies build failed"
-        exit 1
-    }
-    popd
+
     mkdir -p "${BUILDDIR}/${TARGET}"/JVips
     rm -rf "${BUILDDIR}/${TARGET}"/JVips/*
     pushd "${BUILDDIR}/${TARGET}"/JVips
@@ -134,7 +123,7 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
     }
     popd
 
-    LIBS="inst/bin/libimagequant.dll JVips/src/main/c/JVips.dll"
+    LIBS="inst/lib/libimagequant.dll JVips/src/main/c/JVips.dll"
     
     if [ ${RUN_TEST} -gt 0 ]; then
         LIBS+=" JVips/src/test/c/JVipsTest.dll"
@@ -154,18 +143,6 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
     export TARGET=macOS
     export PREFIX="${BUILDDIR}/${TARGET}"/inst/
     export TOOLCHAIN="${BASEDIR}"/Toolchain-macOS.cmake
-
-    # Under macOS libvips will not build as is, but you can rely on Homebrew.
-    # Here's a formula for vips 8.8.3:
-    # $ brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/39ba7794c1678b0d61b179239f93e9ac553c045b/Formula/vips.rb
-
-    # pushd "${BASEDIR}/lib"
-    # ./build.sh
-    # if [ $? -ne 0 ]; then
-    #     echo "macOS dependencies build failed"
-    #     exit 1
-    # fi
-    # popd
 
     mkdir -p "${BUILDDIR}/${TARGET}"/JVips
     rm -rf "${BUILDDIR}/${TARGET}"/JVips/*
@@ -189,8 +166,8 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
 
 fi
 
-source lib/variables.sh
-VERSION="$VIPS_VERSION-$(git rev-parse --short HEAD)"
+source lib/VERSIONS
+VERSION="${VIPS_VERSION}-$(git rev-parse --short HEAD)"
 
 mvn ${MAVEN_ARGS} -DnewVersion=${VERSION} versions:set
 mvn ${MAVEN_ARGS} -DskipTests clean package

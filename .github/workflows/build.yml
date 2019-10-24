@@ -101,8 +101,8 @@ jobs:
       - name: Set version
         id: version
         run: |
-          source lib/variables.sh
-          VERSION="$VIPS_VERSION-$(git rev-parse --short HEAD)"
+          source lib/VERSIONS
+          VERSION="${VIPS_VERSION}-$(git rev-parse --short HEAD)"
           mvn -B versions:set -DnewVersion=$VERSION
           echo "::set-output name=version::$VERSION"
 
