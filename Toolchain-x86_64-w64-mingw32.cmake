@@ -12,7 +12,7 @@ SET(CMAKE_LINKER x86_64-w64-mingw32-ld)
 SET(CMAKE_RANLIB x86_64-w64-mingw32-ranlib)
 
 # target environment location
-SET(CMAKE_FIND_ROOT_PATH /usr/x86_64-w64-mingw32 /usr/ ${CMAKE_SOURCE_DIR}/build/${BUILD_TARGET}/inst)
+SET(CMAKE_FIND_ROOT_PATH /usr/x86_64-w64-mingw32 /usr/bin/ /usr/ ${CMAKE_SOURCE_DIR}/build/${BUILD_TARGET}/inst)
 
 # adjust the default behaviour of the FIND_XXX() commands:
 # search headers and libraries in the target environment, search 

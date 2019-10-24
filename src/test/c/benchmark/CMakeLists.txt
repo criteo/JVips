@@ -1,2 +1,6 @@
 add_executable(SimpleBenchmark SimpleBenchmark.c)
-target_link_libraries(SimpleBenchmark ${VIPS_LIBRARIES})
+add_dependencies(SimpleBenchmark JVips)
+if(NOT ${BUILD_TARGET} STREQUAL "macOS")
+    add_dependencies(SimpleBenchmark libvips)
+endif()
+target_link_libraries(SimpleBenchmark "${GLIB2_LDFLAGS}"  "${VIPS_LIBRARIES}" "-lgobject-2.0" "-lvips")
