@@ -117,6 +117,6 @@ mvn ${MAVEN_ARGS} clean install
 
 if [ ${DIST} -gt 0 ]; then
     if [ ${BUILD_LINUX} -gt 0 ]; then
-       tar -cvf "JVips-linux.tar.gz" JVips.jar -C ${BUILDDIR}/linux/inst/ bin lib include share
+       tar -czvf "JVips-linux.tar.gz" JVips.jar -C ${BUILDDIR}/linux/inst/ bin lib include share
     fi
 fi
