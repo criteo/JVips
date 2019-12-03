@@ -90,6 +90,24 @@ public class VipsImageImpl extends Vips implements VipsImage {
      */
     private native void newFromBuffer(byte[] buffer, int length) throws VipsException;
 
+    public VipsInterpretation imageGetInterpretation() {
+        return VipsInterpretation.valueOf(imageGetInterpretationNative());
+    }
+
+    private native int imageGetInterpretationNative();
+
+    public void colourspace(VipsInterpretation space) throws VipsException {
+        colourspaceNative(space.getValue());
+    }
+
+    private native void colourspaceNative(int space) throws VipsException;
+
+    public void colourspace(VipsInterpretation space, VipsInterpretation source_space) throws VipsException {
+        colourspaceNative(space.getValue(), source_space.getValue());
+    }
+
+    private native void colourspaceNative(int space, int source_space) throws VipsException;
+
     public void resize(Dimension dimension, boolean scale) throws VipsException {
         resizeNative(dimension.width, dimension.height, scale);
     }

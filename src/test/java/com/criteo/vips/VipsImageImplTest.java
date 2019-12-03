@@ -128,6 +128,48 @@ public class VipsImageImplTest {
     }
 
     @Test
+    public void TestImageGetInterpretationB_W() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("monochrome.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+        VipsInterpretation colourSpace = VipsInterpretation.B_W;
+
+        assertEquals(colourSpace, img.imageGetInterpretation());
+    }
+
+    @Test
+    public void TestImageGetInterpretationCMYK() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips_cmyk.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+        VipsInterpretation colourSpace = VipsInterpretation.CMYK;
+
+        assertEquals(colourSpace, img.imageGetInterpretation());
+    }
+
+    @Test
+    public void TestChangeColourSpace() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+        VipsInterpretation beforeColourSpace = VipsInterpretation.sRGB;
+        VipsInterpretation afterColourSpace = VipsInterpretation.CMYK;
+
+        assertEquals(beforeColourSpace, img.imageGetInterpretation());
+        img.colourspace(afterColourSpace);
+        assertEquals(afterColourSpace, img.imageGetInterpretation());
+    }
+
+    @Test
+    public void TestChangeColourSpaceWithSourceSpace() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+        VipsInterpretation beforeColourSpace = VipsInterpretation.sRGB;
+        VipsInterpretation afterColourSpace = VipsInterpretation.CMYK;
+
+        assertEquals(beforeColourSpace, img.imageGetInterpretation());
+        img.colourspace(afterColourSpace, beforeColourSpace);
+        assertEquals(afterColourSpace, img.imageGetInterpretation());
+    }
+
+    @Test
     public void TestReturnCorrectDimensions() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
