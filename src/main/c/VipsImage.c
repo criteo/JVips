@@ -95,6 +95,42 @@ Java_com_criteo_vips_VipsImageImpl_newFromBuffer(JNIEnv *env, jobject obj, jbyte
     (*env)->SetLongField(env, obj, buffer_fid, (jlong) internal_buffer);
 }
 
+JNIEXPORT int JNICALL Java_com_criteo_vips_VipsImageImpl_imageGetInterpretationNative(JNIEnv *env, jobject obj)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    return vips_image_get_interpretation(im);
+}
+
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImageImpl_colourspaceNative__I(JNIEnv *env, jobject obj, int space)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_colourspace(im, &out, space, NULL))
+    {
+        throwVipsException(env, "Unable to convert colour space I");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImageImpl_colourspaceNative__II(JNIEnv *env, jobject obj, int space, int source_space)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_colourspace(im, &out, space, "source_space", source_space, NULL))
+    {
+        throwVipsException(env, "Unable to convert colour space II");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
 JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsImageImpl_resizeNative(JNIEnv *env, jobject obj, jint width, jint height, jboolean scale)
 {

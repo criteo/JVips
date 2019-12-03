@@ -19,6 +19,26 @@ package com.criteo.vips;
 import java.awt.*;
 
 public interface VipsImage {
+    /** Get the VipsInterpretation from the image header.
+     *
+     * @return the VipsInterpretation set in the image header.
+     */
+    VipsInterpretation imageGetInterpretation();
+    /**
+     * Convert this VipsImage's colourspace to the given space
+     *
+     * @param space the new colourspace.
+     * @throws VipsException
+     */
+    void colourspace(VipsInterpretation space) throws VipsException;
+    /**
+     * Convert this VipsImage's colourspace to the given space
+     *
+     * @param space the new colourspace.
+     * @param source_space the input colourspace.
+     * @throws VipsException
+     */
+    void colourspace(VipsInterpretation space, VipsInterpretation source_space) throws VipsException;
     /**
      * Resize this VipsImage with new target dimension
      *
