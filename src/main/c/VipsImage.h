@@ -193,14 +193,6 @@ JNIEXPORT jboolean JNICALL Java_com_criteo_vips_VipsImageImpl_hasAlpha
 
 /*
  * Class:     com_criteo_vips_VipsImageImpl
- * Method:    getInterpretationNative
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsImageImpl_getInterpretationNative
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_criteo_vips_VipsImageImpl
  * Method:    convertTosRGB
  * Signature: ()V
  */

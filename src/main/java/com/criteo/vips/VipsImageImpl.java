@@ -205,11 +205,13 @@ public class VipsImageImpl extends Vips implements VipsImage {
 
     public native boolean hasAlpha();
 
-    private native int getInterpretationNative();
-
     public VipsInterpretation getInterpretation() {
-        int interpretation = getInterpretationNative();
-        return VipsInterpretation.valueOf(interpretation);
+        /**
+         * The name of the function in libvips is vips_image_get_interpretation
+         * so the Java method should be called imageGetInterpretation.  Just
+         * the correctly named function here.
+        */
+        return imageGetInterpretation();
     }
 
     public native void convertTosRGB() throws VipsException;

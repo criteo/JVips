@@ -373,13 +373,6 @@ Java_com_criteo_vips_VipsImageImpl_hasAlpha(JNIEnv *env, jobject obj)
     return vips_image_hasalpha(im);
 }
 
-JNIEXPORT jint JNICALL
-Java_com_criteo_vips_VipsImageImpl_getInterpretationNative(JNIEnv *env, jobject obj)
-{
-    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
-    return vips_image_guess_interpretation(im);
-}
-
 JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsImageImpl_convertTosRGB(JNIEnv *env, jobject obj)
 {
