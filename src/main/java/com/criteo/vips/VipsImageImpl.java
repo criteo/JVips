@@ -134,6 +134,13 @@ public class VipsImageImpl extends Vips implements VipsImage {
 
     private native void colourspaceNative(int space, int source_space) throws VipsException;
 
+    public void histFindNdim(int bins) throws VipsException
+    {
+        histFindNdimNative(bins);
+    }
+
+    private native void histFindNdimNative(int bins) throws VipsException;
+
     public void resize(Dimension dimension, boolean scale) throws VipsException {
         resizeNative(dimension.width, dimension.height, scale);
     }

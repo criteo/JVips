@@ -53,6 +53,13 @@ public interface VipsImage {
      */
     void cast(VipsBandFormat format, boolean shift) throws VipsException;
 
+    /** Make a one, two or three dimensional histogram of a 1, 2 or 3 band image
+     *
+     * @param bins number of bins
+     * @throws VipsException
+     */
+    void histFindNdim(int bins) throws VipsException;
+
     /** Get the VipsInterpretation from the image header.
      *
      * @return the VipsInterpretation set in the image header.

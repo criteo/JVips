@@ -89,6 +89,14 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_colourspaceNative__II
 
 /*
  * Class:     com_criteo_vips_VipsImageImpl
+ * Method:    histFindNdimNative
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_histFindNdimNative
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImageImpl
  * Method:    resizeNative
  * Signature: (IIZ)V
  */
