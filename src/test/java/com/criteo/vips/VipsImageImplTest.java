@@ -128,6 +128,39 @@ public class VipsImageImplTest {
     }
 
     @Theory
+    public void TestHistFindNdim1(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray(filename);
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.length);
+
+        img.histFindNdim(1);
+        assertEquals(1, img.getWidth());
+        assertEquals(1, img.getHeight());
+        img.release();
+    }
+
+    @Theory
+    public void TestHistFindNdim2(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray(filename);
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.length);
+
+        img.histFindNdim(2);
+        assertEquals(2, img.getWidth());
+        assertEquals(2, img.getHeight());
+        img.release();
+    }
+
+    @Theory
+    public void TestHistFindNdim10(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray(filename);
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.length);
+
+        img.histFindNdim(10);
+        assertEquals(10, img.getWidth());
+        assertEquals(10, img.getHeight());
+        img.release();
+    }
+
+    @Theory
     public void TestCastUchar(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
         VipsImageImpl img = new VipsImageImpl(buffer, buffer.length);

@@ -457,3 +457,17 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castNative(JNIEnv *env
     (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
     g_object_unref(im);
 }
+
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_histFindNdimNative(JNIEnv *env, jobject obj, jint bins)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_hist_find_ndim(im, &out, "bins", bins, NULL))
+    {
+        throwVipsException(env, "vips_hist_find_ndim(bins) failed");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
