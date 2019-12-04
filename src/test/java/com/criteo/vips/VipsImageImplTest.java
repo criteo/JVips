@@ -127,6 +127,42 @@ public class VipsImageImplTest {
         img.release();
     }
 
+    @Theory
+    public void TestCastUchar(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray(filename);
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.length);
+
+        assertNotEquals(img.imageGetFormat(), VipsBandFormat.NOTSET);
+        img.cast(VipsBandFormat.DOUBLE);
+        assertEquals(img.imageGetFormat(), VipsBandFormat.DOUBLE);
+        img.castUchar(true);
+        assertEquals(img.imageGetFormat(), VipsBandFormat.UCHAR); // also checks that VipsBandFormat.UCHAR is correct
+        img.castUchar();
+        assertEquals(img.imageGetFormat(), VipsBandFormat.UCHAR);
+   }
+
+    @Theory
+    public void TestCast(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray(filename);
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.length);
+
+        assertNotEquals(img.imageGetFormat(), VipsBandFormat.NOTSET);
+        img.cast(VipsBandFormat.UCHAR, true);
+        assertEquals(img.imageGetFormat(), VipsBandFormat.UCHAR);
+        img.cast(VipsBandFormat.SHORT);
+        assertEquals(img.imageGetFormat(), VipsBandFormat.SHORT);
+        img.cast(VipsBandFormat.FLOAT);
+        assertEquals(img.imageGetFormat(), VipsBandFormat.FLOAT);
+    }
+
+    @Test
+    public void TestVipsBandFormat() {
+        assertEquals(0, VipsBandFormat.UCHAR.getValue());
+        assertEquals(0, VipsBandFormat.valueOf(0).getValue());
+        assertEquals(9, VipsBandFormat.DPCOMPLEX.getValue());
+        assertEquals(VipsBandFormat.valueOf(9), VipsBandFormat.DPCOMPLEX);
+    }
+
     @Test
     public void TestImageGetInterpretationB_W() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("monochrome.jpg");
