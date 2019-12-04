@@ -41,6 +41,30 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_newFromBuffer
 
 /*
  * Class:     com_criteo_vips_VipsImageImpl
+ * Method:    imageGetFormatNative
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsImageImpl_imageGetFormatNative
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_criteo_vips_VipsImageImpl
+ * Method:    castUcharNative
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castUcharNative
+  (JNIEnv *, jobject, jboolean);
+
+/*
+ * Class:     com_criteo_vips_VipsImageImpl
+ * Method:    castNative
+ * Signature: (IZ)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castNative
+  (JNIEnv *, jobject, jint, jboolean);
+
+/*
+ * Class:     com_criteo_vips_VipsImageImpl
  * Method:    imageGetInterpretationNative
  * Signature: ()I
  */

@@ -90,6 +90,32 @@ public class VipsImageImpl extends Vips implements VipsImage {
      */
     private native void newFromBuffer(byte[] buffer, int length) throws VipsException;
 
+    public VipsBandFormat imageGetFormat() {
+        return VipsBandFormat.valueOf(imageGetFormatNative());
+    }
+
+    private native int imageGetFormatNative();
+
+    public void castUchar() throws VipsException {
+        castUchar(false);
+    }
+
+    public void castUchar(boolean shift) throws VipsException {
+        castUcharNative(shift);
+    }
+
+    private native void castUcharNative(boolean shift) throws VipsException;
+
+    public void cast(VipsBandFormat format) throws VipsException {
+        cast(format, false);
+    }
+
+    public void cast(VipsBandFormat format, boolean shift) throws VipsException {
+        castNative(format.getValue(), shift);
+    }
+
+    private native void castNative(int format, boolean shift) throws VipsException;
+
     public VipsInterpretation imageGetInterpretation() {
         return VipsInterpretation.valueOf(imageGetInterpretationNative());
     }

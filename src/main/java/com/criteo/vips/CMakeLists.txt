@@ -7,6 +7,7 @@ set(JAVA_SOURCE_FILES
     "${JAVA_SOURCE_DIRECTORY}/Gravity.java"
     "${JAVA_SOURCE_DIRECTORY}/PixelPacket.java"
     "${JAVA_SOURCE_DIRECTORY}/Vips.java"
+    "${JAVA_SOURCE_DIRECTORY}/VipsBandFormat.java"
     "${JAVA_SOURCE_DIRECTORY}/VipsContext.java"
     "${JAVA_SOURCE_DIRECTORY}/VipsException.java"
     "${JAVA_SOURCE_DIRECTORY}/VipsInterpretation.java"

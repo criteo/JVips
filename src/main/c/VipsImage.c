@@ -430,3 +430,37 @@ Java_com_criteo_vips_VipsImageImpl_release(JNIEnv *env, jobject obj)
         (*env)->SetLongField(env, obj, buffer_fid, (jlong) buffer);
     }
 }
+
+JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsImageImpl_imageGetFormatNative(JNIEnv *env, jobject obj)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    return vips_image_get_format(im);
+}
+
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castUcharNative(JNIEnv *env, jobject obj, jboolean shift)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_cast_uchar(im, &out, "shift", shift, NULL))
+    {
+        throwVipsException(env, "Unable to cast image to uchar");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castNative(JNIEnv *env, jobject obj, jint format, jboolean shift)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_cast(im, &out, format, "shift", shift, NULL))
+    {
+        throwVipsException(env, "Unable to cast image");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}

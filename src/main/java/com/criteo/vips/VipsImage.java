@@ -19,6 +19,40 @@ package com.criteo.vips;
 import java.awt.*;
 
 public interface VipsImage {
+    /** Get the format of each band element.
+     *
+     * @return the image's format
+     */
+    VipsBandFormat imageGetFormat();
+
+    /** Convert to VIPS_FORMAT_CHAR without shifting
+     *
+     * @throws VipsException
+     */
+    void castUchar() throws VipsException;
+
+     /** Convert to VIPS_FORMAT_CHAR
+      *
+      * @param shift values are shifted
+      * @throws VipsException
+      */
+    void castUchar(boolean shift) throws VipsException;
+
+    /** Convert to format without shifting
+     *
+     * @param format the image's new format
+     * @throws VipsException
+     */
+    void cast(VipsBandFormat format) throws VipsException;
+
+    /** Convert to format
+     *
+     * @param format the image's new format
+     * @param shift integer values are shifted
+     * @throws VipsException
+     */
+    void cast(VipsBandFormat format, boolean shift) throws VipsException;
+
     /** Get the VipsInterpretation from the image header.
      *
      * @return the VipsInterpretation set in the image header.
