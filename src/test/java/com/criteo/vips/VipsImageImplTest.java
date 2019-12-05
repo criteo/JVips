@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Arrays;
 
 import static com.criteo.vips.VipsImageImpl.JPGQuality;
 import static junit.framework.Assert.assertEquals;
@@ -86,7 +87,7 @@ public class VipsImageImplTest {
         VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
         VipsImageImpl copy = new VipsImageImpl(img, WhitePixel);
 
-        assertEquals(WhitePixel, copy.getPoint(new Point(0, 0)));
+        assertEquals(WhitePixel, copy.getPointPixelPacket(new Point(0, 0)));
         assertEquals(img.getWidth(), copy.getWidth());
         assertEquals(img.getHeight(), copy.getHeight());
         img.release();
@@ -255,7 +256,7 @@ public class VipsImageImplTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
 
-        PixelPacket pixel = img.getPoint(new Point(0, 0));
+        PixelPacket pixel = img.getPointPixelPacket(new Point(0, 0));
         PixelPacket expected = new PixelPacket(0.0, 81.0, 216.0, 255.0);
         assertTrue(expected.equals(pixel));
         img.release();
@@ -266,7 +267,7 @@ public class VipsImageImplTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("transparent.png");
         VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
 
-        PixelPacket pixel = img.getPoint(new Point(0, 0));
+        PixelPacket pixel = img.getPointPixelPacket(new Point(0, 0));
         PixelPacket expected = new PixelPacket(0.0, 0.0, 0.0, 0.0);
         assertTrue(expected.equals(pixel));
         img.release();
@@ -303,7 +304,7 @@ public class VipsImageImplTest {
         PixelPacket blue = new PixelPacket(0, 0, 255);
 
         img.flatten(blue);
-        PixelPacket topLeft = img.getPoint(new Point(0, 0));
+        PixelPacket topLeft = img.getPointPixelPacket(new Point(0, 0));
         assertEquals(topLeft.r, blue.r);
         assertEquals(topLeft.g, blue.g);
         assertEquals(topLeft.b, blue.b);
@@ -367,10 +368,10 @@ public class VipsImageImplTest {
         img.pad(new Dimension(w + 20, h + 20), pixel, Gravity.CENTRE);
         assertEquals(w + 20, img.getWidth());
         assertEquals(h + 20, img.getHeight());
-        assertTrue(pixel.equals(img.getPoint(new Point(0, 0))));
-        assertTrue(pixel.equals(img.getPoint(new Point(img.getWidth() - 1, 0))));
-        assertTrue(pixel.equals(img.getPoint(new Point(0, img.getHeight() - 1))));
-        assertTrue(pixel.equals(img.getPoint(new Point(img.getWidth() - 1, img.getHeight() - 1))));
+        assertTrue(pixel.equals(img.getPointPixelPacket(new Point(0, 0))));
+        assertTrue(pixel.equals(img.getPointPixelPacket(new Point(img.getWidth() - 1, 0))));
+        assertTrue(pixel.equals(img.getPointPixelPacket(new Point(0, img.getHeight() - 1))));
+        assertTrue(pixel.equals(img.getPointPixelPacket(new Point(img.getWidth() - 1, img.getHeight() - 1))));
         img.release();
     }
 
@@ -382,10 +383,10 @@ public class VipsImageImplTest {
 
         // Surround image with a 10-pixel blue band
         img.pad(new Dimension(img.getWidth() + 20, img.getHeight() + 20), pixel, Gravity.CENTRE);
-        assertTrue(pixel.equals(img.getPoint(new Point(0, 0))));
-        assertTrue(pixel.equals(img.getPoint(new Point(img.getWidth() - 1, 0))));
-        assertTrue(pixel.equals(img.getPoint(new Point(0, img.getHeight() - 1))));
-        assertTrue(pixel.equals(img.getPoint(new Point(img.getWidth() - 1, img.getHeight() - 1))));
+        assertTrue(pixel.equals(img.getPointPixelPacket(new Point(0, 0))));
+        assertTrue(pixel.equals(img.getPointPixelPacket(new Point(img.getWidth() - 1, 0))));
+        assertTrue(pixel.equals(img.getPointPixelPacket(new Point(0, img.getHeight() - 1))));
+        assertTrue(pixel.equals(img.getPointPixelPacket(new Point(img.getWidth() - 1, img.getHeight() - 1))));
         img.release();
     }
 
@@ -398,10 +399,10 @@ public class VipsImageImplTest {
 
         // Surround image with a 10-pixel blue band
         img.pad(new Dimension(img.getWidth() + 20, img.getHeight() + 20), pixel, Gravity.CENTRE);
-        assertTrue(expected.equals(img.getPoint(new Point(0, 0))));
-        assertTrue(expected.equals(img.getPoint(new Point(img.getWidth() - 1, 0))));
-        assertTrue(expected.equals(img.getPoint(new Point(0, img.getHeight() - 1))));
-        assertTrue(expected.equals(img.getPoint(new Point(img.getWidth() - 1, img.getHeight() - 1))));
+        assertTrue(expected.equals(img.getPointPixelPacket(new Point(0, 0))));
+        assertTrue(expected.equals(img.getPointPixelPacket(new Point(img.getWidth() - 1, 0))));
+        assertTrue(expected.equals(img.getPointPixelPacket(new Point(0, img.getHeight() - 1))));
+        assertTrue(expected.equals(img.getPointPixelPacket(new Point(img.getWidth() - 1, img.getHeight() - 1))));
         img.release();
     }
 
@@ -416,7 +417,7 @@ public class VipsImageImplTest {
         int h = img.getHeight();
         // Try to access out of bound
         try {
-            img.getPoint(new Point(w + 1, h + 1));
+            img.getPointPixelPacket(new Point(w + 1, h + 1));
         } finally {
             img.release();
         }
@@ -427,7 +428,7 @@ public class VipsImageImplTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("monochrome.jpg");
         VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
 
-        PixelPacket pixel = img.getPoint(new Point(0, 0));
+        PixelPacket pixel = img.getPointPixelPacket(new Point(0, 0));
         img.release();
         assertEquals(255.0, pixel.getRed());
         assertEquals(255.0, pixel.getGreen());
@@ -442,9 +443,9 @@ public class VipsImageImplTest {
 
         int w = img.getWidth();
         int h = img.getHeight();
-        PixelPacket transparentPixel = img.getPoint(new Point(0, 0));
+        PixelPacket transparentPixel = img.getPointPixelPacket(new Point(0, 0));
         // Image center is not transparent
-        PixelPacket pixel = img.getPoint(new Point(w / 2, h / 2));
+        PixelPacket pixel = img.getPointPixelPacket(new Point(w / 2, h / 2));
         img.release();
         assertEquals(255.0, transparentPixel.getRed());
         assertEquals(255.0, transparentPixel.getGreen());
@@ -564,7 +565,7 @@ public class VipsImageImplTest {
         VipsImageImpl background = new VipsImageImpl(img, WhitePixel);
 
         background.compose(img);
-        assertTrue(WhitePixel.equals(background.getPoint(new Point(0,0))));
+        assertTrue(WhitePixel.equals(background.getPointPixelPacket(new Point(0,0))));
         img.release();
         background.release();
     }
@@ -574,7 +575,7 @@ public class VipsImageImplTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("white_48_bits.png");
         VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
 
-        PixelPacket p = img.getPoint(new Point(0, 0));
+        PixelPacket p = img.getPointPixelPacket(new Point(0, 0));
         assertEquals(255.0, p.getRed());
         assertEquals(255.0, p.getGreen());
         assertEquals(255.0, p.getBlue());
@@ -689,5 +690,38 @@ public class VipsImageImplTest {
         assertEquals(239667.0, r.out);
         assertEquals(0, r.x);
         assertEquals(4, r.y);
+    }
+
+    @Test
+    public void TestGetPoint() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+
+        double[] point = img.getPoint(33, 8);
+        assertEquals(3, point.length);
+        double expected[] = { 0, 84, 219 };
+        assertEquals(expected[0], point[0]);
+        assertEquals(expected[1], point[1]);
+        assertEquals(expected[2], point[2]);
+        assertTrue(Arrays.equals(expected, point));
+        img.release();
+    }
+
+    @Test
+    public void TestHistFindNdimMax1GetPoint() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+
+        img.histFindNdim(10);
+        Max1Result r = img.max1();
+        assertEquals(239667.0, r.out);
+        assertEquals(0, r.x);
+        assertEquals(4, r.y);
+
+        double[] point = img.getPoint(r.x, r.y);
+        assertEquals(10, point.length);
+        double expected[] = { 0, 0, 15, 226, 1966, 10993, 101474, 239667, 61531, 1693 };
+        assertTrue(Arrays.equals(expected, point));
+        img.release();
     }
 }

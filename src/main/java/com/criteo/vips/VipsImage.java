@@ -20,6 +20,13 @@ import java.awt.*;
 
 public interface VipsImage {
 
+    /** Read a single pixel from an image.
+     *
+     * @return The pixel values
+     * @throws VipsException
+     */
+    double[] getPoint(int x, int y) throws VipsException;
+
     /** Find the single largest value
      *
      * @return maximum value and x & y positions
@@ -197,7 +204,7 @@ public interface VipsImage {
      * @return Pixel packet with same size than VipsImageImpl bands
      * @throws VipsException
      */
-    PixelPacket getPoint(Point point) throws VipsException;
+    PixelPacket getPointPixelPacket(Point point) throws VipsException;
 
     /**
      * @return True if VipsImage has alpha channel

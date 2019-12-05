@@ -343,7 +343,7 @@ Java_com_criteo_vips_VipsImageImpl_getBands(JNIEnv *env, jobject obj)
 }
 
 JNIEXPORT jdoubleArray JNICALL
-Java_com_criteo_vips_VipsImageImpl_getPointNative(JNIEnv *env, jobject obj, jint x, jint y)
+Java_com_criteo_vips_VipsImageImpl_getPointPixelPacketNative(JNIEnv *env, jobject obj, jint x, jint y)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     double *pixel = NULL;
@@ -488,4 +488,24 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_max1Native(JNIEnv * en
     (*env)->SetDoubleField(env, result_obj, field_Max1Result_out, out);
     (*env)->SetIntField(env, result_obj, field_Max1Result_x, x);
     (*env)->SetIntField(env, result_obj, field_Max1Result_y, y);
+}
+
+JNIEXPORT jdoubleArray JNICALL
+Java_com_criteo_vips_VipsImageImpl_getPoint(JNIEnv *env, jobject image_obj, jint x, jint y)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+    double *vector;
+    int n;
+    jdoubleArray ret;
+
+    if (vips_getpoint(im, &vector, &n, x, y, NULL))
+    {
+        throwVipsException(env, "vips_getpoint failed");
+        return NULL;
+    }
+    ret = (*env)->NewDoubleArray(env, n);
+    (*env)->SetDoubleArrayRegion(env, ret, 0, n, vector);
+    (*env)->ReleaseDoubleArrayElements(env, ret, vector, JNI_COMMIT);
+    g_free(vector);
+    return ret;
 }
