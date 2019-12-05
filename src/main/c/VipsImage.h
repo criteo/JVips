@@ -193,10 +193,18 @@ JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsImageImpl_getBands
 
 /*
  * Class:     com_criteo_vips_VipsImageImpl
- * Method:    getPointNative
+ * Method:    getPoint
  * Signature: (II)[D
  */
-JNIEXPORT jdoubleArray JNICALL Java_com_criteo_vips_VipsImageImpl_getPointNative
+JNIEXPORT jdoubleArray JNICALL Java_com_criteo_vips_VipsImageImpl_getPoint
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImageImpl
+ * Method:    getPointPixelPacketNative
+ * Signature: (II)[D
+ */
+JNIEXPORT jdoubleArray JNICALL Java_com_criteo_vips_VipsImageImpl_getPointPixelPacketNative
   (JNIEnv *, jobject, jint, jint);
 
 /*
