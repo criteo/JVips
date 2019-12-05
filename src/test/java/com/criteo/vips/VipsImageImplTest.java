@@ -665,4 +665,29 @@ public class VipsImageImplTest {
         Assert.assertTrue(buffer.length > out.length);
         img.release();
     }
+
+    @Test
+    public void TestMax1() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+
+        Max1Result r = img.max1();
+
+        assertEquals(255.0, r.out);
+    }
+
+    @Test
+    public void TestHistFindNdimMax1() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+
+        final int N_BINS = 10;
+        img.histFindNdim(N_BINS);
+
+        Max1Result r = img.max1();
+
+        assertEquals(239667.0, r.out);
+        assertEquals(0, r.x);
+        assertEquals(4, r.y);
+    }
 }
