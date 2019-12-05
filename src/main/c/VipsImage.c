@@ -22,6 +22,7 @@
 
 #include "VipsImage.h"
 #include "VipsException.h"
+#include "JniFieldsIDs.h"
 
 #define MAX_CHANNEL_SIZE 4
 
@@ -470,4 +471,21 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_histFindNdimNative(JNI
     }
     (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
     g_object_unref(im);
+}
+
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_max1Native(JNIEnv * env, jobject image_obj, jobject result_obj)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+    double out;
+    int x;
+    int y;
+
+    if (vips_max(im, &out, "x", &x, "y", &y, NULL))
+    {
+        throwVipsException(env, "max(x, y) failed");
+        return;
+    }
+    (*env)->SetDoubleField(env, result_obj, field_Max1Result_out, out);
+    (*env)->SetIntField(env, result_obj, field_Max1Result_x, x);
+    (*env)->SetIntField(env, result_obj, field_Max1Result_y, y);
 }

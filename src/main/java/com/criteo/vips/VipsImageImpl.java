@@ -147,6 +147,14 @@ public class VipsImageImpl extends Vips implements VipsImage {
 
     private native void resizeNative(int width, int height, boolean scale) throws VipsException;
 
+    public Max1Result max1() throws VipsException {
+        Max1Result r = new Max1Result();
+        max1Native(r);
+        return r;
+    }
+
+    private native void max1Native(Max1Result r) throws VipsException;
+
     public void pad(Dimension dimension, PixelPacket background, Gravity gravity) throws VipsException {
         padNative(dimension.width, dimension.height, background.getComponents(), gravity.getValue());
     }

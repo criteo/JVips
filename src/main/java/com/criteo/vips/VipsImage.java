@@ -19,6 +19,14 @@ package com.criteo.vips;
 import java.awt.*;
 
 public interface VipsImage {
+
+    /** Find the single largest value
+     *
+     * @return maximum value and x & y positions
+     * @throws VipsException
+     */
+    Max1Result max1() throws VipsException;
+
     /** Get the format of each band element.
      *
      * @return the image's format

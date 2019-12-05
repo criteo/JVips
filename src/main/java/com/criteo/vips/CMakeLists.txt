@@ -5,6 +5,7 @@ set(JNI_HEADER_DIRECTORY "${PROJECT_SOURCE_DIR}/src/main/c/")
 set(JAVA_SOURCE_FILES
     "${JAVA_SOURCE_DIRECTORY}/ImageFormat.java"
     "${JAVA_SOURCE_DIRECTORY}/Gravity.java"
+    "${JAVA_SOURCE_DIRECTORY}/Max1Result.java"
     "${JAVA_SOURCE_DIRECTORY}/PixelPacket.java"
     "${JAVA_SOURCE_DIRECTORY}/Vips.java"
     "${JAVA_SOURCE_DIRECTORY}/VipsBandFormat.java"
@@ -32,3 +33,7 @@ create_javah(TARGET VipsImage_header
              CLASSES com.criteo.vips.VipsImageImpl
              CLASSPATH JVipsWrapper
              OUTPUT_NAME ${JNI_HEADER_DIRECTORY}/VipsImage.h)
+create_javah(TARGET Max1Result_header
+             CLASSES com.criteo.vips.Max1Result
+             CLASSPATH JVipsWrapper
+             OUTPUT_NAME ${JNI_HEADER_DIRECTORY}/Max1Result.h)
