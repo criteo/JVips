@@ -222,6 +222,16 @@ public class VipsImageImpl extends Vips implements VipsImage {
 
     public native boolean hasAlpha();
 
+    public void linear(double[] a, double[] b, boolean uchar) throws VipsException {
+        linearNative(a, b, uchar);
+    }
+
+    private native void linearNative(double[] a, double[] b, boolean uchar) throws VipsException;
+
+    public void linear(double[] a, double[] b) throws VipsException {
+        linear(a, b, false);
+    }
+
     public VipsInterpretation getInterpretation() {
         /**
          * The name of the function in libvips is vips_image_get_interpretation

@@ -724,4 +724,45 @@ public class VipsImageImplTest {
         assertTrue(Arrays.equals(expected, point));
         img.release();
     }
+
+    @Test
+    public void TestGetPointLinear() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+        int x = 39;
+        int y = 43;
+
+        assertTrue(Arrays.equals(new double[] { 5.0, 81.0, 218.0 }, img.getPoint(x, y)));
+        img.linear(new double[] {3.2, 1.0, 5}, new double[] {4.3, 1.2, 6.7});
+        assertTrue(Arrays.equals(new double[] { 20.299999237060547, 82.19999694824219, 1096.699951171875 }, img.getPoint(x, y)));
+        img.release();
+    }
+
+    @Test
+    public void TestGetPointLinearUchar() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+        int x = 39;
+        int y = 43;
+
+        assertTrue(Arrays.equals(new double[] { 5.0, 81.0, 218.0 }, img.getPoint(x, y)));
+        img.linear(new double[] {3.2, 1.0, 5}, new double[] {4.3, 1.2, 6.7}, true);
+        assertTrue(Arrays.equals(new double[] { 20.0, 82.0, 255.0 }, img.getPoint(x, y)));
+        img.release();
+    }
+
+    @Test
+    public void TestLinearThrowsIfArraySizeAreNotEqual() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+
+        try {
+            img.linear(new double[]{3.2, 1.0, 5}, new double[]{1.2, 6.7});
+            img.release();
+            fail();
+        }
+        catch (VipsException e) {
+            img.release();
+        }
+    }
 }
