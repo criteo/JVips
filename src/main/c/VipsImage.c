@@ -509,3 +509,31 @@ Java_com_criteo_vips_VipsImageImpl_getPoint(JNIEnv *env, jobject image_obj, jint
     g_free(vector);
     return ret;
 }
+
+JNIEXPORT void
+JNICALL Java_com_criteo_vips_VipsImageImpl_linearNative(JNIEnv *env, jobject image_obj, jdoubleArray a, jdoubleArray b, jboolean uchar)
+{
+    jint length = (*env)->GetArrayLength(env, a);
+
+    if ((*env)->GetArrayLength(env, b) != length)
+        throwVipsException(env, "vips_linear requires arrays of the same length");
+    else
+    {
+        VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+        VipsImage *out = NULL;
+        jdouble *a_values = (*env)->GetDoubleArrayElements(env, a, 0);
+        jdouble *b_values = (*env)->GetDoubleArrayElements(env, b, 0);
+
+        int errcode = vips_linear(im, &out, a_values, b_values, length, "uchar", uchar, NULL);
+        (*env)->ReleaseDoubleArrayElements(env, a, a_values, 0);
+        (*env)->ReleaseDoubleArrayElements(env, b, b_values, 0);
+
+        if (errcode)
+            throwVipsException(env, "vips_linear failed");
+        else
+        {
+            (*env)->SetLongField(env, image_obj, handle_fid, (jlong) out);
+            g_object_unref(im);
+        }
+    }
+}

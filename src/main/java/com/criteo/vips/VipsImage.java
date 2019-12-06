@@ -19,6 +19,24 @@ package com.criteo.vips;
 import java.awt.*;
 
 public interface VipsImage {
+    /** Pass image through a linear transform, ie. (@out = @in * @a + @b)
+     *
+     * @param a: (array length=n): array of constants for multiplication
+     * @param b: (array length=b.length): array of constants for addition
+     * @param uchar: output uchar pixels if true
+     * @throws VipsException
+     *
+     */
+    void linear(double[] a, double[] b, boolean uchar) throws VipsException;
+
+    /** Pass image through a linear transform, ie. (@out = @in * @a + @b)
+     *
+     * @param a: (array length=n): array of constants for multiplication
+     * @param b: (array length=b.length): array of constants for addition
+     * @throws VipsException
+     *
+     */
+    void linear(double[] a, double[] b) throws VipsException;
 
     /** Read a single pixel from an image.
      *
