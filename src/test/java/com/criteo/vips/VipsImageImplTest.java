@@ -61,6 +61,30 @@ public class VipsImageImplTest {
             "02.gif"
     };
 
+    static class DominantColour {
+        final String filename;
+        final int red;
+        final int green;
+        final int blue;
+        @Override
+        public String toString() {
+            return String.format(filename + " RGB " + red + " " + green + " " + blue);
+        }
+        DominantColour(String f, int red, int green, int blue) {
+            filename = f;
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+        }
+    }
+
+    @DataPoints("fileColours")
+    public static DominantColour[] FileColours = {
+            new DominantColour("11-red-square-600-400.png", 237, 237, 237),
+            new DominantColour("in_vips.jpg", 12, 112, 187),
+            new DominantColour("monochrome.jpg", 237, 237, 237),
+    };
+
     @BeforeClass
 
     public static void onceExecutedBeforeAll() {
@@ -668,17 +692,15 @@ public class VipsImageImplTest {
         img.release();
     }
 
-    @Test
-    public void TestDominantColour() throws IOException, VipsException {
-        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("11-red-square-600-400.png");
+    @Theory
+    public void TestDominantColour(@FromDataPoints("fileColours") DominantColour fileColour) throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(fileColour.filename);
         VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
 
         // implement https://gist.github.com/jcupitt/ee3afcbb931b41b4d7f4
         int N_BINS = 10;
         int BIN_SIZE = 256 / N_BINS;
-        img.colourspace(VipsInterpretation.LAB);
-        img.linear(new double[]{1, 1, 1}, new double[]{0, 128, 128});
-        img.linear(new double[]{255.0 / 100, 1, 1}, new double[]{0, 0, 0}, true);
+        img.colourspace(VipsInterpretation.sRGB);
         img.histFindNdim(N_BINS);
         Max1Result maxpos = img.max1();
         double[] pixel = img.getPoint(maxpos.x, maxpos.y);
@@ -686,9 +708,13 @@ public class VipsImageImplTest {
 					.filter(i -> maxpos.out == pixel[i])
 					.findFirst()
 					.orElse(-1);
-        assertEquals(237, maxpos.x * BIN_SIZE + BIN_SIZE / 2);
-        assertEquals(112, maxpos.y * BIN_SIZE + BIN_SIZE / 2);
-        assertEquals(112, band * BIN_SIZE + BIN_SIZE / 2);
+        int red = maxpos.x * BIN_SIZE + BIN_SIZE / 2;
+        int green = maxpos.y * BIN_SIZE + BIN_SIZE / 2;
+        int blue = band * BIN_SIZE + BIN_SIZE / 2;
+
+        assertEquals(fileColour.red, red);
+        assertEquals(fileColour.green, green);
+        assertEquals(fileColour.blue, blue);
         img.release();
     }
 
