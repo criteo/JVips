@@ -35,6 +35,7 @@ import java.util.Arrays;
 import static com.criteo.vips.VipsImageImpl.JPGQuality;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
+import java.util.stream.IntStream;
 
 @RunWith(Theories.class)
 public class VipsImageImplTest {
@@ -664,6 +665,30 @@ public class VipsImageImplTest {
 
         byte[] out = img.writePNGToArray(compression, true, colors, true);
         Assert.assertTrue(buffer.length > out.length);
+        img.release();
+    }
+
+    @Test
+    public void TestDominantColour() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("11-red-square-600-400.png");
+        VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
+
+        // implement https://gist.github.com/jcupitt/ee3afcbb931b41b4d7f4
+        int N_BINS = 10;
+        int BIN_SIZE = 256 / N_BINS;
+        img.colourspace(VipsInterpretation.LAB);
+        img.linear(new double[]{1, 1, 1}, new double[]{0, 128, 128});
+        img.linear(new double[]{255.0 / 100, 1, 1}, new double[]{0, 0, 0}, true);
+        img.histFindNdim(N_BINS);
+        Max1Result maxpos = img.max1();
+        double[] pixel = img.getPoint(maxpos.x, maxpos.y);
+        int band = IntStream.range(0, pixel.length)
+					.filter(i -> maxpos.out == pixel[i])
+					.findFirst()
+					.orElse(-1);
+        assertEquals(237, maxpos.x * BIN_SIZE + BIN_SIZE / 2);
+        assertEquals(112, maxpos.y * BIN_SIZE + BIN_SIZE / 2);
+        assertEquals(112, band * BIN_SIZE + BIN_SIZE / 2);
         img.release();
     }
 
