@@ -790,4 +790,16 @@ public class VipsImageImplTest {
             img.release();
         }
     }
+
+    @Test
+    public void TestBlack() throws VipsException {
+        int width = 13;
+        int height = 6;
+        VipsImageImpl img = VipsImageImpl.black(width, height);
+        double[] expected = new double[] { 0 };
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                assertArrayEquals(expected, img.getPoint(x, y), 0);
+        img.release();
+    }
 }

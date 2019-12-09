@@ -57,6 +57,24 @@ public class VipsImageImpl extends Vips implements VipsImage {
         newFromImage(image, color);
     }
 
+    private VipsImageImpl() {
+        // you must call a native method before using this object
+    }
+
+    /** Make a black unsigned char image of a specified size
+     *
+     * @param width output width
+     * @param height output height
+     * @throws VipsException
+     */
+    public static VipsImageImpl black(int width, int height) throws VipsException {
+        VipsImageImpl im = new VipsImageImpl();
+        im.blackNative(width, height);
+        return im;
+    }
+
+    private native void blackNative(int width, int height) throws VipsException;
+
     /**
      * Load this VipsImage based on another VipsImage features and fill
      * pixels with an unique color

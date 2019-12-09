@@ -43,6 +43,22 @@ new_from_buffer(JNIEnv *env, void *buffer, int length)
 }
 
 JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImageImpl_blackNative(JNIEnv *env, jobject obj, jint width, jint height)
+{
+    VipsImage *out = NULL;
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+
+    if (vips_black(&out, width, height, NULL))
+    {
+        throwVipsException(env, "vips_black failed");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    (*env)->SetLongField(env, obj, buffer_fid, (jlong) NULL);
+    g_object_unref(im);
+}
+
+JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsImageImpl_newFromImageNative(JNIEnv *env, jobject obj, jobject image, jdoubleArray background)
 {
     VipsImage *src = (VipsImage *) (*env)->GetLongField(env, image, handle_fid);
