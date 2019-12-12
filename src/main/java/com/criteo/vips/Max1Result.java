@@ -17,9 +17,9 @@
 package com.criteo.vips;
 
 public class Max1Result {
-    int x;
-    int y;
-    double out;
+    public int x;
+    public int y;
+    public double out;
     static {
         initMax1ResultFieldIDs();
     }
