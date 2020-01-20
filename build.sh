@@ -113,7 +113,7 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
     popd
 fi
 
-mvn ${MAVEN_ARGS} clean install
+./mvnw ${MAVEN_ARGS} clean install
 
 if [ ${DIST} -gt 0 ]; then
     if [ ${BUILD_LINUX} -gt 0 ]; then
