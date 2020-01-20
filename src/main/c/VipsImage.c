@@ -165,6 +165,18 @@ Java_com_criteo_vips_VipsImageImpl_resizeNative(JNIEnv *env, jobject obj, jint w
 }
 
 JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImageImpl_autoRotateNative(JNIEnv *env, jobject obj)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *out = NULL;
+
+    vips_autorot(im, &out, NULL);
+
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
+JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsImageImpl_padNative(JNIEnv *env, jobject obj, jint width, jint height, jdoubleArray background, jint gravity)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);

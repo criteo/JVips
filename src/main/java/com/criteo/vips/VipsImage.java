@@ -123,6 +123,13 @@ public interface VipsImage {
     void resize(Dimension dimension, boolean scale) throws VipsException;
 
     /**
+     * Auto rotates an image based on EXIF rotation information
+     *
+     * @throws VipsException
+     */
+    void autoRotate() throws VipsException;
+
+    /**
      * Pad VipsImage with new target dimension and background pixel
      *
      * @param dimension Target dimension

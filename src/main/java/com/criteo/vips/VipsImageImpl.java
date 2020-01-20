@@ -165,6 +165,11 @@ public class VipsImageImpl extends Vips implements VipsImage {
 
     private native void resizeNative(int width, int height, boolean scale) throws VipsException;
 
+    public void autoRotate() throws VipsException {
+        autoRotateNative();
+    }
+    private native void autoRotateNative() throws VipsException;
+
     public Max1Result max1() throws VipsException {
         Max1Result r = new Max1Result();
         max1Native(r);

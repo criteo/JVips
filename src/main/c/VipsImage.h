@@ -113,6 +113,14 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_resizeNative
 
 /*
  * Class:     com_criteo_vips_VipsImageImpl
+ * Method:    autoRotateNative
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_autoRotateNative
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_criteo_vips_VipsImageImpl
  * Method:    max1Native
  * Signature: (Lcom/criteo/vips/Max1Result;)V
  */
