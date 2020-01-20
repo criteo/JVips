@@ -16,7 +16,7 @@
 
 package com.criteo.vips;
 
-public class VipsException extends Exception {
+public class VipsException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public VipsException(String message) {
