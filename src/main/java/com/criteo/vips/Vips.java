@@ -71,7 +71,7 @@ public class Vips {
             for (String library : libraries) {
                 loadLibraryFromJar(library);
             }
-        } catch (NullPointerException _) {
+        } catch (NullPointerException e) {
             return false;
         }
         return true;
