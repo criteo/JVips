@@ -20,8 +20,7 @@ fi
 pushd "$CHECKOUT"
 
 # Build libimagequant
-wget -nv -nc "https://github.com/ImageOptim/libimagequant/archive/${LIQ_VERSION}.tar.gz"
-tar xf "${LIQ_VERSION}.tar.gz"
+wget --retry-connrefused -O - -nv -nc "https://github.com/ImageOptim/libimagequant/archive/${LIQ_VERSION}.tar.gz" | tar -xz
 cp $PATCH_DIR/CMakeLists.txt $CHECKOUT/libimagequant-${LIQ_VERSION}/CMakeLists.txt
 cp $PATCH_DIR/imagequant.pc.in.cmake $CHECKOUT/libimagequant-${LIQ_VERSION}/imagequant.pc.in.cmake
 mkdir -p ${BUILDDIR}/${TARGET}/libimagequant
@@ -35,8 +34,7 @@ make install
 popd
 
 # Build JPEG
-wget -nv -nc "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${JPG_VERSION}.tar.gz"
-tar xf "${JPG_VERSION}.tar.gz"
+wget --retry-connrefused -O - -nv -nc "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${JPG_VERSION}.tar.gz" | tar -xz
 pushd "${CHECKOUT}/libjpeg-turbo-${JPG_VERSION}"
 autoreconf -fiv
 popd
@@ -54,8 +52,7 @@ make -j ${JOBS} install
 popd
 
 # Build PNG
-wget -nv -nc "http://prdownloads.sourceforge.net/libpng/libpng-${PNG_VERSION}.tar.xz"
-tar xf "libpng-${PNG_VERSION}.tar.xz"
+wget --retry-connrefused -O - -nv -nc "http://prdownloads.sourceforge.net/libpng/libpng-${PNG_VERSION}.tar.xz" | tar -xJ
 mkdir -p ${BUILDDIR}/${TARGET}/libpng-${PNG_VERSION}
 pushd "${BUILDDIR}/${TARGET}/libpng-${PNG_VERSION}"
 $CHECKOUT/libpng-${PNG_VERSION}/configure \
@@ -76,8 +73,7 @@ popd
 
 
 # Build GIF
-wget -nv -nc "https://downloads.sourceforge.net/project/giflib/giflib-${GIF_VERSION}.tar.bz2"
-tar xf "giflib-${GIF_VERSION}.tar.bz2"
+wget --retry-connrefused -O - -nv -nc "https://downloads.sourceforge.net/project/giflib/giflib-${GIF_VERSION}.tar.bz2" | tar -xj
 mkdir -p ${BUILDDIR}/${TARGET}/giflib-${GIF_VERSION}
 pushd "${BUILDDIR}/${TARGET}/giflib-${GIF_VERSION}"
 $CHECKOUT/giflib-${GIF_VERSION}/configure \
@@ -92,8 +88,7 @@ make -j ${JOBS} install
 popd
 
 # Build WEBP
-wget -nv -nc "http://downloads.webmproject.org/releases/webp/libwebp-${WEBP_VERSION}.tar.gz"
-tar xf "libwebp-${WEBP_VERSION}.tar.gz"
+wget --retry-connrefused -O - -nv -nc "http://downloads.webmproject.org/releases/webp/libwebp-${WEBP_VERSION}.tar.gz" | tar -xz
 mkdir -p ${BUILDDIR}/${TARGET}/libwebp-${WEBP_VERSION}
 pushd "${BUILDDIR}/${TARGET}/libwebp-${WEBP_VERSION}"
 $CHECKOUT/libwebp-${WEBP_VERSION}/configure \
@@ -121,8 +116,7 @@ make -j ${JOBS} install
 popd
 
 # Build LCMS2
-wget -nv -nc "https://github.com/mm2/Little-CMS/archive/lcms${LCMS2_VERSION}.tar.gz"
-tar xf "lcms${LCMS2_VERSION}.tar.gz"
+wget --retry-connrefused -O - -nv -nc "https://github.com/mm2/Little-CMS/archive/lcms${LCMS2_VERSION}.tar.gz" | tar -xz
 mkdir -p ${BUILDDIR}/${TARGET}/Little-CMS-lcms${LCMS2_VERSION}
 pushd "${BUILDDIR}/${TARGET}/Little-CMS-lcms${LCMS2_VERSION}"
 $CHECKOUT/Little-CMS-lcms${LCMS2_VERSION}/configure \
@@ -135,29 +129,27 @@ make -j ${JOBS}
 make -j ${JOBS} install
 popd
 
-# # Build Expat
-# EXPAT_VERSION_TAG="R_${EXPAT_VERSION//./_}"
-# wget -nv -nc https://github.com/libexpat/libexpat/releases/download/${EXPAT_VERSION_TAG}/expat-${EXPAT_VERSION}.tar.gz
-# tar xf "expat-${EXPAT_VERSION}.tar.gz"
-# mkdir -p "${BUILDDIR}/${TARGET}/expat-${EXPAT_VERSION}"
-# pushd "${BUILDDIR}/${TARGET}/expat-${EXPAT_VERSION}"
-# cmake -DCMAKE_CFLAGS=${CFLAGS} \
-#     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
-#     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-#     -DBUILD_tools=OFF \
-#     -DBUILD_shared=ON \
-#     -DBUILD_examples=OFF \
-#     -DBUILD_tests=OFF \
-#     -DBUILD_doc=OFF \
-#     $CHECKOUT/expat-${EXPAT_VERSION}
-# make -j ${JOBS}
-# make -j ${JOBS} install
-# popd
+# Build Expat
+EXPAT_VERSION_TAG="R_${EXPAT_VERSION//./_}"
+wget --retry-connrefused -O - -nv -nc https://github.com/libexpat/libexpat/releases/download/${EXPAT_VERSION_TAG}/expat-${EXPAT_VERSION}.tar.gz | tar -xz
+mkdir -p "${BUILDDIR}/${TARGET}/expat-${EXPAT_VERSION}"
+pushd "${BUILDDIR}/${TARGET}/expat-${EXPAT_VERSION}"
+cmake -DCMAKE_CFLAGS=${CFLAGS} \
+    -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DBUILD_tools=OFF \
+    -DBUILD_shared=ON \
+    -DBUILD_examples=OFF \
+    -DBUILD_tests=OFF \
+    -DBUILD_doc=OFF \
+    $CHECKOUT/expat-${EXPAT_VERSION}
+make -j ${JOBS}
+make -j ${JOBS} install
+popd
 
 # Build LibVips
-wget -nv -nc "https://github.com/libvips/libvips/archive/v${VIPS_VERSION}.tar.gz"
 mkdir -p "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
-tar zxf "v${VIPS_VERSION}.tar.gz" -C "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}" --strip-components=1
+wget --retry-connrefused -O - -nv -nc "https://github.com/libvips/libvips/archive/v${VIPS_VERSION}.tar.gz" | tar -xz -C "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}" --strip-components=1
 pushd "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
 ./autogen.sh ${HOST} -version
 ./configure \

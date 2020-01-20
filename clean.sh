@@ -7,5 +7,5 @@ pushd "lib/"
 popd
 
 rm -rf build
-rm JVips.jar
-rm JVips-*.tar.gz
+rm -f JVips.jar
+rm -f JVips-*.tar.gz
