@@ -17,87 +17,99 @@
 package com.criteo.vips;
 
 import java.awt.*;
+import java.io.Closeable;
+import java.io.IOException;
 
-public interface VipsImage {
-    /** Pass image through a linear transform, ie. (@out = @in * @a + @b)
+public interface VipsImage extends Closeable {
+    /**
+     * Pass image through a linear transform, ie. (@out = @in * @a + @b)
      *
-     * @param a: (array length=n): array of constants for multiplication
-     * @param b: (array length=b.length): array of constants for addition
+     * @param a:     (array length=n): array of constants for multiplication
+     * @param b:     (array length=b.length): array of constants for addition
      * @param uchar: output uchar pixels if true
      * @throws VipsException
-     *
      */
     void linear(double[] a, double[] b, boolean uchar) throws VipsException;
 
-    /** Pass image through a linear transform, ie. (@out = @in * @a + @b)
+    /**
+     * Pass image through a linear transform, ie. (@out = @in * @a + @b)
      *
      * @param a: (array length=n): array of constants for multiplication
      * @param b: (array length=b.length): array of constants for addition
      * @throws VipsException
-     *
      */
     void linear(double[] a, double[] b) throws VipsException;
 
-    /** Read a single pixel from an image.
+    /**
+     * Read a single pixel from an image.
      *
      * @return The pixel values
      * @throws VipsException
      */
     double[] getPoint(int x, int y) throws VipsException;
 
-    /** Find the single largest value
+    /**
+     * Find the single largest value
      *
      * @return maximum value and x & y positions
      * @throws VipsException
      */
     Max1Result max1() throws VipsException;
 
-    /** Get the format of each band element.
+    /**
+     * Get the format of each band element.
      *
      * @return the image's format
      */
     VipsBandFormat imageGetFormat();
 
-    /** Convert to VIPS_FORMAT_CHAR without shifting
+    /**
+     * Convert to VIPS_FORMAT_CHAR without shifting
      *
      * @throws VipsException
      */
     void castUchar() throws VipsException;
 
-     /** Convert to VIPS_FORMAT_CHAR
-      *
-      * @param shift values are shifted
-      * @throws VipsException
-      */
+    /**
+     * Convert to VIPS_FORMAT_CHAR
+     *
+     * @param shift values are shifted
+     * @throws VipsException
+     */
     void castUchar(boolean shift) throws VipsException;
 
-    /** Convert to format without shifting
+    /**
+     * Convert to format without shifting
      *
      * @param format the image's new format
      * @throws VipsException
      */
     void cast(VipsBandFormat format) throws VipsException;
 
-    /** Convert to format
+    /**
+     * Convert to format
      *
      * @param format the image's new format
-     * @param shift integer values are shifted
+     * @param shift  integer values are shifted
      * @throws VipsException
      */
     void cast(VipsBandFormat format, boolean shift) throws VipsException;
 
-    /** Make a one, two or three dimensional histogram of a 1, 2 or 3 band image
+    /**
+     * Make a one, two or three dimensional histogram of a 1, 2 or 3 band image
      *
      * @param bins number of bins
      * @throws VipsException
      */
     void histFindNdim(int bins) throws VipsException;
 
-    /** Get the VipsInterpretation from the image header.
+    /**
+     * Get the VipsInterpretation from the image header.
      *
      * @return the VipsInterpretation set in the image header.
      */
     VipsInterpretation imageGetInterpretation();
+
     /**
      * Convert this VipsImage's colourspace to the given space
      *
@@ -105,14 +117,16 @@ public interface VipsImage {
      * @throws VipsException
      */
     void colourspace(VipsInterpretation space) throws VipsException;
+
     /**
      * Convert this VipsImage's colourspace to the given space
      *
-     * @param space the new colourspace.
+     * @param space        the new colourspace.
      * @param source_space the input colourspace.
      * @throws VipsException
      */
     void colourspace(VipsInterpretation space, VipsInterpretation source_space) throws VipsException;
+
     /**
      * Resize this VipsImage with new target dimension
      *
@@ -125,9 +139,9 @@ public interface VipsImage {
     /**
      * Pad VipsImage with new target dimension and background pixel
      *
-     * @param dimension Target dimension
+     * @param dimension  Target dimension
      * @param background Background pixel color to fill with
-     * @param gravity Gravity direction
+     * @param gravity    Gravity direction
      * @throws VipsException
      */
     void pad(Dimension dimension, PixelPacket background, Gravity gravity) throws VipsException;
@@ -145,11 +159,10 @@ public interface VipsImage {
     /**
      * Find VipsImage bounding box
      *
-     * @param threshold background threshold
+     * @param threshold  background threshold
      * @param background Background pixel color
-     *
      * @return Bounding box Rectangle (left edge, top edge, width, height)
-     *         If the image is entirely background, width == 0 and height == 0
+     * If the image is entirely background, width == 0 and height == 0
      * @throws VipsException
      */
     Rectangle findTrim(double threshold, PixelPacket background) throws VipsException;
@@ -174,7 +187,7 @@ public interface VipsImage {
      * Write VipsImage to byte array with default quality
      *
      * @param imageFormat Target extension
-     *                        Could not be GIF because libvips can't save in this format
+     *                    Could not be GIF because libvips can't save in this format
      * @return Byte array of encoded VipsImageImpl
      * @throws VipsException
      */
@@ -184,7 +197,7 @@ public interface VipsImage {
      * Write VipsImage to byte array
      *
      * @param imageFormat Target extension
-     *                        Could not be GIF because libvips can't save in this format
+     *                    Could not be GIF because libvips can't save in this format
      * @param quality     Output quality
      * @return Byte array of encoded VipsImageImpl
      * @throws VipsException
@@ -194,9 +207,9 @@ public interface VipsImage {
     /**
      * Write VipsImage to byte array in PNG output format
      *
-     * @param compression     Compression level
-     * @param palette         If true color quantification is enabled
-     * @param colors          Number of palette colors
+     * @param compression Compression level
+     * @param palette     If true color quantification is enabled
+     * @param colors      Number of palette colors
      * @return Byte array of encoded VipsImageImpl
      * @throws VipsException
      */
@@ -250,4 +263,12 @@ public interface VipsImage {
      * Release VipsImage reference
      */
     void release();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    default void close() throws IOException {
+        release();
+    }
 }
