@@ -8,6 +8,7 @@ SET(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
 SET(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
 SET(CMAKE_RC_COMPILER x86_64-w64-mingw32-windres)
 SET(CMAKE_AR x86_64-w64-mingw32-ar)
+SET(CMAKE_LINKER x86_64-w64-mingw32-ld)
 SET(CMAKE_RANLIB x86_64-w64-mingw32-ranlib)
 
 # target environment location
