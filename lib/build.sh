@@ -129,23 +129,24 @@ make -j ${JOBS}
 make -j ${JOBS} install
 popd
 
-# Build Expat
-EXPAT_VERSION_TAG="R_${EXPAT_VERSION//./_}"
-wget --retry-connrefused -O - -nv -nc https://github.com/libexpat/libexpat/releases/download/${EXPAT_VERSION_TAG}/expat-${EXPAT_VERSION}.tar.gz | tar -xz
-mkdir -p "${BUILDDIR}/${TARGET}/expat-${EXPAT_VERSION}"
-pushd "${BUILDDIR}/${TARGET}/expat-${EXPAT_VERSION}"
-cmake -DCMAKE_CFLAGS=${CFLAGS} \
-    -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DBUILD_tools=OFF \
-    -DBUILD_shared=ON \
-    -DBUILD_examples=OFF \
-    -DBUILD_tests=OFF \
-    -DBUILD_doc=OFF \
-    $CHECKOUT/expat-${EXPAT_VERSION}
-make -j ${JOBS}
-make -j ${JOBS} install
-popd
+# # Build Expat
+# EXPAT_VERSION_TAG="R_${EXPAT_VERSION//./_}"
+# wget -nv -nc https://github.com/libexpat/libexpat/releases/download/${EXPAT_VERSION_TAG}/expat-${EXPAT_VERSION}.tar.gz
+# tar xf "expat-${EXPAT_VERSION}.tar.gz"
+# mkdir -p "${BUILDDIR}/${TARGET}/expat-${EXPAT_VERSION}"
+# pushd "${BUILDDIR}/${TARGET}/expat-${EXPAT_VERSION}"
+# cmake -DCMAKE_CFLAGS=${CFLAGS} \
+#     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
+#     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+#     -DBUILD_tools=OFF \
+#     -DBUILD_shared=ON \
+#     -DBUILD_examples=OFF \
+#     -DBUILD_tests=OFF \
+#     -DBUILD_doc=OFF \
+#     $CHECKOUT/expat-${EXPAT_VERSION}
+# make -j ${JOBS}
+# make -j ${JOBS} install
+# popd
 
 # Build LibVips
 mkdir -p "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
