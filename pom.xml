@@ -95,6 +95,12 @@
                     <include>JVips.dll</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>${project.basedir}/build/macOS/JVips/src/main/c/</directory>
+                <includes>
+                    <include>libJVips.dylib</include>
+                </includes>
+            </resource>
         </resources>
     </build>
     <dependencies>
