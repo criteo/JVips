@@ -6,6 +6,7 @@ BASEDIR=$(pwd)
 
 BUILD_LINUX=1
 BUILD_WIN64=1
+BUILD_MACOS=0
 DIST=0
 DEBUG=0
 JOBS=8
@@ -14,8 +15,12 @@ MAVEN_ARGS=""
 
 while true; do
   case "$1" in
+    --with-w64 ) BUILD_WIN64=1; shift;;
+    --with-linux ) BUILD_LINUX=1; shift;;
+    --with-macos ) BUILD_MACOS=1; shift;;
     --without-w64 ) BUILD_WIN64=0; shift;;
     --without-linux ) BUILD_LINUX=0; shift;;
+    --without-macos ) BUILD_MACOS=0; shift;;
     --dist ) DIST=1; shift;;
     --minimal ) MAVEN_ARGS="-Pminimal"; shift;;
     --debug ) DEBUG=1; shift ;;
@@ -112,6 +117,43 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
     fi
     popd
 fi
+
+##########################
+###### Build macOS #######
+##########################
+
+if [ ${BUILD_MACOS} -gt 0 ]; then
+    export HOST=""
+    export TARGET=macOS
+    export PREFIX=${BUILDDIR}/${TARGET}/inst/
+    export TOOLCHAIN=${BASEDIR}/Toolchain-macOS.cmake
+
+    # Under macOS libvips will not build as is, but you can rely on Homebrew.
+    # Here's a formula for vips 8.8.3:
+    # $ brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/39ba7794c1678b0d61b179239f93e9ac553c045b/Formula/vips.rb
+
+    # pushd "${BASEDIR}/lib"
+    # ./build.sh
+    # if [ $? -ne 0 ]; then
+    #     echo "macOS dependencies build failed"
+    #     exit 1
+    # fi
+    # popd
+
+    mkdir -p $BUILDDIR/${TARGET}/JVips
+    rm -rf $BUILDDIR/${TARGET}/JVips/*
+    pushd "${BUILDDIR}/${TARGET}/JVips"
+    ${CMAKE_BIN} ${BASEDIR} \
+    -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
+    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    make -j ${JOBS}
+    if [ $? -ne 0 ]; then
+        echo "macOS JVips build failed"
+        exit 1
+    fi
+    popd
+fi
+
 
 mvn ${MAVEN_ARGS} clean install
 

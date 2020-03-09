@@ -17,7 +17,13 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3 -g")
 
 # Mingw toolchain fails to find awt and jvm libraries.
 # Just check if JNI_INCLUDE_DIRS is defined.
-find_package(JNI)
+set(JAVA_AWT_LIBRARY NotNeeded)
+set(JAVA_AWT_INCLUDE_PATH NotNeeded)
+set(JAVA_JVM_LIBRARY NotNeeded)
+set(JAVA_INCLUDE_PATH "$ENV{JAVA_HOME}/include")
+set(JAVA_INCLUDE_PATH2 "${JAVA_INCLUDE_PATH}/${JAVA_INCLUDE_PLATFORM_PATH}")
+find_package(JNI REQUIRED)
+
 if (DEFINED JNI_INCLUDE_DIRS)
     message (STATUS "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
     message (STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
