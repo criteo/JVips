@@ -16,6 +16,11 @@
 
 package com.criteo.vips;
 
+import com.criteo.vips.enums.VipsBandFormat;
+import com.criteo.vips.enums.VipsCompassDirection;
+import com.criteo.vips.enums.VipsImageFormat;
+import com.criteo.vips.enums.VipsInterpretation;
+
 import java.awt.*;
 import java.nio.ByteBuffer;
 
@@ -173,7 +178,7 @@ public class VipsImageImpl extends Vips implements VipsImage {
 
     private native void max1Native(Max1Result r) throws VipsException;
 
-    public void pad(Dimension dimension, PixelPacket background, Gravity gravity) throws VipsException {
+    public void pad(Dimension dimension, PixelPacket background, VipsCompassDirection gravity) throws VipsException {
         padNative(dimension.width, dimension.height, background.getComponents(), gravity.getValue());
     }
 
@@ -201,13 +206,13 @@ public class VipsImageImpl extends Vips implements VipsImage {
 
     private native void flattenNative(double[] background) throws VipsException;
 
-    public byte[] writeToArray(ImageFormat imageFormat, boolean strip) throws VipsException {
+    public byte[] writeToArray(VipsImageFormat vipsImageFormat, boolean strip) throws VipsException {
         // Set quality to -1 and let default vips value
-        return writeToArray(imageFormat, -1, strip);
+        return writeToArray(vipsImageFormat, -1, strip);
     }
 
-    public byte[] writeToArray(ImageFormat imageFormat, int quality, boolean strip) throws VipsException {
-        return writeToArrayNative(imageFormat.getFileExtension(), quality, strip);
+    public byte[] writeToArray(VipsImageFormat vipsImageFormat, int quality, boolean strip) throws VipsException {
+        return writeToArrayNative(vipsImageFormat.getFileExtension(), quality, strip);
     }
 
     public byte[] writePNGToArray(int compression, boolean palette, int colors, boolean strip) throws VipsException {

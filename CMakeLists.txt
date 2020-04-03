@@ -6,7 +6,7 @@ find_package(PkgConfig REQUIRED)
 find_package(Java 1.8 REQUIRED)
 include(UseJava)
 
-set(JVIPS_VERSION 1.0.0)
+set(JVIPS_VERSION 1.0.1)
 
 set(CMAKE_C_FLAGS "-std=c99")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g3")
@@ -53,3 +53,5 @@ include_directories(${VIPS_INCLUDE_DIRS})
 
 add_subdirectory(src/main/java/com/criteo/vips/)
 add_subdirectory(src/main/c)
+add_subdirectory(src/test/java/com/criteo/vips/)
+add_subdirectory(src/test/c)

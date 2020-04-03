@@ -14,9 +14,9 @@
   limitations under the License.
 */
 
-package com.criteo.vips;
+package com.criteo.vips.enums;
 
-public enum ImageFormat {
+public enum VipsImageFormat {
     JPG(".jpg"),
     PNG(".png"),
     WEBP(".webp"),
@@ -24,7 +24,7 @@ public enum ImageFormat {
 
     private final String extension;
 
-    ImageFormat(String s) {
+    VipsImageFormat(String s) {
         extension = s;
     }
 

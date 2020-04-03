@@ -25,7 +25,7 @@ cp $PATCH_DIR/CMakeLists.txt $CHECKOUT/libimagequant-${LIQ_VERSION}/CMakeLists.t
 cp $PATCH_DIR/imagequant.pc.in.cmake $CHECKOUT/libimagequant-${LIQ_VERSION}/imagequant.pc.in.cmake
 mkdir -p ${BUILDDIR}/${TARGET}/libimagequant
 pushd "${BUILDDIR}/${TARGET}/libimagequant"
-cmake -DCMAKE_CFLAGS=${CFLAGS} \
+cmake -DCMAKE_C_FLAGS=${CFLAGS} \
     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     $CHECKOUT/libimagequant-${LIQ_VERSION}

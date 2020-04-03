@@ -45,6 +45,10 @@ export BUILDDIR=${BASEDIR}/build
 
 CMAKE_BIN=`which cmake3 || which cmake`
 
+# Copy maven dependencies for some tests
+mkdir -p $BUILDDIR/artifacts/
+mvn dependency:copy-dependencies -DoutputDirectory=$BUILDDIR/artifacts/
+
 ##########################
 ###### Build Linux #######
 ##########################
