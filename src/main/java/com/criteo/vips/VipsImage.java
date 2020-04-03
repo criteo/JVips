@@ -16,6 +16,11 @@
 
 package com.criteo.vips;
 
+import com.criteo.vips.enums.VipsBandFormat;
+import com.criteo.vips.enums.VipsCompassDirection;
+import com.criteo.vips.enums.VipsImageFormat;
+import com.criteo.vips.enums.VipsInterpretation;
+
 import java.awt.*;
 import java.io.Closeable;
 import java.io.IOException;
@@ -144,7 +149,7 @@ public interface VipsImage extends Closeable {
      * @param gravity    Gravity direction
      * @throws VipsException
      */
-    void pad(Dimension dimension, PixelPacket background, Gravity gravity) throws VipsException;
+    void pad(Dimension dimension, PixelPacket background, VipsCompassDirection gravity) throws VipsException;
 
     /**
      * Crop this VipsImage with new target dimension
@@ -186,23 +191,23 @@ public interface VipsImage extends Closeable {
     /**
      * Write VipsImage to byte array with default quality
      *
-     * @param imageFormat Target extension
+     * @param vipsImageFormat Target extension
      *                    Could not be GIF because libvips can't save in this format
      * @return Byte array of encoded VipsImageImpl
      * @throws VipsException
      */
-    byte[] writeToArray(ImageFormat imageFormat, boolean strip) throws VipsException;
+    byte[] writeToArray(VipsImageFormat vipsImageFormat, boolean strip) throws VipsException;
 
     /**
      * Write VipsImage to byte array
      *
-     * @param imageFormat Target extension
+     * @param vipsImageFormat Target extension
      *                    Could not be GIF because libvips can't save in this format
      * @param quality     Output quality
      * @return Byte array of encoded VipsImageImpl
      * @throws VipsException
      */
-    byte[] writeToArray(ImageFormat imageFormat, int quality, boolean strip) throws VipsException;
+    byte[] writeToArray(VipsImageFormat vipsImageFormat, int quality, boolean strip) throws VipsException;
 
     /**
      * Write VipsImage to byte array in PNG output format

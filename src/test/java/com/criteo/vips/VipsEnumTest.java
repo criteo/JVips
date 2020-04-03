@@ -17,19 +17,25 @@
 package com.criteo.vips;
 
 import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
+import org.junit.Test;
 
-@RunWith(Theories.class)
-public class VipsInterpretationTest {
+public class VipsEnumTest {
+    static {
+        ClassLoader classLoader = VipsEnumTest.class.getClassLoader();
+        String libName = System.mapLibraryName("JVipsTest");
+        String path = classLoader.getResource(libName).getPath();
 
-    @Theory
-    public void TestShouldReturnValidValue(VipsInterpretation interpretation) {
-        Assume.assumeTrue(interpretation != VipsInterpretation.ERROR && interpretation != VipsInterpretation.LAST);
-        int i = interpretation.getValue();
+        System.load(path);
+    }
 
-        Assert.assertEquals(VipsInterpretation.valueOf(i), interpretation);
+    public static native void TestNativeEnums() throws VipsException;
+
+    @Test
+    public void TestEnumsAreEqualToNatives() {
+        try {
+            VipsEnumTest.TestNativeEnums();
+        } catch (VipsException e) {
+            Assert.fail(e.getMessage());
+        }
     }
 }

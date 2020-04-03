@@ -6,7 +6,7 @@
 
     <groupId>JVips</groupId>
     <artifactId>JVips</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <profiles>
         <profile>
             <id>all</id>
@@ -102,6 +102,29 @@
                 </includes>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/build/linux/JVips/src/test/c/</directory>
+                <includes>
+                    <include>libJVipsTest.so</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>${project.basedir}/build/w64/JVips/src/test/c/</directory>
+                <includes>
+                    <include>JVipsTest.dll</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>${project.basedir}/build/macOS/JVips/src/test/c/</directory>
+                <includes>
+                    <include>libJVipsTest.dylib</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources/</directory>
+            </testResource>
+        </testResources>
     </build>
     <dependencies>
         <dependency>
