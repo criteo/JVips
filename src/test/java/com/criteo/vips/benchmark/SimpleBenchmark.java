@@ -17,7 +17,7 @@
 package com.criteo.vips.benchmark;
 import com.criteo.vips.PixelPacket;
 import com.criteo.vips.VipsContext;
-import com.criteo.vips.VipsImageImpl;
+import com.criteo.vips.VipsImage;
 import com.criteo.vips.enums.VipsCompassDirection;
 import com.criteo.vips.enums.VipsImageFormat;
 import org.junit.Test;
@@ -77,7 +77,7 @@ public class SimpleBenchmark {
 
     @Benchmark
     public void ResizeCropPad(BenchmarkState state, Blackhole bh) {
-        VipsImageImpl img = new VipsImageImpl(state.content, state.content.length);
+        VipsImage img = new VipsImage(state.content, state.content.length);
 
         img.resize(resizeTarget, false);
         img.crop(cropTarget);

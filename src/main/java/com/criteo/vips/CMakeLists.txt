@@ -10,8 +10,8 @@ set(JAVA_SOURCE_FILES
     "${JAVA_SOURCE_DIRECTORY}/Vips.java"
     "${JAVA_SOURCE_DIRECTORY}/VipsContext.java"
     "${JAVA_SOURCE_DIRECTORY}/VipsException.java"
-    "${JAVA_SOURCE_DIRECTORY}/VipsImage.java"
-    "${JAVA_SOURCE_DIRECTORY}/VipsImageImpl.java")
+    "${JAVA_SOURCE_DIRECTORY}/Image.java"
+    "${JAVA_SOURCE_DIRECTORY}/VipsImage.java")
 
 add_jar(JVipsWrapper ${JAVA_ENUM_SOURCE_FILES} ${JAVA_SOURCE_FILES})
 
@@ -28,7 +28,7 @@ create_javah(TARGET VipsContext_header
              CLASSPATH JVipsWrapper
              OUTPUT_NAME ${JNI_HEADER_DIRECTORY}/VipsContext.h)
 create_javah(TARGET VipsImage_header
-             CLASSES com.criteo.vips.VipsImageImpl
+             CLASSES com.criteo.vips.VipsImage
              CLASSPATH JVipsWrapper
              OUTPUT_NAME ${JNI_HEADER_DIRECTORY}/VipsImage.h)
 create_javah(TARGET Max1Result_header
