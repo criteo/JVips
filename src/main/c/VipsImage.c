@@ -43,7 +43,7 @@ new_from_buffer(JNIEnv *env, void *buffer, int length)
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_blackNative(JNIEnv *env, jobject obj, jint width, jint height)
+Java_com_criteo_vips_VipsImage_blackNative(JNIEnv *env, jobject obj, jint width, jint height)
 {
     VipsImage *out = NULL;
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
@@ -59,7 +59,7 @@ Java_com_criteo_vips_VipsImageImpl_blackNative(JNIEnv *env, jobject obj, jint wi
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_newFromImageNative(JNIEnv *env, jobject obj, jobject image, jdoubleArray background)
+Java_com_criteo_vips_VipsImage_newFromImageNative(JNIEnv *env, jobject obj, jobject image, jdoubleArray background)
 {
     VipsImage *src = (VipsImage *) (*env)->GetLongField(env, image, handle_fid);
     VipsImage *im = NULL;
@@ -77,14 +77,14 @@ Java_com_criteo_vips_VipsImageImpl_newFromImageNative(JNIEnv *env, jobject obj, 
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_initFieldIDs(JNIEnv *env, jobject cls)
+Java_com_criteo_vips_VipsImage_initFieldIDs(JNIEnv *env, jobject cls)
 {
     handle_fid = (*env)->GetFieldID(env, cls, "vipsImageHandler", "J");
     buffer_fid = (*env)->GetFieldID(env, cls, "bufferHandler", "J");
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_newFromByteBuffer(JNIEnv *env, jobject obj, jobject buffer, jint length)
+Java_com_criteo_vips_VipsImage_newFromByteBuffer(JNIEnv *env, jobject obj, jobject buffer, jint length)
 {
     void *buf = (*env)->GetDirectBufferAddress(env, buffer);
 
@@ -93,7 +93,7 @@ Java_com_criteo_vips_VipsImageImpl_newFromByteBuffer(JNIEnv *env, jobject obj, j
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_newFromBuffer(JNIEnv *env, jobject obj, jbyteArray buffer, jint length)
+Java_com_criteo_vips_VipsImage_newFromBuffer(JNIEnv *env, jobject obj, jbyteArray buffer, jint length)
 {
     void *internal_buffer = NULL;
     VipsImage* im = NULL;
@@ -112,14 +112,14 @@ Java_com_criteo_vips_VipsImageImpl_newFromBuffer(JNIEnv *env, jobject obj, jbyte
     (*env)->SetLongField(env, obj, buffer_fid, (jlong) internal_buffer);
 }
 
-JNIEXPORT int JNICALL Java_com_criteo_vips_VipsImageImpl_imageGetInterpretationNative(JNIEnv *env, jobject obj)
+JNIEXPORT int JNICALL Java_com_criteo_vips_VipsImage_imageGetInterpretationNative(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     return vips_image_get_interpretation(im);
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_colourspaceNative__I(JNIEnv *env, jobject obj, int space)
+Java_com_criteo_vips_VipsImage_colourspaceNative__I(JNIEnv *env, jobject obj, int space)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -134,7 +134,7 @@ Java_com_criteo_vips_VipsImageImpl_colourspaceNative__I(JNIEnv *env, jobject obj
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_colourspaceNative__II(JNIEnv *env, jobject obj, int space, int source_space)
+Java_com_criteo_vips_VipsImage_colourspaceNative__II(JNIEnv *env, jobject obj, int space, int source_space)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -149,7 +149,7 @@ Java_com_criteo_vips_VipsImageImpl_colourspaceNative__II(JNIEnv *env, jobject ob
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_resizeNative(JNIEnv *env, jobject obj, jint width, jint height, jboolean scale)
+Java_com_criteo_vips_VipsImage_resizeNative(JNIEnv *env, jobject obj, jint width, jint height, jboolean scale)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -165,7 +165,7 @@ Java_com_criteo_vips_VipsImageImpl_resizeNative(JNIEnv *env, jobject obj, jint w
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_padNative(JNIEnv *env, jobject obj, jint width, jint height, jdoubleArray background, jint gravity)
+Java_com_criteo_vips_VipsImage_padNative(JNIEnv *env, jobject obj, jint width, jint height, jdoubleArray background, jint gravity)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -193,7 +193,7 @@ Java_com_criteo_vips_VipsImageImpl_padNative(JNIEnv *env, jobject obj, jint widt
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_cropNative(JNIEnv *env, jobject obj, jint left, jint top, jint width, jint height)
+Java_com_criteo_vips_VipsImage_cropNative(JNIEnv *env, jobject obj, jint left, jint top, jint width, jint height)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     int w = vips_image_get_width(im);
@@ -210,7 +210,7 @@ Java_com_criteo_vips_VipsImageImpl_cropNative(JNIEnv *env, jobject obj, jint lef
 }
 
 JNIEXPORT jintArray JNICALL
-Java_com_criteo_vips_VipsImageImpl_findTrimNative(JNIEnv *env, jobject obj, jdouble threshold, jdoubleArray background)
+Java_com_criteo_vips_VipsImage_findTrimNative(JNIEnv *env, jobject obj, jdouble threshold, jdoubleArray background)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     jintArray ret;
@@ -247,7 +247,7 @@ Java_com_criteo_vips_VipsImageImpl_findTrimNative(JNIEnv *env, jobject obj, jdou
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_compose(JNIEnv *env, jobject obj, jobject sub)
+Java_com_criteo_vips_VipsImage_compose(JNIEnv *env, jobject obj, jobject sub)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *overlay = (VipsImage *) (*env)->GetLongField(env, sub, handle_fid);
@@ -263,7 +263,7 @@ Java_com_criteo_vips_VipsImageImpl_compose(JNIEnv *env, jobject obj, jobject sub
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_flattenNative(JNIEnv *env, jobject obj, jdoubleArray background)
+Java_com_criteo_vips_VipsImage_flattenNative(JNIEnv *env, jobject obj, jdoubleArray background)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     jint length = (*env)->GetArrayLength(env, background);
@@ -287,7 +287,7 @@ Java_com_criteo_vips_VipsImageImpl_flattenNative(JNIEnv *env, jobject obj, jdoub
 }
 
 JNIEXPORT jbyteArray JNICALL
-Java_com_criteo_vips_VipsImageImpl_writeToArrayNative(JNIEnv *env, jobject obj, jstring extension, jint quality, jboolean strip)
+Java_com_criteo_vips_VipsImage_writeToArrayNative(JNIEnv *env, jobject obj, jstring extension, jint quality, jboolean strip)
 {
     jbyteArray ret;
     const char *ext = (*env)->GetStringUTFChars(env, extension, NULL);
@@ -314,7 +314,7 @@ Java_com_criteo_vips_VipsImageImpl_writeToArrayNative(JNIEnv *env, jobject obj, 
 }
 
 JNIEXPORT jbyteArray JNICALL
-Java_com_criteo_vips_VipsImageImpl_writePNGToArrayNative(JNIEnv *env, jobject obj, jint compression, jboolean palette, jint colors, jboolean strip)
+Java_com_criteo_vips_VipsImage_writePNGToArrayNative(JNIEnv *env, jobject obj, jint compression, jboolean palette, jint colors, jboolean strip)
 {
     jbyteArray ret;
     void *buffer = NULL;
@@ -338,28 +338,28 @@ Java_com_criteo_vips_VipsImageImpl_writePNGToArrayNative(JNIEnv *env, jobject ob
 }
 
 JNIEXPORT jint JNICALL
-Java_com_criteo_vips_VipsImageImpl_getWidth(JNIEnv *env, jobject obj)
+Java_com_criteo_vips_VipsImage_getWidth(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     return vips_image_get_width(im);
 }
 
 JNIEXPORT jint JNICALL
-Java_com_criteo_vips_VipsImageImpl_getHeight(JNIEnv *env, jobject obj)
+Java_com_criteo_vips_VipsImage_getHeight(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     return vips_image_get_height(im);
 }
 
 JNIEXPORT jint JNICALL
-Java_com_criteo_vips_VipsImageImpl_getBands(JNIEnv *env, jobject obj)
+Java_com_criteo_vips_VipsImage_getBands(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     return im->Bands;
 }
 
 JNIEXPORT jdoubleArray JNICALL
-Java_com_criteo_vips_VipsImageImpl_getPointPixelPacketNative(JNIEnv *env, jobject obj, jint x, jint y)
+Java_com_criteo_vips_VipsImage_getPointPixelPacketNative(JNIEnv *env, jobject obj, jint x, jint y)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     double *pixel = NULL;
@@ -384,14 +384,14 @@ Java_com_criteo_vips_VipsImageImpl_getPointPixelPacketNative(JNIEnv *env, jobjec
 }
 
 JNIEXPORT jboolean JNICALL
-Java_com_criteo_vips_VipsImageImpl_hasAlpha(JNIEnv *env, jobject obj)
+Java_com_criteo_vips_VipsImage_hasAlpha(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     return vips_image_hasalpha(im);
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_convertTosRGB(JNIEnv *env, jobject obj)
+Java_com_criteo_vips_VipsImage_convertTosRGB(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -407,7 +407,7 @@ Java_com_criteo_vips_VipsImageImpl_convertTosRGB(JNIEnv *env, jobject obj)
 }
 
 JNIEXPORT jint JNICALL
-Java_com_criteo_vips_VipsImageImpl_getNbFrame(JNIEnv *env, jobject obj)
+Java_com_criteo_vips_VipsImage_getNbFrame(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     int n_pages = 0;
@@ -422,7 +422,7 @@ Java_com_criteo_vips_VipsImageImpl_getNbFrame(JNIEnv *env, jobject obj)
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImageImpl_release(JNIEnv *env, jobject obj)
+Java_com_criteo_vips_VipsImage_release(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     void *buffer = (void *) (*env)->GetLongField(env, obj, buffer_fid);
@@ -441,13 +441,13 @@ Java_com_criteo_vips_VipsImageImpl_release(JNIEnv *env, jobject obj)
     }
 }
 
-JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsImageImpl_imageGetFormatNative(JNIEnv *env, jobject obj)
+JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsImage_imageGetFormatNative(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     return vips_image_get_format(im);
 }
 
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castUcharNative(JNIEnv *env, jobject obj, jboolean shift)
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_castUcharNative(JNIEnv *env, jobject obj, jboolean shift)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -461,7 +461,7 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castUcharNative(JNIEnv
     g_object_unref(im);
 }
 
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castNative(JNIEnv *env, jobject obj, jint format, jboolean shift)
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_castNative(JNIEnv *env, jobject obj, jint format, jboolean shift)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -475,7 +475,7 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_castNative(JNIEnv *env
     g_object_unref(im);
 }
 
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_histFindNdimNative(JNIEnv *env, jobject obj, jint bins)
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_histFindNdimNative(JNIEnv *env, jobject obj, jint bins)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -489,7 +489,7 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_histFindNdimNative(JNI
     g_object_unref(im);
 }
 
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_max1Native(JNIEnv * env, jobject image_obj, jobject result_obj)
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_max1Native(JNIEnv * env, jobject image_obj, jobject result_obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
     double out;
@@ -507,7 +507,7 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImageImpl_max1Native(JNIEnv * en
 }
 
 JNIEXPORT jdoubleArray JNICALL
-Java_com_criteo_vips_VipsImageImpl_getPoint(JNIEnv *env, jobject image_obj, jint x, jint y)
+Java_com_criteo_vips_VipsImage_getPoint(JNIEnv *env, jobject image_obj, jint x, jint y)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
     double *vector;
@@ -527,7 +527,7 @@ Java_com_criteo_vips_VipsImageImpl_getPoint(JNIEnv *env, jobject image_obj, jint
 }
 
 JNIEXPORT void
-JNICALL Java_com_criteo_vips_VipsImageImpl_linearNative(JNIEnv *env, jobject image_obj, jdoubleArray a, jdoubleArray b, jboolean uchar)
+JNICALL Java_com_criteo_vips_VipsImage_linearNative(JNIEnv *env, jobject image_obj, jdoubleArray a, jdoubleArray b, jboolean uchar)
 {
     jint length = (*env)->GetArrayLength(env, a);
 

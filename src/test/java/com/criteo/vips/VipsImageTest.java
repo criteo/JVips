@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import static com.criteo.vips.VipsImageImpl.JPGQuality;
+import static com.criteo.vips.VipsImage.JPGQuality;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -49,7 +49,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(Theories.class)
-public class VipsImageImplTest {
+public class VipsImageTest {
     private static double Delta = 0.0001;
     private static double TrimThreshold = 30.0;
     private static PixelPacket WhitePixel = new PixelPacket(255.0, 255.0, 255.0);
@@ -114,8 +114,8 @@ public class VipsImageImplTest {
     public void TestShouldOpenCorrectly(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
         byte[] bufferArray = VipsTestUtils.getByteArray(filename);
-        try (VipsImageImpl imgFromBuffer = new VipsImageImpl(buffer, buffer.capacity());
-             VipsImageImpl imgFromByteArray = new VipsImageImpl(bufferArray, bufferArray.length)) {
+        try (VipsImage imgFromBuffer = new VipsImage(buffer, buffer.capacity());
+             VipsImage imgFromByteArray = new VipsImage(bufferArray, bufferArray.length)) {
             assertNotNull(imgFromBuffer);
             assertNotNull(imgFromByteArray);
         }
@@ -124,8 +124,8 @@ public class VipsImageImplTest {
     @Theory
     public void TestShouldOpenCorrectlyFromVipsImage(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
-             VipsImageImpl copy = new VipsImageImpl(img, WhitePixel)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity());
+             VipsImage copy = new VipsImage(img, WhitePixel)) {
             assertEquals(WhitePixel, copy.getPointPixelPacket(new Point(0, 0)));
             assertEquals(img.getWidth(), copy.getWidth());
             assertEquals(img.getHeight(), copy.getHeight());
@@ -138,7 +138,7 @@ public class VipsImageImplTest {
                                                              boolean strip) throws IOException, VipsException {
         Assume.assumeTrue(output != VipsImageFormat.GIF);
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             byte[] out = img.writeToArray(output, JPGQuality, strip);
             assertNotNull(out);
         }
@@ -150,7 +150,7 @@ public class VipsImageImplTest {
                                                       boolean strip) throws IOException, VipsException {
         Assume.assumeTrue(output != VipsImageFormat.GIF);
         byte[] buffer = VipsTestUtils.getByteArray(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             byte[] out = img.writeToArray(output, JPGQuality, strip);
             assertNotNull(out);
         }
@@ -159,7 +159,7 @@ public class VipsImageImplTest {
     @Theory
     public void TestHistFindNdim1(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             img.histFindNdim(1);
             assertEquals(1, img.getWidth());
             assertEquals(1, img.getHeight());
@@ -169,7 +169,7 @@ public class VipsImageImplTest {
     @Theory
     public void TestHistFindNdim2(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             img.histFindNdim(2);
             assertEquals(2, img.getWidth());
             assertEquals(2, img.getHeight());
@@ -179,7 +179,7 @@ public class VipsImageImplTest {
     @Theory
     public void TestHistFindNdim10(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             img.histFindNdim(10);
             assertEquals(10, img.getWidth());
             assertEquals(10, img.getHeight());
@@ -189,7 +189,7 @@ public class VipsImageImplTest {
     @Theory
     public void TestCastUchar(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             assertNotEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_NOTSET);
             img.cast(VipsBandFormat.FORMAT_DOUBLE);
             assertEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_DOUBLE);
@@ -203,7 +203,7 @@ public class VipsImageImplTest {
     @Theory
     public void TestCast(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             assertNotEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_NOTSET);
             img.cast(VipsBandFormat.FORMAT_UCHAR, true);
             assertEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_UCHAR);
@@ -225,7 +225,7 @@ public class VipsImageImplTest {
     @Test
     public void TestImageGetInterpretationB_W() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("monochrome.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             VipsInterpretation colourSpace = VipsInterpretation.B_W;
             assertEquals(colourSpace, img.imageGetInterpretation());
         }
@@ -234,7 +234,7 @@ public class VipsImageImplTest {
     @Test
     public void TestImageGetInterpretationCMYK() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips_cmyk.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             VipsInterpretation colourSpace = VipsInterpretation.CMYK;
             assertEquals(colourSpace, img.imageGetInterpretation());
         }
@@ -243,7 +243,7 @@ public class VipsImageImplTest {
     @Test
     public void TestChangeColourSpace() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             VipsInterpretation beforeColourSpace = VipsInterpretation.SRGB;
             VipsInterpretation afterColourSpace = VipsInterpretation.CMYK;
 
@@ -256,7 +256,7 @@ public class VipsImageImplTest {
     @Test
     public void TestChangeColourSpaceWithSourceSpace() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             VipsInterpretation beforeColourSpace = VipsInterpretation.SRGB;
             VipsInterpretation afterColourSpace = VipsInterpretation.CMYK;
 
@@ -271,7 +271,7 @@ public class VipsImageImplTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         int expectedWidth = 1920;
         int expectedHeight = 1080;
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             assertEquals(expectedWidth, img.getWidth());
             assertEquals(expectedHeight, img.getHeight());
         }
@@ -280,7 +280,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldReturnCorrectFirstPixelValue() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             PixelPacket pixel = img.getPointPixelPacket(new Point(0, 0));
             PixelPacket expected = new PixelPacket(0.0, 81.0, 216.0, 255.0);
             assertEquals(expected, pixel);
@@ -290,7 +290,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldHandleTransparentPixel() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("transparent.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
 
             PixelPacket pixel = img.getPointPixelPacket(new Point(0, 0));
             PixelPacket expected = new PixelPacket(0.0, 0.0, 0.0, 0.0);
@@ -301,7 +301,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldResizeAndKeepAspectRatio() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             double aspectRatio = (double) img.getWidth() / (double) img.getHeight();
             img.resize(new Dimension(800, 800), false);
             assertEquals(800, img.getWidth());
@@ -313,7 +313,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldResizeWithExactDimension() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             img.resize(new Dimension(800, 800), true);
             assertEquals(800, img.getWidth());
             assertEquals(800, img.getHeight());
@@ -323,7 +323,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldFlattenTransparentBackground() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("transparent.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             PixelPacket blue = new PixelPacket(0, 0, 255);
 
             img.flatten(blue);
@@ -337,7 +337,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldCropCorrectly() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             img.crop(new Rectangle(0, 0, 50, 50));
             assertEquals(50, img.getWidth());
             assertEquals(50, img.getHeight());
@@ -347,7 +347,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldNotCropIfOutOfBoundCropBox() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             int w = img.getWidth();
             int h = img.getHeight();
             Rectangle box = new Rectangle(0, 0, w + 1, h + 1);
@@ -362,7 +362,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldNotCropIfZeroWidthAndHeightBox() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("white.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             int w = img.getWidth();
             int h = img.getHeight();
             Rectangle box = new Rectangle(w, h, 0, 0);
@@ -378,7 +378,7 @@ public class VipsImageImplTest {
     public void TestShouldPadCorrectly() throws IOException, VipsException {
         PixelPacket pixel = new PixelPacket(255.0, 255.0, 255.0, 255.0);
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             int w = img.getWidth();
             int h = img.getHeight();
             // Surround image with a 10-pixel white band
@@ -396,7 +396,7 @@ public class VipsImageImplTest {
     public void TestShouldPadPNGWithTransparentPixel() throws IOException, VipsException {
         PixelPacket pixel = new PixelPacket(0.0, 0.0, 255.0, 50.0);
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("transparent.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
 
             // Surround image with a 10-pixel blue band
             img.pad(new Dimension(img.getWidth() + 20, img.getHeight() + 20), pixel, VipsCompassDirection.CENTRE);
@@ -412,7 +412,7 @@ public class VipsImageImplTest {
         PixelPacket expected = new PixelPacket(0.0, 0.0, 255.0, 255.0);
         PixelPacket pixel = new PixelPacket(0.0, 0.0, 255.0, 50.0);
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             // Surround image with a 10-pixel blue band
             img.pad(new Dimension(img.getWidth() + 20, img.getHeight() + 20), pixel, VipsCompassDirection.CENTRE);
             assertEquals(expected, img.getPointPixelPacket(new Point(0, 0)));
@@ -427,7 +427,7 @@ public class VipsImageImplTest {
         thrown.expect(VipsException.class);
         thrown.expectMessage("Unable to get image point");
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("transparent.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             int w = img.getWidth();
             int h = img.getHeight();
             // Try to access out of bound
@@ -438,7 +438,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldGetPointMonochrome() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("monochrome.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             PixelPacket pixel = img.getPointPixelPacket(new Point(0, 0));
             assertEquals(255.0, pixel.getRed(), Delta);
             assertEquals(255.0, pixel.getGreen(), Delta);
@@ -450,7 +450,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldGetPointMonochromeWithTransparency() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("monochrome_with_transparency.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
 
             int w = img.getWidth();
             int h = img.getHeight();
@@ -471,7 +471,7 @@ public class VipsImageImplTest {
     @Test
     public void TestTransparentPNGShouldHasTransparency() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("transparent.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             assertTrue(img.hasAlpha());
         }
     }
@@ -479,7 +479,7 @@ public class VipsImageImplTest {
     @Test
     public void TestJpgShouldNotHasTransparency() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             assertFalse(img.hasAlpha());
         }
     }
@@ -491,7 +491,7 @@ public class VipsImageImplTest {
         byte[] expected = SignatureByExtension.get(vipsImageFormat.getFileExtension());
         byte[] signature = new byte[expected.length];
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             byte[] out = img.writeToArray(vipsImageFormat, JPGQuality, true);
             System.arraycopy(out, 0, signature, 0, signature.length);
             assertArrayEquals(expected, signature);
@@ -501,7 +501,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldFindTrim() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("logo_with_padding_50x50.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             Rectangle boundingBox = img.findTrim(TrimThreshold, WhitePixel);
             assertEquals(50, boundingBox.x);
             assertEquals(50, boundingBox.y);
@@ -513,7 +513,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldFindTrimWithTransparent() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("logo_with_transparent_padding_50x50.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             Rectangle boundingBox = img.findTrim(TrimThreshold, TransparentPixel);
             assertEquals(50, boundingBox.x);
             assertEquals(50, boundingBox.y);
@@ -528,7 +528,7 @@ public class VipsImageImplTest {
         Assume.assumeTrue(vipsImageFormat != VipsImageFormat.GIF);
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
         PixelPacket pixel = new PixelPacket(5.0, 255.0, 25.0);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             img.resize(new Dimension(400, 400), false);
             int width = img.getWidth();
             int height = img.getHeight();
@@ -547,7 +547,7 @@ public class VipsImageImplTest {
         // libvips can't save into gif format
         Assume.assumeTrue(vipsImageFormat != VipsImageFormat.GIF);
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("olin.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             byte[] out = img.writeToArray(vipsImageFormat, JPGQuality, true);
             fail();
         } catch (VipsException e) {
@@ -558,8 +558,8 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldInsertSubImage() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("logo_with_transparent_padding_50x50.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity());
-             VipsImageImpl background = new VipsImageImpl(img, WhitePixel)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity());
+             VipsImage background = new VipsImage(img, WhitePixel)) {
             background.compose(img);
             assertEquals(WhitePixel, background.getPointPixelPacket(new Point(0, 0)));
         }
@@ -568,7 +568,7 @@ public class VipsImageImplTest {
     @Test
     public void TestGetPointShouldReturn256bitsValue() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("white_48_bits.png");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             PixelPacket p = img.getPointPixelPacket(new Point(0, 0));
             assertEquals(255.0, p.getRed(), Delta);
             assertEquals(255.0, p.getGreen(), Delta);
@@ -580,8 +580,8 @@ public class VipsImageImplTest {
     public void TestShouldGuessColourspace() throws IOException, VipsException {
         ByteBuffer bufferSrgb = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         ByteBuffer bufferCmyk = VipsTestUtils.getDirectByteBuffer("in_vips_cmyk.jpg");
-        try (VipsImageImpl imgSrgb = new VipsImageImpl(bufferSrgb, bufferSrgb.capacity());
-             VipsImageImpl imgCmyk = new VipsImageImpl(bufferCmyk, bufferCmyk.capacity())) {
+        try (VipsImage imgSrgb = new VipsImage(bufferSrgb, bufferSrgb.capacity());
+             VipsImage imgCmyk = new VipsImage(bufferCmyk, bufferCmyk.capacity())) {
             Assert.assertEquals(VipsInterpretation.SRGB, imgSrgb.getInterpretation());
             Assert.assertEquals(VipsInterpretation.CMYK, imgCmyk.getInterpretation());
         }
@@ -590,7 +590,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldReturnExactFrameNumberFromAnimatedImage() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("cat.gif");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             assertEquals(5, img.getNbFrame());
         }
     }
@@ -598,7 +598,7 @@ public class VipsImageImplTest {
     @Test
     public void TestShouldReturnExactFrameNumberFromNonAnimatedImage() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             assertEquals(1, img.getNbFrame());
         }
     }
@@ -606,7 +606,7 @@ public class VipsImageImplTest {
     @Test
     public void TestImageWithNoMetadataReturOneFrameNumber() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("02.gif");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             assertEquals(1, img.getNbFrame());
         }
     }
@@ -614,7 +614,7 @@ public class VipsImageImplTest {
     @Test
     public void TestDoubleReleaseShouldNotThrow() throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             byte[] out = img.writeToArray(VipsImageFormat.JPG, JPGQuality, true);
             assertNotNull(out);
             img.release();
@@ -630,7 +630,7 @@ public class VipsImageImplTest {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
         int compression = 9;
         int colors = 256;
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             byte[] out = img.writePNGToArray(compression, palette, colors, strip);
             assertNotNull(out);
         }
@@ -642,7 +642,7 @@ public class VipsImageImplTest {
         byte[] buffer = VipsTestUtils.getByteArray("logo_with_transparent_padding_50x50.png");
         int compression = 9;
         int colors = 256;
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.length)) {
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             byte[] out = img.writePNGToArray(compression, true, colors, true);
             Assert.assertTrue(buffer.length > out.length);
         }
@@ -651,7 +651,7 @@ public class VipsImageImplTest {
     @Theory
     public void TestDominantColour(@FromDataPoints("fileColours") DominantColour fileColour) throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(fileColour.filename);
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
 
             // implement https://gist.github.com/jcupitt/ee3afcbb931b41b4d7f4
             int N_BINS = 10;
@@ -677,7 +677,7 @@ public class VipsImageImplTest {
     @Test
     public void TestMax1() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             Max1Result r = img.max1();
 
             assertEquals(255.0, r.out, Delta);
@@ -688,7 +688,7 @@ public class VipsImageImplTest {
     public void TestHistFindNdimMax1() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         final int N_BINS = 10;
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             img.histFindNdim(N_BINS);
 
             Max1Result r = img.max1();
@@ -702,7 +702,7 @@ public class VipsImageImplTest {
     @Test
     public void TestGetPoint() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             double[] point = img.getPoint(33, 8);
             assertEquals(3, point.length);
             double[] expected = {0, 84, 219};
@@ -716,7 +716,7 @@ public class VipsImageImplTest {
     @Test
     public void TestHistFindNdimMax1GetPoint() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             img.histFindNdim(10);
             Max1Result r = img.max1();
             assertEquals(239667.0, r.out, Delta);
@@ -735,7 +735,7 @@ public class VipsImageImplTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         int x = 39;
         int y = 43;
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             assertArrayEquals(new double[]{5.0, 81.0, 218.0}, img.getPoint(x, y), 0.0);
             img.linear(new double[]{3.2, 1.0, 5}, new double[]{4.3, 1.2, 6.7});
             assertArrayEquals(new double[]{20.299999237060547, 82.19999694824219, 1096.699951171875}, img.getPoint(x, y), 0.0);
@@ -747,7 +747,7 @@ public class VipsImageImplTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         int x = 39;
         int y = 43;
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             assertArrayEquals(new double[]{5.0, 81.0, 218.0}, img.getPoint(x, y), 0.0);
             img.linear(new double[]{3.2, 1.0, 5}, new double[]{4.3, 1.2, 6.7}, true);
             assertArrayEquals(new double[]{20.0, 82.0, 255.0}, img.getPoint(x, y), 0.0);
@@ -757,7 +757,7 @@ public class VipsImageImplTest {
     @Test
     public void TestLinearThrowsIfArraySizeAreNotEqual() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
-        try (VipsImageImpl img = new VipsImageImpl(buffer, buffer.capacity())) {
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             img.linear(new double[]{3.2, 1.0, 5}, new double[]{1.2, 6.7});
             fail();
         } catch (VipsException e) {
@@ -770,7 +770,7 @@ public class VipsImageImplTest {
         int width = 13;
         int height = 6;
         double[] expected = new double[]{0};
-        try (VipsImageImpl img = VipsImageImpl.black(width, height)) {
+        try (VipsImage img = VipsImage.black(width, height)) {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     assertArrayEquals(expected, img.getPoint(x, y), 0);
