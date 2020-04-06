@@ -53,5 +53,8 @@ include_directories(${VIPS_INCLUDE_DIRS})
 
 add_subdirectory(src/main/java/com/criteo/vips/)
 add_subdirectory(src/main/c)
+
 add_subdirectory(src/test/java/com/criteo/vips/)
 add_subdirectory(src/test/c)
+
+add_subdirectory(src/test/c/benchmark/)
