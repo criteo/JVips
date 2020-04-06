@@ -11,6 +11,8 @@ DIST=0
 DEBUG=0
 JOBS=8
 BUILD_TYPE=Release
+RUN_TEST=1
+RUN_BENCHMARK=0
 MAVEN_ARGS=""
 
 while true; do
@@ -21,8 +23,10 @@ while true; do
     --without-w64 ) BUILD_WIN64=0; shift;;
     --without-linux ) BUILD_LINUX=0; shift;;
     --without-macos ) BUILD_MACOS=0; shift;;
+    --skip-test ) RUN_TEST=0; shift;;
+    --run-benchmark ) RUN_BENCHMARK=1; shift;;
     --dist ) DIST=1; shift;;
-    --minimal ) MAVEN_ARGS="-Pminimal"; shift;;
+    --minimal ) MAVEN_ARGS="${MAVEN_ARGS} -Pminimal"; shift;;
     --debug ) DEBUG=1; shift ;;
     --jobs ) JOBS="$2"; shift 2 ;;
     -- ) shift; break ;;
@@ -159,7 +163,18 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
 fi
 
 
-mvn ${MAVEN_ARGS} clean install
+mvn ${MAVEN_ARGS} -DskipTests clean install
+
+if [ ${RUN_TEST} -gt 0 ]; then
+    mvn surefire:test@utest
+fi
+
+if [ ${RUN_BENCHMARK} -gt 0 ]; then
+    mvn surefire:test@benchmark
+    if [ ${BUILD_LINUX} -gt 0 ]; then
+         "${BUILDDIR}/linux/JVips/src/test/c/benchmark/SimpleBenchmark" "${BASEDIR}/src/test/resources/in_vips.jpg"
+    fi
+fi
 
 if [ ${DIST} -gt 0 ]; then
     if [ ${BUILD_LINUX} -gt 0 ]; then
