@@ -13,7 +13,7 @@ JOBS=8
 BUILD_TYPE=Release
 RUN_TEST=1
 RUN_BENCHMARK=0
-MAVEN_ARGS=""
+MAVEN_ARGS="--batch-mode"
 
 while true; do
   case "$1" in
@@ -51,7 +51,7 @@ CMAKE_BIN=`which cmake3 || which cmake`
 
 # Copy maven dependencies for some tests
 mkdir -p $BUILDDIR/artifacts/
-mvn dependency:copy-dependencies -DoutputDirectory=$BUILDDIR/artifacts/
+mvn ${MAVEN_ARGS} dependency:copy-dependencies -DoutputDirectory=$BUILDDIR/artifacts/
 
 ##########################
 ###### Build Linux #######
@@ -166,11 +166,11 @@ fi
 mvn ${MAVEN_ARGS} -DskipTests clean install
 
 if [ ${RUN_TEST} -gt 0 ]; then
-    mvn surefire:test@utest
+    mvn ${MAVEN_ARGS} surefire:test@utest
 fi
 
 if [ ${RUN_BENCHMARK} -gt 0 ]; then
-    mvn surefire:test@benchmark
+    mvn ${MAVEN_ARGS} surefire:test@benchmark
     if [ ${BUILD_LINUX} -gt 0 ]; then
          "${BUILDDIR}/linux/JVips/src/test/c/benchmark/SimpleBenchmark" "${BASEDIR}/src/test/resources/in_vips.jpg"
     fi
