@@ -17,22 +17,6 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_initFieldIDs
 
 /*
  * Class:     com_criteo_vips_VipsImage
- * Method:    blackNative
- * Signature: (II)V
- */
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_blackNative
-  (JNIEnv *, jobject, jint, jint);
-
-/*
- * Class:     com_criteo_vips_VipsImage
- * Method:    newFromImageNative
- * Signature: (Lcom/criteo/vips/Image;[D)V
- */
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromImageNative
-  (JNIEnv *, jobject, jobject, jdoubleArray);
-
-/*
- * Class:     com_criteo_vips_VipsImage
  * Method:    newFromByteBuffer
  * Signature: (Ljava/nio/ByteBuffer;I)V
  */
@@ -46,6 +30,22 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromByteBuffer
  */
 JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromBuffer
   (JNIEnv *, jobject, jbyteArray, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
+ * Method:    blackNative
+ * Signature: (II)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_blackNative
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
+ * Method:    newFromImageNative
+ * Signature: (Lcom/criteo/vips/Image;[D)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromImageNative
+  (JNIEnv *, jobject, jobject, jdoubleArray);
 
 /*
  * Class:     com_criteo_vips_VipsImage
