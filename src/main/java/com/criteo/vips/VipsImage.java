@@ -198,7 +198,11 @@ public class VipsImage extends Vips implements Image {
     public native double[] getPoint(int x, int y) throws VipsException;
 
     public PixelPacket getPointPixelPacket(Point point) throws VipsException {
-        double[] pixel = getPointPixelPacketNative(point.x, point.y);
+        return getPointPixelPacket(point.x, point.y);
+    }
+
+    public PixelPacket getPointPixelPacket(int x, int y) throws VipsException {
+        double[] pixel = getPointPixelPacketNative(x, y);
         boolean isMonochrome = pixel.length < 3;
         boolean hasAlpha = pixel.length == 2 || pixel.length == 4;
         if (isMonochrome)
