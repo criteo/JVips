@@ -60,7 +60,7 @@ $CHECKOUT/libpng-${PNG_VERSION}/configure \
     CXXFLAGS="${CXXFLAGS}" \
     ${HOST} \
     CPPFLAGS="-I$PREFIX/include" \
-    LDFLAGS="-L$PREFIX/lib -Wl,-rpath=$PREFIX/lib" \
+    LDFLAGS="-L$PREFIX/lib -Wl,-rpath,$PREFIX/lib" \
     --enable-shared \
     --disable-static \
     --prefix="$PREFIX" \
@@ -157,7 +157,7 @@ pushd "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
      CFLAGS="${CFLAGS}" \
      CXXFLAGS="${CXXFLAGS}" \
      ${HOST} \
-     LDFLAGS="-L$PREFIX/lib -Wl,-rpath=$PREFIX/lib" \
+     LDFLAGS="-L$PREFIX/lib -Wl,-rpath,$PREFIX/lib" \
      --enable-shared --disable-static \
      --with-jpeg-includes=$PREFIX/include \
      --with-jpeg-libraries=$PREFIX/lib \
