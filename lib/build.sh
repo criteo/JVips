@@ -23,8 +23,8 @@ pushd "$CHECKOUT"
 wget --retry-connrefused -O - -nv -nc "https://github.com/ImageOptim/libimagequant/archive/${LIQ_VERSION}.tar.gz" | tar -xz
 cp $PATCH_DIR/CMakeLists.txt $CHECKOUT/libimagequant-${LIQ_VERSION}/CMakeLists.txt
 cp $PATCH_DIR/imagequant.pc.in.cmake $CHECKOUT/libimagequant-${LIQ_VERSION}/imagequant.pc.in.cmake
-mkdir -p ${BUILDDIR}/${TARGET}/libimagequant
-pushd "${BUILDDIR}/${TARGET}/libimagequant"
+mkdir -p ${BUILDDIR}/${TARGET}/libimagequant-${LIQ_VERSION}
+pushd "${BUILDDIR}/${TARGET}/libimagequant-${LIQ_VERSION}"
 cmake -DCMAKE_C_FLAGS=${CFLAGS} \
     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -46,13 +46,12 @@ $CHECKOUT/libjpeg-turbo-${JPG_VERSION}/configure \
     --enable-shared --disable-static \
     --prefix="$PREFIX" \
     --disable-dependency-tracking --with-jpeg8
-
 make -j ${JOBS}
 make -j ${JOBS} install
 popd
 
 # Build PNG
-wget --retry-connrefused -O - -nv -nc "http://prdownloads.sourceforge.net/libpng/libpng-${PNG_VERSION}.tar.xz" | tar -xJ
+wget --retry-connrefused -O - -nv -nc "https://downloads.sourceforge.net/libpng/libpng-${PNG_VERSION}.tar.gz" | tar -xz
 mkdir -p ${BUILDDIR}/${TARGET}/libpng-${PNG_VERSION}
 pushd "${BUILDDIR}/${TARGET}/libpng-${PNG_VERSION}"
 $CHECKOUT/libpng-${PNG_VERSION}/configure \
@@ -66,14 +65,13 @@ $CHECKOUT/libpng-${PNG_VERSION}/configure \
     --prefix="$PREFIX" \
     --disable-dependency-tracking \
     --disable-silent-rules
-
 make -j ${JOBS}
 make -j ${JOBS} install
 popd
 
 
 # Build GIF
-wget --retry-connrefused -O - -nv -nc "https://downloads.sourceforge.net/project/giflib/giflib-${GIF_VERSION}.tar.bz2" | tar -xj
+wget --retry-connrefused -O - -nv -nc "https://downloads.sourceforge.net/project/giflib/giflib-${GIF_VERSION}.tar.gz" | tar -xz
 mkdir -p ${BUILDDIR}/${TARGET}/giflib-${GIF_VERSION}
 pushd "${BUILDDIR}/${TARGET}/giflib-${GIF_VERSION}"
 $CHECKOUT/giflib-${GIF_VERSION}/configure \
@@ -82,13 +80,12 @@ $CHECKOUT/giflib-${GIF_VERSION}/configure \
     ${HOST} \
     --enable-shared --disable-static --prefix="$PREFIX" \
     --disable-dependency-tracking
-
 make -j ${JOBS}
 make -j ${JOBS} install
 popd
 
 # Build WEBP
-wget --retry-connrefused -O - -nv -nc "http://downloads.webmproject.org/releases/webp/libwebp-${WEBP_VERSION}.tar.gz" | tar -xz
+wget --retry-connrefused -O - -nv -nc "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-${WEBP_VERSION}.tar.gz" | tar -xz
 mkdir -p ${BUILDDIR}/${TARGET}/libwebp-${WEBP_VERSION}
 pushd "${BUILDDIR}/${TARGET}/libwebp-${WEBP_VERSION}"
 $CHECKOUT/libwebp-${WEBP_VERSION}/configure \
@@ -110,7 +107,6 @@ $CHECKOUT/libwebp-${WEBP_VERSION}/configure \
     --enable-sse4.1 \
     --enable-sse2 \
     --enable-threading
-
 make -j ${JOBS}
 make -j ${JOBS} install
 popd
@@ -124,7 +120,6 @@ $CHECKOUT/Little-CMS-lcms${LCMS2_VERSION}/configure \
     CXXFLAGS="${CXXFLAGS}" \
     ${HOST} \
     --enable-shared --disable-static --prefix="$PREFIX"
-
 make -j ${JOBS}
 make -j ${JOBS} install
 popd
