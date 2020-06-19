@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 BASEDIR=$(pwd)
 
@@ -34,10 +35,9 @@ while true; do
   esac
 done
 
-
 if [ ${JOBS} -le 0 ]; then
     JOBS=1
-fi;
+fi
 
 if [ ${DEBUG} -eq 1 ]; then
     BUILD_TYPE=Debug
@@ -77,9 +77,7 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
     mkdir -p $BUILDDIR/${TARGET}/JVips
     rm -rf $BUILDDIR/${TARGET}/JVips/*
     pushd "${BUILDDIR}/${TARGET}/JVips"
-    ${CMAKE_BIN} ${BASEDIR} \
-    -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
-    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    ${CMAKE_BIN} ${BASEDIR} -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
     make -j ${JOBS}
     if [ $? -ne 0 ]; then
         echo "Linux JVips build failed"
@@ -115,9 +113,7 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
     mkdir -p ${BUILDDIR}/${TARGET}/JVips
     rm -rf ${BUILDDIR}/${TARGET}/JVips/*
     pushd "${BUILDDIR}/${TARGET}/JVips"
-    ${CMAKE_BIN} ${BASEDIR} \
-    -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
-    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    ${CMAKE_BIN} ${BASEDIR} -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
     make -j ${JOBS}
     if [ $? -ne 0 ]; then
         echo "Windows 64 JVips build failed"
@@ -151,9 +147,7 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
     mkdir -p $BUILDDIR/${TARGET}/JVips
     rm -rf $BUILDDIR/${TARGET}/JVips/*
     pushd "${BUILDDIR}/${TARGET}/JVips"
-    ${CMAKE_BIN} ${BASEDIR} \
-    -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} \
-    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    ${CMAKE_BIN} ${BASEDIR} -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
     make -j ${JOBS}
     if [ $? -ne 0 ]; then
         echo "macOS JVips build failed"
