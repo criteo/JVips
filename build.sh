@@ -67,6 +67,7 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
     export TARGET=linux
     export PREFIX=${BUILDDIR}/${TARGET}/inst/
     export TOOLCHAIN=${BASEDIR}/Toolchain-linux.cmake
+    export PKG_CONFIG_PATH=/usr/lib64/pkgconfig
     pushd "${BASEDIR}/lib"
     ./build.sh
     if [ $? -ne 0 ]; then
@@ -102,6 +103,7 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
     export TARGET=w64
     export PREFIX=${BUILDDIR}/${TARGET}/inst/
     export TOOLCHAIN=${BASEDIR}/Toolchain-x86_64-w64-mingw32.cmake
+    export PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig/
     export PKG_CONFIG="x86_64-w64-mingw32-pkg-config"
     pushd "${BASEDIR}/lib"
     ./build.sh

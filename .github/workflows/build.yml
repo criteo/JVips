@@ -1,0 +1,61 @@
+on: [push]
+
+jobs:
+  build_for_linux_and_windows:
+    runs-on: ubuntu-latest
+    name: Build for Linux and Windows
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build Docker builder image
+        run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
+      - name: Build
+        run: docker run --rm -v $(pwd):/app -w /app builder bash -ex build.sh --with-w64 --with-linux --without-macos
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: jar-linux-windows
+          path: JVips.jar
+
+  build_for_macos:
+    runs-on: macos-latest
+    name: Build for macOS
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Select Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '1.8.0'
+          java-package: jdk
+          architecture: x64
+      - name: Install vips
+        run: ./setup-for-macos.sh
+      - name: Build
+        run: ./build.sh --with-macos --without-w64 --without-linux
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: jar-macos
+          path: JVips.jar
+
+  merge_jar:
+    needs: [build_for_macos, build_for_linux_and_windows]
+    runs-on: ubuntu-latest
+    name: Merge macOS, Linux, Windows artifacts
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+      - name: Merge artifacts
+        run: |
+          mkdir tmp
+          (cd tmp; unzip -uo ../artifacts/jar-macos/JVips.jar)
+          (cd tmp; unzip -uo ../artifacts/jar-linux-windows/JVips.jar)
+          jar -cvf JVips.jar -C tmp .
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: jvips
+          path: JVips.jar
