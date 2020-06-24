@@ -23,6 +23,7 @@ import com.criteo.vips.enums.VipsInterpretation;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Ignore;		
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -156,6 +157,8 @@ public class VipsImageTest {
         }
     }
 
+    // Ignoring because it crashes Surefire on macOS.
+    @Ignore
     @Theory
     public void TestHistFindNdim1(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
@@ -166,6 +169,7 @@ public class VipsImageTest {
         }
     }
 
+    @Ignore
     @Theory
     public void TestHistFindNdim2(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
@@ -176,6 +180,7 @@ public class VipsImageTest {
         }
     }
 
+    @Ignore
     @Theory
     public void TestHistFindNdim10(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
