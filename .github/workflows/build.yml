@@ -1,3 +1,4 @@
+name: Build and Release
 on: [push]
 
 jobs:
@@ -39,10 +40,10 @@ jobs:
           name: jar-macos
           path: JVips.jar
 
-  merge_jar:
+  release:
     needs: [build_for_macos, build_for_linux_and_windows]
     runs-on: ubuntu-latest
-    name: Merge macOS, Linux, Windows artifacts
+    name: Merge macOS, Linux, Windows artifacts into a JAR and release it
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
@@ -59,3 +60,23 @@ jobs:
         with:
           name: jvips
           path: JVips.jar
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: latest
+          release_name: Latest
+          draft: false
+          prerelease: false
+      - name: Upload release asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: JVips.jar
+          asset_name: JVips.jar
+          asset_content_type: application/java-archive
