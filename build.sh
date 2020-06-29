@@ -159,7 +159,7 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
 fi
 
 
-mvn ${MAVEN_ARGS} -DskipTests clean install
+mvn ${MAVEN_ARGS} -DskipTests clean package
 
 if [ ${RUN_TEST} -gt 0 ]; then
     mvn ${MAVEN_ARGS} surefire:test@utest
