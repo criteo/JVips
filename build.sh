@@ -158,8 +158,12 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
     popd
 fi
 
+source lib/variables.sh
+VERSION="$VIPS_VERSION-$(git rev-parse --short HEAD)"
 
+mvn ${MAVEN_ARGS} -DnewVersion=$VERSION versions:set
 mvn ${MAVEN_ARGS} -DskipTests clean package
+mvn ${MAVEN_ARGS} versions:revert
 
 if [ ${RUN_TEST} -gt 0 ]; then
     mvn ${MAVEN_ARGS} surefire:test@utest
