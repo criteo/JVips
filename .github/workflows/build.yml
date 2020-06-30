@@ -50,11 +50,13 @@ jobs:
         with:
           path: artifacts
       - name: Merge artifacts
+        id: merge
         run: |
+          rm -rf tmp JVips.jar
           mkdir tmp
-          (cd tmp; unzip -uo ../artifacts/jar-macos/JVips.jar)
-          (cd tmp; unzip -uo ../artifacts/jar-linux-windows/JVips.jar)
-          jar -cvf JVips.jar -C tmp .
+          (cd tmp; for jar in ../artifacts/*/JVips.jar; do unzip -uo $jar; done)
+          jar -cvMf JVips.jar -C tmp .
+          echo ::set-output name=jar_version::$(grep 'Implementation-Version' tmp/META-INF/MANIFEST.MF | cut -d ':' -f2)
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -66,8 +68,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: latest
-          release_name: Latest
+          tag_name: ${{ steps.merge.outputs.jar_version }}
+          release_name: ${{ steps.merge.outputs.jar_version }}
           draft: false
           prerelease: false
       - name: Upload release asset
