@@ -1,10 +1,15 @@
-#### JVips: libvips Java wrapper
+JVips, a libvips Java wrapper
+=====
 
-This is a Java wrapper which binds some operations from [libvips](https://github.com/libvips/libvips) using JNI.
+![Logo](https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/emojidex/112/high-voltage-sign_26a1.png)
 
-This project is deployed and used in production for applying image transformations in the Criteo internal CDN.
+JVips is a Java wrapper around [libvips](https://github.com/libvips/libvips) using JNI.
 
-Available operations:
+# Status
+
+This project is deployed and used in production at Criteo to serve billions of images a day.
+
+Not all libvips capabilities are implemented. JVips currently exposes:
 - Resize
 - Pad
 - Crop
@@ -15,70 +20,155 @@ Available operations:
 - Is sRGB colorspace
 - Compose image with another one
 
-#### Disclaimer
-Not all libvips capabilities are implemented. Feel free to add them.
+Feel free to contribute.
 
-#### Building from source
-JVips build some dependencies from source in order to maximize optimizations.
-Linux libraries are embedded in jar file.
+# Example
 
-Libraries are downloaded from given url in lib/build.sh.
-Edit lib/variable.sh for updating libraries version.
+Look at the hello world program in [HelloWorld.java](src/example/java/com/criteo/vips/HelloWorld.java). It opens an image file, resize it, and prints its size.
 
-Make sure you have cmake3 installed and every dependencies required by libvips on your system:
+# Installation
 
+## From prebuilt packages
+
+You can download the latest JVips build from [GitHub Releases](https://github.com/criteo/JVips/releases). We currently don't release to Maven Central.
+
+Then, make your libvips and its dependencies are available on your system.
+
+### 🐧 Linux
+
+Install libvips with your favorite package manager.
+
+For Ubuntu and Debian:
 ```
-$ sudo dnf install cmake3
+sudo apt-get install libvips42
 ```
 
-Moreover, you need some extra dependecencies for cross building Windows 64 bits libJVips.dll:
+For Fedora and CentOS:
 ```
-$ sudo dnf install mingw-w64-tools mingw64-gcc mingw64-glib2 mingw64-win-iconv mingw64-expat
+sudo yum install vips
 ```
+
+However, note that `JVips.jar` embeddeds `libvips.so` and its dependencies. The .jar file is self-sufficient for Linux. Look the `--minimal` flag documented below if you don't want this behavior and prefer to rely on system-wide libraries.
+
+### 🏁 Windows
+
+Install libvips from GitHub Releases:
+
+1. Download the [prebuilt Windows libvips archive](https://github.com/libvips/libvips/releases) matching the JVips version and unzip it
+2. Add a `VIPS_HOME` environment variable pointing to the extracted directory
+3. Append `$VIPS_HOME/bin` and `$VIPS_HOME` to your `$PATH` environment variable
+
+### 🍎 macOS
+
+Install libvips with Homebrew:
+
+1. `brew install vips`
+
+## From source
+
+The build system relies on numerous dependencies including CMake 3 and Maven, as well as native code compilers. Instead of listing them here, please refer to [Dockerfile](Dockerfile) for an up-to-date list.
+
+The `build.sh` script will download and build a subset of JVips dependencies from source in order to maximize optimizations. However, it is recommended to install all dependencies on the system first, as documented in the sections below.
+
+Additionally, `build.sh` accepts the following options:
+- `--with-w64`, `--without-w64`: enable/disable Windows 64 build (default: disable)
+- `--with-linux`, `--without-linux`: enable/disable Linux build (default: enable)
+- `--with-macos`, `--without-macos`: enable/disable Linux build (default: disable)
+- `--skip-test`: disable unit tests (default: enable)
+- `--run-benchmark`: launch benchmark suite (default: disable)
+- `--dist`: build a `.tar.gz` archive containing all the build artifacts (default: disable)
+- `--minimal`: build 'minimal' Maven profile so JVips dependencies aren't embedded in the .jar file (default: all)
+- `--debug`: enable debugging in JVips and its dependencies (default: release mode)
+- `--jobs N`: use N jobs to build (default: 8)
 
 Run the build with:
 ```
-$ ./build.sh
+$ ./build.sh [options]
 ```
-Build options:
-- --debug, enable debugging in JVips and its dependencies (default: release mode)
-- --without-w64, disable Windows 64 build (default: disable)
-- --without-linux, disable Linux build (default: disable)
-- --skip-test, disable unit tests (default: enable)
-- --run-benchmark, launch benchmark suite (default: disable)
-- --minimal, Build 'minimal' maven profile. JVips dependencies aren't embedded in jar file (default: all)
-- --jobs N, define make jobs number (default: 8)
 
-Clean project with:
-```bash
+Clean the project with:
+```
 $ ./clean.sh
 ```
 
-#### Installing
-##### Linux
-Install libvips required dependencies.
+### 🐧 Linux
 
-##### Windows
-Install the official Vips binaries:
+Install libvips development packages with your favorite package manager.
 
-1. Download the 64 bit version of libvips ([vips-dev-w64-all-8.7.0.zip](https://github.com/libvips/libvips/releases/download/v8.7.0/vips-dev-w64-all-8.7.0.zip)) and unzip it
-2. Set environment variable VIPS_HOME to C:\Program Files\vips-dev-w64-all-8.7.0
-3. Append $VIPS_HOME/bin and $VIPS_HOME to $PATH environment variable
-
-##### Testing
-Run the HelloWorld main in src/example/java/com/criteo/vips/HelloWorld.java.
-It should open the file 'src/example/ressources/in_vips.jpg', resize image and prints:
+For Ubuntu and Debian:
 ```
-INFO: Trying to load JVips
-Image has been correctly resized: (1920,1080) -> (960,540)
+$ sudo apt-get install libvips-dev
+$ ./build.sh --without-w64 --with-linux --without-macos
 ```
 
-#### How to bind a vips function
+For Fedora and CentOS:
+```
+$ sudo yum install vips-devel
+$ ./build.sh --without-w64 --with-linux --without-macos
+```
+
+### 🏁 Windows
+
+Windows builds are cross-compiled from Linux using MingW64. WSL and Docker are both supported.
+
+To build with Docker:
+```
+$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
+$ docker run --rm -v $(pwd):/app -w /app builder bash -ex build.sh --with-w64 --without-linux --without-macos
+```
+
+To build with WSL:
+```
+$ ./setup-for-ubuntu-wsl-w64-target.sh
+$ ./build.sh --with-w64 --without-linux --without-macos
+```
+
+### 🍎 macOS
+
+As macOS is mostly a development environment, JVips doesn't provide tools to build dependencies from sources and will always used system-wide libraries. The Homebrew packages installs all the required dependencies and headers to build JVips as is:
+```
+$ brew install vips
+$ ./build.sh --without-w64 --without-linux --with-macos
+```
+
+# Maintenance
+
+## Dependency upgrades
+
+Libraries are downloaded from hard-coded URL in `lib/build.sh`. Libraries can be upgraded by changing the version number in `lib/variable.sh`.
+
+## Benchmark
+
+To run a benchmark:
+1. `./build.sh --run-benchmark`
+
+On an Ubuntu 18.04 VM running with a quad-core Xeon E3-1271 v3 @ 3.6GHz, we apply the following operations:
+- open an 1920x1080 jpg image
+- resize to 512x512 dimension
+- crop a 128x128 rectangle on the top left corner
+- pad to a 256x256 image
+- write the output image into a buffer
+- release resources
+
+|Implementation|Run time (ms)|Times slower|
+|------------- |:------------:| ---------:|
+| Vips C 8.7   | 12           | 1.0       |
+| JVips 1.0    | 22           | 1.83      |
+
+According to [this results](https://github.com/jcupitt/libvips/wiki/Speed-and-memory-use), JVips is as slower as py-vips.
+
+## Tests
+
+[JVips tests](src/test/java/com/criteo/vips/VipsImageTest.java) are a good starting point to see how methods can be used.
+
+## `vips` function bindings
+
 The following steps explain how to bind a function from libvips.
-Let's add hasAlpha() method:
 
-1. Declare method in VipsImage interface in src/main/java/com/criteo/vips/VipsImage.java
-2. Declare native method in VipsImageImpl in src/main/java/com/criteo/vips/VipsImageImpl.java
+Let's add `hasAlpha()` method:
+
+1. Declare method in [`VipsImage`](src/main/java/com/criteo/vips/VipsImage.java) interface
+2. Declare native method in [`VipsImageImpl`](src/main/java/com/criteo/vips/VipsImageImpl.java)
 ```java
 public native boolean hasAlpha();
 ```
@@ -102,27 +192,12 @@ Java_com_criteo_vips_VipsImageImpl_hasAlpha(JNIEnv *env, jobject obj)
 }
 ```
 
-#### Benchmark results
+## TODO
 
-On an Ubuntu 18.04 VM running with a quad-core Xeon E3-1271 v3 @ 3.6GHz, we apply the following operations:
-- open an 1920x1080 jpg image
-- resize to 100x100 dimension
-- crop a 50x30 rectangle on the top left corner
-- pad to a 50x80 image
-- write the output image into a buffer
-- release resources
-
-|Implementation|Run time (ms)|Times slower|
-|------------- |:------------:| ---------:|
-| Vips C 8.7   | 12           | 1.0       |
-| JVips 1.0    | 22           | 1.83      |
-
-According to [this results](https://github.com/jcupitt/libvips/wiki/Speed-and-memory-use), JVips is as slower as py-vips.
-
-#### TODO
 - Add the missing operations
 - Adapt the binding design for calling function by operation name (see also: https://libvips.github.io/libvips/API/current/binding.md.html)
-- Publish artifact on the maven central repository
+- Publish artifacts to Maven Central
 
-#### Contact
-github@criteo.com
+# Contact
+
+JVips is developed and maintained by Criteo. All inquiries should go through `github@criteo.com`.
