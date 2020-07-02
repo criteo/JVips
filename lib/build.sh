@@ -33,6 +33,21 @@ make -j ${JOBS}
 make install
 popd
 
+# Build libexif
+EXIF_VERSION_TAG="${EXIF_VERSION//./_}"
+wget --retry-connrefused -O - -nv -nc "https://github.com/libexif/libexif/releases/download/libexif-${EXIF_VERSION_TAG}-release/libexif-${EXIF_VERSION}.tar.gz" | tar -xz
+mkdir -p ${BUILDDIR}/${TARGET}/libexif-${EXIF_VERSION}
+pushd "${BUILDDIR}/${TARGET}/libexif-${EXIF_VERSION}"
+$CHECKOUT/libexif-${EXIF_VERSION}/configure \
+    CFLAGS="${CFLAGS}" \
+    CXXFLAGS="${CXXFLAGS}" \
+    ${HOST} \
+    --enable-shared --disable-static --disable-docs --prefix="$PREFIX"
+
+make -j ${JOBS}
+make -j ${JOBS} install
+popd
+
 # Build JPEG
 wget --retry-connrefused -O - -nv -nc "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${JPG_VERSION}.tar.gz" | tar -xz
 pushd "${CHECKOUT}/libjpeg-turbo-${JPG_VERSION}"
@@ -154,6 +169,8 @@ pushd "${CHECKOUT}/libvips-${VIPS_VERSION}-${TARGET}"
      ${HOST} \
      LDFLAGS="-L$PREFIX/lib -Wl,-rpath,$PREFIX/lib" \
      --enable-shared --disable-static \
+     EXIF_CFLAGS="-I$PREFIX/include/" \
+     EXIF_LIBS="-L$PREFIX/lib/ -lexif" \
      --with-jpeg-includes=$PREFIX/include \
      --with-jpeg-libraries=$PREFIX/lib \
      PNG_CFLAGS="-I$PREFIX/include/ -I$PREFIX/include/libpng16/" \
