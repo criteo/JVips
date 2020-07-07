@@ -16,10 +16,7 @@
 
 package com.criteo.vips;
 
-import com.criteo.vips.enums.VipsBandFormat;
-import com.criteo.vips.enums.VipsCompassDirection;
-import com.criteo.vips.enums.VipsImageFormat;
-import com.criteo.vips.enums.VipsInterpretation;
+import com.criteo.vips.enums.*;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
@@ -237,6 +234,16 @@ public class VipsImage extends Vips implements Image {
     public native void convertTosRGB() throws VipsException;
 
     public native int getNbFrame();
+
+    public VipsAngle getAutorotAngle() {
+        return VipsAngle.valueOf(getAutorotAngleNative());
+    }
+
+    private native int getAutorotAngleNative();
+
+    public native void autorot() throws VipsException;
+
+    public native void removeAutorotAngle();
 
     public native void release();
 }

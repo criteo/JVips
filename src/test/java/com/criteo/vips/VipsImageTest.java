@@ -16,10 +16,7 @@
 
 package com.criteo.vips;
 
-import com.criteo.vips.enums.VipsBandFormat;
-import com.criteo.vips.enums.VipsCompassDirection;
-import com.criteo.vips.enums.VipsImageFormat;
-import com.criteo.vips.enums.VipsInterpretation;
+import com.criteo.vips.enums.*;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -781,6 +778,27 @@ public class VipsImageTest {
                     assertArrayEquals(expected, img.getPoint(x, y), 0);
                 }
             }
+        }
+    }
+
+    @Test
+    public void TestRemoveAutorotAngle() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("exif_rotate_90_cw.jpg");
+
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
+            assertEquals(VipsAngle.D90, img.getAutorotAngle());
+            img.removeAutorotAngle();
+            assertEquals(VipsAngle.D0, img.getAutorotAngle());
+        }
+    }
+
+    @Test
+    public void TestExif90CWAutorot() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("exif_rotate_90_cw.jpg");
+
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
+            img.autorot();
+            assertEquals(WhitePixel, img.getPointPixelPacket(0, 0));
         }
     }
 }
