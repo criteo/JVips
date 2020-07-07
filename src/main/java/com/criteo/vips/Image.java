@@ -16,10 +16,7 @@
 
 package com.criteo.vips;
 
-import com.criteo.vips.enums.VipsBandFormat;
-import com.criteo.vips.enums.VipsCompassDirection;
-import com.criteo.vips.enums.VipsImageFormat;
-import com.criteo.vips.enums.VipsInterpretation;
+import com.criteo.vips.enums.*;
 
 import java.awt.*;
 import java.io.Closeable;
@@ -263,6 +260,23 @@ public interface Image extends Closeable {
      * @return Image frame number
      */
     int getNbFrame();
+
+    /**
+     * @return Auto rotation angle metadata
+     */
+    VipsAngle getAutorotAngle();
+
+    /**
+     * Apply an auto rotation according to the image EXIF metadata
+     *
+     * @throws VipsException
+     */
+    void autorot() throws VipsException;
+
+    /**
+     * Remove the orientation tag on the image
+     */
+    void removeAutorotAngle();
 
     /**
      * Release VipsImage reference

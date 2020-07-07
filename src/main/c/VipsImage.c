@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2019 Criteo
+  Copyright (c) 2020 Criteo
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -552,4 +552,34 @@ JNICALL Java_com_criteo_vips_VipsImage_linearNative(JNIEnv *env, jobject image_o
             g_object_unref(im);
         }
     }
+}
+
+JNIEXPORT jint
+JNICALL Java_com_criteo_vips_VipsImage_getAutorotAngleNative(JNIEnv *env, jobject image_obj)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+
+    return (int) vips_autorot_get_angle(im);
+}
+
+JNIEXPORT void
+JNICALL Java_com_criteo_vips_VipsImage_autorot(JNIEnv *env, jobject image_obj)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_autorot(im, &out, NULL))
+    {
+        throwVipsException(env, "Unable to auto rotate image");
+        return;
+    }
+    (*env)->SetLongField(env, image_obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
+JNIEXPORT void
+JNICALL Java_com_criteo_vips_VipsImage_removeAutorotAngle(JNIEnv *env, jobject image_obj)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+    vips_autorot_remove_angle(im);
 }
