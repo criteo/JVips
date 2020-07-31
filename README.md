@@ -192,6 +192,14 @@ Java_com_criteo_vips_VipsImageImpl_hasAlpha(JNIEnv *env, jobject obj)
 }
 ```
 
+# Docker debugging
+
+To debug the Docker image, you should build, run, and enter it as root:
+```
+$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
+$ docker run --rm -v $(pwd):/app -w /app -u root -it builder bash
+```
+
 ## TODO
 
 - Add the missing operations
