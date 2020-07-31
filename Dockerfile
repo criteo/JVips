@@ -1,4 +1,4 @@
-FROM fedora:rawhide
+FROM fedora:32
 
 # Set default build arguments.
 ARG NODE_VERSION=10.x
@@ -9,7 +9,7 @@ ARG UID=1000
 ARG GID=1000
 
 # Set default environment variables.
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0
+ENV JAVA_HOME=/usr/lib/jvm/java-openjdk
 ENV PATH="${OSX_CROSS_HOME}/bin:${PATH}"
 ENV YUM_OPTIONS="-y --setopt=skip_missing_names_on_install=False"
 
