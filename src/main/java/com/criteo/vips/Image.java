@@ -29,7 +29,7 @@ public interface Image extends Closeable {
      * @param a:     (array length=n): array of constants for multiplication
      * @param b:     (array length=b.length): array of constants for addition
      * @param uchar: output uchar pixels if true
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void linear(double[] a, double[] b, boolean uchar) throws VipsException;
 
@@ -38,23 +38,25 @@ public interface Image extends Closeable {
      *
      * @param a: (array length=n): array of constants for multiplication
      * @param b: (array length=b.length): array of constants for addition
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void linear(double[] a, double[] b) throws VipsException;
 
     /**
      * Read a single pixel from an image.
      *
+     * @param x x-coordinate
+     * @param y y-coordinate
      * @return The pixel values
-     * @throws VipsException
+     * @throws VipsException if error
      */
     double[] getPoint(int x, int y) throws VipsException;
 
     /**
      * Find the single largest value
      *
-     * @return maximum value and x & y positions
-     * @throws VipsException
+     * @return maximum value and x &amp; y positions
+     * @throws VipsException if error
      */
     Max1Result max1() throws VipsException;
 
@@ -68,7 +70,7 @@ public interface Image extends Closeable {
     /**
      * Convert to VIPS_FORMAT_CHAR without shifting
      *
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void castUchar() throws VipsException;
 
@@ -76,7 +78,7 @@ public interface Image extends Closeable {
      * Convert to VIPS_FORMAT_CHAR
      *
      * @param shift values are shifted
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void castUchar(boolean shift) throws VipsException;
 
@@ -84,7 +86,7 @@ public interface Image extends Closeable {
      * Convert to format without shifting
      *
      * @param format the image's new format
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void cast(VipsBandFormat format) throws VipsException;
 
@@ -93,7 +95,7 @@ public interface Image extends Closeable {
      *
      * @param format the image's new format
      * @param shift  integer values are shifted
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void cast(VipsBandFormat format, boolean shift) throws VipsException;
 
@@ -101,7 +103,7 @@ public interface Image extends Closeable {
      * Make a one, two or three dimensional histogram of a 1, 2 or 3 band image
      *
      * @param bins number of bins
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void histFindNdim(int bins) throws VipsException;
 
@@ -116,7 +118,7 @@ public interface Image extends Closeable {
      * Convert this VipsImage's colourspace to the given space
      *
      * @param space the new colourspace.
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void colourspace(VipsInterpretation space) throws VipsException;
 
@@ -125,7 +127,7 @@ public interface Image extends Closeable {
      *
      * @param space        the new colourspace.
      * @param source_space the input colourspace.
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void colourspace(VipsInterpretation space, VipsInterpretation source_space) throws VipsException;
 
@@ -134,7 +136,7 @@ public interface Image extends Closeable {
      *
      * @param dimension Target dimension
      * @param scale     If scale is enabled, force to resize ignoring aspect ratio
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void resize(Dimension dimension, boolean scale) throws VipsException;
 
@@ -144,7 +146,7 @@ public interface Image extends Closeable {
      * @param dimension  Target dimension
      * @param background Background pixel color to fill with
      * @param gravity    Gravity direction
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void pad(Dimension dimension, PixelPacket background, VipsCompassDirection gravity) throws VipsException;
 
@@ -154,7 +156,7 @@ public interface Image extends Closeable {
      * @param rectangle Target rectangle where:
      *                  x, y are original top left coordinate in original image to start cropping
      *                  width, height are cropped image dimension target
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void crop(Rectangle rectangle) throws VipsException;
 
@@ -165,7 +167,7 @@ public interface Image extends Closeable {
      * @param background Background pixel color
      * @return Bounding box Rectangle (left edge, top edge, width, height)
      * If the image is entirely background, width == 0 and height == 0
-     * @throws VipsException
+     * @throws VipsException if error
      */
     Rectangle findTrim(double threshold, PixelPacket background) throws VipsException;
 
@@ -173,7 +175,7 @@ public interface Image extends Closeable {
      * Compose this VipsImage with a sub VipsImage overlay
      *
      * @param sub VipsImage to compose
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void compose(Image sub) throws VipsException;
 
@@ -181,7 +183,7 @@ public interface Image extends Closeable {
      * Take the last band of this VipsImage as an alpha and use it tot blend the remaining channels with background
      *
      * @param background PixelPacket color for new pixels
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void flatten(PixelPacket background) throws VipsException;
 
@@ -190,8 +192,9 @@ public interface Image extends Closeable {
      *
      * @param imageFormat Target extension
      *                    Could not be GIF because libvips can't save in this format
+     * @param strip       Removes all metadata from image
      * @return Byte array of encoded VipsImageImpl
-     * @throws VipsException
+     * @throws VipsException if error
      */
     byte[] writeToArray(VipsImageFormat imageFormat, boolean strip) throws VipsException;
 
@@ -201,8 +204,9 @@ public interface Image extends Closeable {
      * @param imageFormat Target extension
      *                    Could not be GIF because libvips can't save in this format
      * @param quality     Output quality
+     * @param strip       Removes all metadata from image
      * @return Byte array of encoded VipsImageImpl
-     * @throws VipsException
+     * @throws VipsException if error
      */
     byte[] writeToArray(VipsImageFormat imageFormat, int quality, boolean strip) throws VipsException;
 
@@ -212,8 +216,9 @@ public interface Image extends Closeable {
      * @param compression Compression level
      * @param palette     If true color quantification is enabled
      * @param colors      Number of palette colors
+     * @param strip       Removes all metadata from image
      * @return Byte array of encoded VipsImageImpl
-     * @throws VipsException
+     * @throws VipsException if error
      */
     byte[] writePNGToArray(int compression, boolean palette, int colors, boolean strip) throws VipsException;
 
@@ -235,7 +240,7 @@ public interface Image extends Closeable {
     /**
      * @param point Position in VipsImageImpl
      * @return Pixel packet with same size than VipsImageImpl bands
-     * @throws VipsException
+     * @throws VipsException if error
      */
     PixelPacket getPointPixelPacket(Point point) throws VipsException;
 
@@ -252,7 +257,7 @@ public interface Image extends Closeable {
     /**
      * Convert image colorspace to sRGB
      *
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void convertTosRGB() throws VipsException;
 
@@ -269,7 +274,7 @@ public interface Image extends Closeable {
     /**
      * Apply an auto rotation according to the image EXIF metadata
      *
-     * @throws VipsException
+     * @throws VipsException if error
      */
     void autorot() throws VipsException;
 
