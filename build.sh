@@ -87,7 +87,7 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
     }
     popd
 
-    LIBS="inst/lib/*.so JVips/src/main/c/libJVips.so"
+    LIBS="JVips/src/main/c/libJVips.so"
     
     if [ ${RUN_TEST} -gt 0 ]; then
         LIBS+=" JVips/src/test/c/libJVipsTest.so"
@@ -96,6 +96,8 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
     for LIB in $LIBS; do
         cp "${BUILDDIR}/${TARGET}/${LIB}" "${BUILDDIR}"/all/
     done
+    cp "${BUILDDIR}/${TARGET}/inst/lib/"*.so "${BUILDDIR}"/all/
+
 fi
 
 ##########################

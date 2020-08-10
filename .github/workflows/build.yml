@@ -78,7 +78,7 @@ jobs:
 
   release:
     needs: [build_for_linux, build_for_macos, build_for_windows]
-    if: github.ref == "refs/heads/master"
+    if: contains('refs/heads/master', github.ref)
     runs-on: ubuntu-latest
     name: Merge macOS, Linux, Windows artifacts into a JAR and release it
     steps:
