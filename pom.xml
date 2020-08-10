@@ -5,8 +5,8 @@
 
     <groupId>com.criteo</groupId>
     <artifactId>jvips</artifactId>
-    <version>0.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <version>0.0.0-SNAPSHOT</version>
     <name>JVips</name>
     <description>
         JVips is a Java wrapper around libvips using JNI.
@@ -54,37 +54,45 @@
 
     <profiles>
         <profile>
-            <id>all</id>
+            <id>default</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <resources>
                     <resource>
-                        <directory>${project.basedir}/build/linux/inst/lib/</directory>
+                        <directory>${project.basedir}/build/all/</directory>
                         <includes>
-                            <include>libvips.so</include>
-                            <include>libpng16.so</include>
-                            <include>libjpeg.so</include>
-                            <include>libturbojpeg.so</include>
-                            <include>liborc-0.4.so</include>
-                            <include>libgif.so</include>
-                            <include>libwebp.so</include>
-                            <include>libwebpmux.so</include>
-                            <include>libwebpdemux.so</include>
-                            <include>liblcms2.so</include>
-                            <include>libimagequant.so</include>
+                            <include>*</include>
                         </includes>
-                    </resource>
-                    <resource>
-                        <directory>${project.basedir}/build/w64/inst/bin/</directory>
-                        <includes>
-                            <include>libimagequant.dll</include>
-                        </includes>
+                        <excludes>
+                            <exclude>libJVipsTest.so</exclude>
+                            <exclude>JVipsTest.dll</exclude>
+                            <exclude>libJVipsTest.dylib</exclude>
+                        </excludes>
                     </resource>
                 </resources>
+
+                <testResources>
+                    <testResource>
+                        <directory>${project.basedir}/build/all/</directory>
+                        <includes>
+                            <include>libJVipsTest.so</include>
+                            <include>JVipsTest.dll</include>
+                            <include>libJVipsTest.dylib</include>
+                        </includes>
+                    </testResource>
+
+                    <testResource>
+                        <directory>${project.basedir}/src/test/resources/</directory>
+                        <includes>
+                            <include>*</include>
+                        </includes>
+                    </testResource>
+                </testResources>
             </build>
         </profile>
+
         <profile>
             <id>minimal</id>
             <!-- no dependencies to include -->
@@ -98,6 +106,28 @@
                         </configuration>
                     </plugin>
                 </plugins>
+
+                <resources>
+                    <resource>
+                        <directory>${project.basedir}/build/all/</directory>
+                        <includes>
+                            <include>libJVips.so</include>
+                            <include>JVips.dll</include>
+                            <include>libJVips.dylib</include>
+                        </includes>
+                    </resource>
+                </resources>
+
+                <testResources>
+                    <testResource>
+                        <directory>${project.basedir}/build/all/</directory>
+                        <includes>
+                            <include>libJVipsTest.so</include>
+                            <include>JVipsTest.dll</include>
+                            <include>libJVipsTest.dylib</include>
+                        </includes>
+                    </testResource>
+                </testResources>
             </build>
         </profile>
     </profiles>
@@ -166,53 +196,6 @@
                 </executions>
             </plugin>
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>${project.basedir}/build/linux/JVips/src/main/c/</directory>
-                <includes>
-                    <include>libJVips.so</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/build/w64/JVips/src/main/c/</directory>
-                <includes>
-                    <include>JVips.dll</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/build/macOS/JVips/src/main/c/</directory>
-                <includes>
-                    <include>libJVips.dylib</include>
-                </includes>
-            </resource>
-        </resources>
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/build/linux/JVips/src/test/c/</directory>
-                <includes>
-                    <include>libJVipsTest.so</include>
-                </includes>
-            </testResource>
-            <testResource>
-                <directory>${project.basedir}/build/w64/JVips/src/test/c/</directory>
-                <includes>
-                    <include>JVipsTest.dll</include>
-                </includes>
-            </testResource>
-            <testResource>
-                <directory>${project.basedir}/build/macOS/JVips/src/test/c/</directory>
-                <includes>
-                    <include>libJVipsTest.dylib</include>
-                </includes>
-            </testResource>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources/</directory>
-                <includes>
-                    <include>*</include>
-                </includes>
-            </testResource>
-        </testResources>
     </build>
 
     <dependencies>

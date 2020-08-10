@@ -6,6 +6,7 @@
 *.project
 *~
 *.jar
+*.tar.gz
 lib/checkout/
 build/
 src/main/java/com/criteo/vips/META-INF/
