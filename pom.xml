@@ -6,6 +6,48 @@
     <groupId>com.criteo</groupId>
     <artifactId>jvips</artifactId>
     <version>0.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>JVips</name>
+    <description>
+        JVips is a Java wrapper around libvips using JNI.
+    </description>
+    <url>https://github.com/criteo/JVips/</url>
+    <licenses>
+        <license>
+            <name>Apache License 2.0 (Apache-2.0)</name>
+            <url>https://raw.githubusercontent.com/criteo/JVips/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/criteo/JVips.git</connection>
+        <developerConnection>scm:git:git://github.com/criteo/JVips.git</developerConnection>
+        <url>https://github.com/criteo/JVips</url>
+        <tag>HEAD</tag>
+    </scm>
+    <developers>
+        <developer>
+            <id>dbouron</id>
+            <name>Dimitri Bouron</name>
+            <email>d.bouron@criteo.com</email>
+            <organization>Criteo</organization>
+            <organizationUrl>http://www.criteo.com/</organizationUrl>
+            <properties>
+                <picUrl>https://avatars3.githubusercontent.com/u/21236440</picUrl>
+            </properties>
+        </developer>
+        <developer>
+            <id>warrenseine</id>
+            <name>Warren Seine</name>
+            <email>w.seine@criteo.com</email>
+            <organization>Criteo</organization>
+            <organizationUrl>http://www.criteo.com/</organizationUrl>
+            <properties>
+                <picUrl>https://avatars1.githubusercontent.com/u/539804</picUrl>
+            </properties>
+        </developer>
+    </developers>
+
     <profiles>
         <profile>
             <id>all</id>
