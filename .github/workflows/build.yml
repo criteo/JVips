@@ -19,8 +19,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: jar-linux
-          path: JVips.jar
+          name: jvips-libs-linux
+          path: JVips-libs.tar.gz
 
   build_for_windows:
     runs-on: ubuntu-latest
@@ -35,8 +35,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: jar-windows
-          path: JVips.jar
+          name: jvips-libs-windows
+          path: JVips-libs.tar.gz
 
   build_for_macos:
     runs-on: macos-latest
@@ -57,8 +57,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: jar-macos
-          path: JVips.jar
+          name: jvips-libs-macos
+          path: JVips-libs.tar.gz
 
   release:
     needs: [build_for_linux, build_for_macos, build_for_windows]
@@ -70,14 +70,15 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: artifacts
-      - name: Merge artifacts
-        id: merge
+      - name: Extract libraries
+        run: for jar in artifacts/*/JVips-libs.tar.gz; do tar xvf $jar; done
+      - name: Set version
+        id: version
         run: |
-          rm -rf tmp JVips.jar
-          mkdir tmp
-          (cd tmp; for jar in ../artifacts/*/JVips.jar; do unzip -uo $jar; done)
-          jar -cvMf JVips.jar -C tmp .
-          echo ::set-output name=jar_version::$(grep 'Implementation-Version' tmp/META-INF/MANIFEST.MF | cut -d ':' -f2)
+          source lib/variables.sh
+          VERSION="$VIPS_VERSION-$(git rev-parse --short HEAD)"
+          mvn -B versions:set -DnewVersion=$VERSION
+          echo "::set-output name=jar_version::$VERSION"
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -89,8 +90,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.merge.outputs.jar_version }}
-          release_name: ${{ steps.merge.outputs.jar_version }}
+          tag_name: ${{ steps.version.outputs.jar_version }}
+          release_name: ${{ steps.version.outputs.jar_version }}
           draft: false
           prerelease: false
       - name: Upload release asset

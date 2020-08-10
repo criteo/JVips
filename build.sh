@@ -53,6 +53,9 @@ CMAKE_BIN=`which cmake3 || which cmake`
 mkdir -p $BUILDDIR/artifacts/
 mvn ${MAVEN_ARGS} dependency:copy-dependencies -DoutputDirectory=$BUILDDIR/artifacts/
 
+# Create the resource directory where all native libraries will be copied.
+mkdir -p $BUILDDIR/all/
+
 ##########################
 ###### Build Linux #######
 ##########################
@@ -85,6 +88,16 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
         exit 1
     fi
     popd
+
+    LIBS="inst/lib/*.so JVips/src/main/c/libJVips.so"
+    
+    if [ ${RUN_TEST} -gt 0 ]; then
+        LIBS+=" JVips/src/test/c/libJVipsTest.so"
+    fi
+
+    for LIB in $LIBS; do
+        cp ${BUILDDIR}/${TARGET}/${LIB} ${BUILDDIR}/all/
+    done
 fi
 
 ##########################
@@ -122,6 +135,16 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
         exit 1
     fi
     popd
+
+    LIBS="inst/bin/libimagequant.dll JVips/src/main/c/JVips.dll"
+    
+    if [ ${RUN_TEST} -gt 0 ]; then
+        LIBS+=" JVips/src/test/c/JVipsTest.dll"
+    fi
+
+    for LIB in $LIBS; do
+        cp ${BUILDDIR}/${TARGET}/${LIB} ${BUILDDIR}/all/
+    done
 fi
 
 ##########################
@@ -156,6 +179,17 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
         exit 1
     fi
     popd
+
+    LIBS="JVips/src/main/c/libJVips.dylib"
+    
+    if [ ${RUN_TEST} -gt 0 ]; then
+        LIBS+=" JVips/src/test/c/libJVipsTest.dylib"
+    fi
+
+    for LIB in $LIBS; do
+        cp ${BUILDDIR}/${TARGET}/${LIB} ${BUILDDIR}/all/
+    done
+
 fi
 
 source lib/variables.sh
@@ -180,4 +214,12 @@ if [ ${DIST} -gt 0 ]; then
     if [ ${BUILD_LINUX} -gt 0 ]; then
        tar -czvf "JVips-linux.tar.gz" JVips.jar -C ${BUILDDIR}/linux/inst/ bin lib include share
     fi
+fi
+
+if [ -n "${CI}" ]; then
+    tar czvf "JVips-libs.tar.gz" -C ${BUILDDIR}/all/ .
+fi
+
+if [ "${CI}" = "true" ]; then
+    tar -czvf JVips-libs.tar.gz build/all/*
 fi
