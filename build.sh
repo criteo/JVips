@@ -3,7 +3,7 @@
 set -e
 set -x
 
-BASEDIR=$(pwd)
+BASEDIR="$(pwd)"
 
 BUILD_LINUX=1
 BUILD_WIN64=0
@@ -45,16 +45,16 @@ fi
 
 export JOBS
 export DEBUG
-export BUILDDIR=${BASEDIR}/build
+export BUILDDIR="${BASEDIR}/build"
 
-CMAKE_BIN=`which cmake3 || which cmake`
+CMAKE_BIN=$(which cmake3 || which cmake)
 
 # Copy maven dependencies for some tests
-mkdir -p $BUILDDIR/artifacts/
-mvn ${MAVEN_ARGS} dependency:copy-dependencies -DoutputDirectory=$BUILDDIR/artifacts/
+mkdir -p "${BUILDDIR}"/artifacts/
+mvn ${MAVEN_ARGS} dependency:copy-dependencies -DoutputDirectory="${BUILDDIR}"/artifacts/
 
 # Create the resource directory where all native libraries will be copied.
-mkdir -p $BUILDDIR/all/
+mkdir -p "${BUILDDIR}"/all/
 
 ##########################
 ###### Build Linux #######
@@ -68,25 +68,23 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
 
     export HOST="--host=x86_64-pc-linux"
     export TARGET=linux
-    export PREFIX=${BUILDDIR}/${TARGET}/inst/
-    export TOOLCHAIN=${BASEDIR}/Toolchain-linux.cmake
+    export PREFIX="${BUILDDIR}/${TARGET}"/inst/
+    export TOOLCHAIN="${BASEDIR}"/Toolchain-linux.cmake
     export PKG_CONFIG_PATH=/usr/lib64/pkgconfig
-    pushd "${BASEDIR}/lib"
-    ./build.sh
-    if [ $? -ne 0 ]; then
+    pushd "${BASEDIR}"/lib
+    ./build.sh || {
         echo "Linux dependencies build failed"
         exit 1
-    fi
+    }
     popd
-    mkdir -p $BUILDDIR/${TARGET}/JVips
-    rm -rf $BUILDDIR/${TARGET}/JVips/*
-    pushd "${BUILDDIR}/${TARGET}/JVips"
-    ${CMAKE_BIN} ${BASEDIR} -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-    make -j ${JOBS}
-    if [ $? -ne 0 ]; then
+    mkdir -p "${BUILDDIR}/${TARGET}"/JVips
+    rm -rf "${BUILDDIR}/${TARGET}"/JVips/*
+    pushd "${BUILDDIR}/${TARGET}"/JVips
+    ${CMAKE_BIN} "${BASEDIR}" -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    make -j ${JOBS} || {
         echo "Linux JVips build failed"
         exit 1
-    fi
+    }
     popd
 
     LIBS="inst/lib/*.so JVips/src/main/c/libJVips.so"
@@ -96,7 +94,7 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
     fi
 
     for LIB in $LIBS; do
-        cp ${BUILDDIR}/${TARGET}/${LIB} ${BUILDDIR}/all/
+        cp "${BUILDDIR}/${TARGET}/${LIB}" "${BUILDDIR}"/all/
     done
 fi
 
@@ -114,26 +112,24 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
 
     export HOST="--host=x86_64-w64-mingw32"
     export TARGET=w64
-    export PREFIX=${BUILDDIR}/${TARGET}/inst/
-    export TOOLCHAIN=${BASEDIR}/Toolchain-x86_64-w64-mingw32.cmake
+    export PREFIX="${BUILDDIR}/${TARGET}"/inst/
+    export TOOLCHAIN="${BASEDIR}"/Toolchain-x86_64-w64-mingw32.cmake
     export PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig/
     export PKG_CONFIG="x86_64-w64-mingw32-pkg-config"
-    pushd "${BASEDIR}/lib"
-    ./build.sh
-    if [ $? -ne 0 ]; then
+    pushd "${BASEDIR}"/lib
+    ./build.sh || {
         echo "Windows 64 dependencies build failed"
         exit 1
-    fi
+    }
     popd
-    mkdir -p ${BUILDDIR}/${TARGET}/JVips
-    rm -rf ${BUILDDIR}/${TARGET}/JVips/*
-    pushd "${BUILDDIR}/${TARGET}/JVips"
-    ${CMAKE_BIN} ${BASEDIR} -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-    make -j ${JOBS}
-    if [ $? -ne 0 ]; then
+    mkdir -p "${BUILDDIR}/${TARGET}"/JVips
+    rm -rf "${BUILDDIR}/${TARGET}"/JVips/*
+    pushd "${BUILDDIR}/${TARGET}"/JVips
+    ${CMAKE_BIN} "${BASEDIR}" -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    make -j ${JOBS} || {
         echo "Windows 64 JVips build failed"
         exit 1
-    fi
+    }
     popd
 
     LIBS="inst/bin/libimagequant.dll JVips/src/main/c/JVips.dll"
@@ -143,7 +139,7 @@ if [ ${BUILD_WIN64} -gt 0 ]; then
     fi
 
     for LIB in $LIBS; do
-        cp ${BUILDDIR}/${TARGET}/${LIB} ${BUILDDIR}/all/
+        cp "${BUILDDIR}/${TARGET}/${LIB}" "${BUILDDIR}"/all/
     done
 fi
 
@@ -154,8 +150,8 @@ fi
 if [ ${BUILD_MACOS} -gt 0 ]; then
     export HOST=""
     export TARGET=macOS
-    export PREFIX=${BUILDDIR}/${TARGET}/inst/
-    export TOOLCHAIN=${BASEDIR}/Toolchain-macOS.cmake
+    export PREFIX="${BUILDDIR}/${TARGET}"/inst/
+    export TOOLCHAIN="${BASEDIR}"/Toolchain-macOS.cmake
 
     # Under macOS libvips will not build as is, but you can rely on Homebrew.
     # Here's a formula for vips 8.8.3:
@@ -169,15 +165,14 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
     # fi
     # popd
 
-    mkdir -p $BUILDDIR/${TARGET}/JVips
-    rm -rf $BUILDDIR/${TARGET}/JVips/*
+    mkdir -p "${BUILDDIR}/${TARGET}"/JVips
+    rm -rf "${BUILDDIR}/${TARGET}"/JVips/*
     pushd "${BUILDDIR}/${TARGET}/JVips"
-    ${CMAKE_BIN} ${BASEDIR} -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-    make -j ${JOBS}
-    if [ $? -ne 0 ]; then
+    ${CMAKE_BIN} "${BASEDIR}" -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    make -j ${JOBS} || {
         echo "macOS JVips build failed"
         exit 1
-    fi
+    }
     popd
 
     LIBS="JVips/src/main/c/libJVips.dylib"
@@ -187,7 +182,7 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
     fi
 
     for LIB in $LIBS; do
-        cp ${BUILDDIR}/${TARGET}/${LIB} ${BUILDDIR}/all/
+        cp "${BUILDDIR}/${TARGET}/${LIB}" "${BUILDDIR}"/all/
     done
 
 fi
@@ -195,7 +190,7 @@ fi
 source lib/variables.sh
 VERSION="$VIPS_VERSION-$(git rev-parse --short HEAD)"
 
-mvn ${MAVEN_ARGS} -DnewVersion=$VERSION versions:set
+mvn ${MAVEN_ARGS} -DnewVersion=${VERSION} versions:set
 mvn ${MAVEN_ARGS} -DskipTests clean package
 mvn ${MAVEN_ARGS} versions:revert
 
@@ -212,12 +207,12 @@ fi
 
 if [ ${DIST} -gt 0 ]; then
     if [ ${BUILD_LINUX} -gt 0 ]; then
-       tar -czvf "JVips-linux.tar.gz" JVips.jar -C ${BUILDDIR}/linux/inst/ bin lib include share
+       tar -czvf "JVips-linux.tar.gz" JVips.jar -C "${BUILDDIR}"/linux/inst/ bin lib include share
     fi
 fi
 
 if [ -n "${CI}" ]; then
-    tar czvf "JVips-libs.tar.gz" -C ${BUILDDIR}/all/ .
+    tar czvf "JVips-libs.tar.gz" -C "${BUILDDIR}"/all/ .
 fi
 
 if [ "${CI}" = "true" ]; then
