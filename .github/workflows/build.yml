@@ -13,9 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build Docker builder image
-        run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
+        run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/linux/Dockerfile -t builder .
       - name: Build
-        run: docker run --rm -v $(pwd):/app -w /app builder bash -ex build.sh --without-w64 --with-linux --without-macos
+        run: docker run --rm -e CI -v $(pwd):/app -w /app builder
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -29,9 +29,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build Docker builder image
-        run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
+        run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/windows/Dockerfile -t builder .
       - name: Build
-        run: docker run --rm -v $(pwd):/app -w /app builder bash -ex build.sh --with-w64 --without-linux --without-macos
+        run: docker run --rm -e CI -v $(pwd):/app -w /app builder
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
