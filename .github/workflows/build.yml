@@ -13,6 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Cache Docker layers
+        uses: satackey/action-docker-layer-caching@v0.0.4
+
       - name: Build Docker builder image
         run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/linux/Dockerfile -t builder .
 
@@ -31,6 +34,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Cache Docker layers
+        uses: satackey/action-docker-layer-caching@v0.0.4
 
       - name: Build Docker builder image
         run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/windows/Dockerfile -t builder .
