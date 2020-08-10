@@ -6,20 +6,36 @@ on:
       - master
 
 jobs:
-  build_for_linux_and_windows:
+  build_for_linux:
     runs-on: ubuntu-latest
-    name: Build for Linux and Windows
+    name: Build for Linux
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build Docker builder image
         run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
       - name: Build
-        run: docker run --rm -v $(pwd):/app -w /app builder bash -ex build.sh --with-w64 --with-linux --without-macos
+        run: docker run --rm -v $(pwd):/app -w /app builder bash -ex build.sh --without-w64 --with-linux --without-macos
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: jar-linux-windows
+          name: jar-linux
+          path: JVips.jar
+
+  build_for_windows:
+    runs-on: ubuntu-latest
+    name: Build for Windows
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build Docker builder image
+        run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
+      - name: Build
+        run: docker run --rm -v $(pwd):/app -w /app builder bash -ex build.sh --with-w64 --without-linux --without-macos
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: jar-windows
           path: JVips.jar
 
   build_for_macos:
@@ -45,7 +61,7 @@ jobs:
           path: JVips.jar
 
   release:
-    needs: [build_for_macos, build_for_linux_and_windows]
+    needs: [build_for_linux, build_for_macos, build_for_windows]
     if: github.ref == "refs/heads/master"
     runs-on: ubuntu-latest
     name: Merge macOS, Linux, Windows artifacts into a JAR and release it
