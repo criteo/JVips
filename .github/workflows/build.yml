@@ -66,6 +66,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Merge macOS, Linux, Windows artifacts into a JAR and release it
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Read GPG private key
+        run: echo -ne "$GPG_PRIVATE_KEY" | base64 --decode > $RUNNER_TEMP/key.asc
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.MAVEN_SECRING_GPG_BASE64 }}
+
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
@@ -78,7 +86,36 @@ jobs:
           source lib/variables.sh
           VERSION="$VIPS_VERSION-$(git rev-parse --short HEAD)"
           mvn -B versions:set -DnewVersion=$VERSION
-          echo "::set-output name=jar_version::$VERSION"
+          echo "::set-output name=version::$VERSION"
+
+      - name: Set up Maven Central Repository
+        uses: warrenseine/setup-java@v1
+        with:
+          java-version: "1.8.0"
+          java-package: jdk
+          architecture: x64
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key-path: ${{ runner.temp }}/key.asc
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Clean GPG private key
+        if: ${{ always() }}
+        run: rm -f $RUNNER_TEMP/key.asc
+
+      - name: Publish to the Maven Central Repository
+        run: mvn -B -DskipTests -P deploy deploy
+        env:
+          MAVEN_USERNAME: criteo-oss
+          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.SONATYPE_PASSWORD }}
+
+      # - name: Publish to GitHub Packages
+      #   run: mvn -B -DskipTests -P deploy deploy
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
