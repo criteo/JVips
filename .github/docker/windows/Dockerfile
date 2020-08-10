@@ -57,4 +57,4 @@ RUN groupadd -g $GID -o $UNAME
 RUN useradd -l -m -u $UID -g $GID -o -s /bin/bash -d /home/$UNAME $UNAME
 USER $UNAME
 
-CMD build.sh
+CMD bash -ex build.sh --with-w64 --without-linux --without-macos --skip-test
