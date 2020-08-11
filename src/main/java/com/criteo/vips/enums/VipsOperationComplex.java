@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsOperationComplex {
     // convert to polar coordinates
-    POLAR(0),
+    Polar(0),
     // convert to rectangular coordinates
-    RECT(1),
+    Rect(1),
     // complex conjugate
-    CONJ(2),
-    LAST(3);
+    Conj(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsOperationComplex, Integer>();
 
-    VipsOperationComplex(int i) {
+    private VipsOperationComplex(int i) {
       value = i;
     }
 

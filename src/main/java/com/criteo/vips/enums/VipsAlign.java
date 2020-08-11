@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsAlign {
     // align low coordinate edge
-    LOW(0),
+    Low(0),
     // align centre
-    CENTRE(1),
+    Centre(1),
     // align high coordinate edge
-    HIGH(2),
-    LAST(3);
+    High(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsAlign, Integer>();
 
-    VipsAlign(int i) {
+    private VipsAlign(int i) {
       value = i;
     }
 

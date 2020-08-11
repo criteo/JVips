@@ -18,15 +18,15 @@ import java.util.Map;
 
 public enum VipsOperationComplexget {
     // get real component
-    REAL(0),
+    Real(0),
     // get imaginary component
-    IMAG(1),
-    LAST(2);
+    Imag(1),
+    Last(2);
 
     private int value;
     private static Map map = new HashMap<VipsOperationComplexget, Integer>();
 
-    VipsOperationComplexget(int i) {
+    private VipsOperationComplexget(int i) {
       value = i;
     }
 

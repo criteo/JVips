@@ -18,15 +18,15 @@ import java.util.Map;
 
 public enum VipsPCS {
     // use CIELAB D65 as the Profile Connection Space
-    LAB(0),
+    csLab(0),
     // use XYZ as the Profile Connection Space
-    XYZ(1),
-    LAST(2);
+    csXyz(1),
+    csLast(2);
 
     private int value;
     private static Map map = new HashMap<VipsPCS, Integer>();
 
-    VipsPCS(int i) {
+    private VipsPCS(int i) {
       value = i;
     }
 

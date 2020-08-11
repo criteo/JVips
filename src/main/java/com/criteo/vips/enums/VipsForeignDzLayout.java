@@ -18,19 +18,19 @@ import java.util.Map;
 
 public enum VipsForeignDzLayout {
     // use DeepZoom directory layout
-    DZ(0),
+    Dz(0),
     // use Zoomify directory layout
-    ZOOMIFY(1),
+    Zoomify(1),
     // use Google maps directory layout
-    GOOGLE(2),
+    Google(2),
     // use IIIF directory layout
-    IIIF(3),
-    LAST(4);
+    Iiif(3),
+    Last(4);
 
     private int value;
     private static Map map = new HashMap<VipsForeignDzLayout, Integer>();
 
-    VipsForeignDzLayout(int i) {
+    private VipsForeignDzLayout(int i) {
       value = i;
     }
 

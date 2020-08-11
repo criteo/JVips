@@ -18,15 +18,15 @@ import java.util.Map;
 
 public enum VipsDirection {
     // left-right 
-    HORIZONTAL(0),
+    Horizontal(0),
     // top-bottom
-    VERTICAL(1),
-    LAST(2);
+    Vertical(1),
+    Last(2);
 
     private int value;
     private static Map map = new HashMap<VipsDirection, Integer>();
 
-    VipsDirection(int i) {
+    private VipsDirection(int i) {
       value = i;
     }
 

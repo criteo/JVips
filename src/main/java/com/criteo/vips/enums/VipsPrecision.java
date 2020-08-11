@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsPrecision {
     // int everywhere
-    INTEGER(0),
+    Integer(0),
     // float everywhere
-    FLOAT(1),
+    Float(1),
     // approximate integer output
-    APPROXIMATE(2),
-    LAST(3);
+    Approximate(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsPrecision, Integer>();
 
-    VipsPrecision(int i) {
+    private VipsPrecision(int i) {
       value = i;
     }
 

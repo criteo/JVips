@@ -18,23 +18,23 @@ import java.util.Map;
 
 public enum VipsInteresting {
     // do nothing
-    NONE(0),
+    None(0),
     // just take the centre
-    CENTRE(1),
+    Centre(1),
     // use an entropy measure
-    ENTROPY(2),
+    Entropy(2),
     // look for features likely to draw human attention
-    ATTENTION(3),
+    Attention(3),
     // position the crop towards the low coordinate
-    LOW(4),
+    Low(4),
     // position the crop towards the high coordinate
-    HIGH(5),
-    LAST(6);
+    High(5),
+    Last(6);
 
     private int value;
     private static Map map = new HashMap<VipsInteresting, Integer>();
 
-    VipsInteresting(int i) {
+    private VipsInteresting(int i) {
       value = i;
     }
 

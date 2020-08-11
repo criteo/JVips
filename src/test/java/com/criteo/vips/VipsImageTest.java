@@ -192,13 +192,13 @@ public class VipsImageTest {
     public void TestCastUchar(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
         try (VipsImage img = new VipsImage(buffer, buffer.length)) {
-            assertNotEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_NOTSET);
-            img.cast(VipsBandFormat.FORMAT_DOUBLE);
-            assertEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_DOUBLE);
+            assertNotEquals(img.imageGetFormat(), VipsBandFormat.FormatNotset);
+            img.cast(VipsBandFormat.FormatDouble);
+            assertEquals(img.imageGetFormat(), VipsBandFormat.FormatDouble);
             img.castUchar(true);
-            assertEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_UCHAR); // also checks that VipsBandFormat.UCHAR is correct
+            assertEquals(img.imageGetFormat(), VipsBandFormat.FormatUchar); // also checks that VipsBandFormat.UCHAR is correct
             img.castUchar();
-            assertEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_UCHAR);
+            assertEquals(img.imageGetFormat(), VipsBandFormat.FormatUchar);
         }
     }
 
@@ -206,29 +206,29 @@ public class VipsImageTest {
     public void TestCast(@FromDataPoints("filenames") String filename) throws IOException, VipsException {
         byte[] buffer = VipsTestUtils.getByteArray(filename);
         try (VipsImage img = new VipsImage(buffer, buffer.length)) {
-            assertNotEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_NOTSET);
-            img.cast(VipsBandFormat.FORMAT_UCHAR, true);
-            assertEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_UCHAR);
-            img.cast(VipsBandFormat.FORMAT_SHORT);
-            assertEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_SHORT);
-            img.cast(VipsBandFormat.FORMAT_FLOAT);
-            assertEquals(img.imageGetFormat(), VipsBandFormat.FORMAT_FLOAT);
+            assertNotEquals(img.imageGetFormat(), VipsBandFormat.FormatNotset);
+            img.cast(VipsBandFormat.FormatUchar, true);
+            assertEquals(img.imageGetFormat(), VipsBandFormat.FormatUchar);
+            img.cast(VipsBandFormat.FormatShort);
+            assertEquals(img.imageGetFormat(), VipsBandFormat.FormatShort);
+            img.cast(VipsBandFormat.FormatFloat);
+            assertEquals(img.imageGetFormat(), VipsBandFormat.FormatFloat);
         }
     }
 
     @Test
     public void TestVipsBandFormat() {
-        assertEquals(0, VipsBandFormat.FORMAT_UCHAR.getValue());
+        assertEquals(0, VipsBandFormat.FormatUchar.getValue());
         assertEquals(0, VipsBandFormat.valueOf(0).getValue());
-        assertEquals(9, VipsBandFormat.FORMAT_DPCOMPLEX.getValue());
-        assertEquals(VipsBandFormat.valueOf(9), VipsBandFormat.FORMAT_DPCOMPLEX);
+        assertEquals(9, VipsBandFormat.FormatDpcomplex.getValue());
+        assertEquals(VipsBandFormat.valueOf(9), VipsBandFormat.FormatDpcomplex);
     }
 
     @Test
     public void TestImageGetInterpretationB_W() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("monochrome.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            VipsInterpretation colourSpace = VipsInterpretation.B_W;
+            VipsInterpretation colourSpace = VipsInterpretation.BW;
             assertEquals(colourSpace, img.imageGetInterpretation());
         }
     }
@@ -237,7 +237,7 @@ public class VipsImageTest {
     public void TestImageGetInterpretationCMYK() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips_cmyk.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            VipsInterpretation colourSpace = VipsInterpretation.CMYK;
+            VipsInterpretation colourSpace = VipsInterpretation.Cmyk;
             assertEquals(colourSpace, img.imageGetInterpretation());
         }
     }
@@ -246,8 +246,8 @@ public class VipsImageTest {
     public void TestChangeColourSpace() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            VipsInterpretation beforeColourSpace = VipsInterpretation.SRGB;
-            VipsInterpretation afterColourSpace = VipsInterpretation.CMYK;
+            VipsInterpretation beforeColourSpace = VipsInterpretation.Srgb;
+            VipsInterpretation afterColourSpace = VipsInterpretation.Cmyk;
 
             assertEquals(beforeColourSpace, img.imageGetInterpretation());
             img.colourspace(afterColourSpace);
@@ -259,8 +259,8 @@ public class VipsImageTest {
     public void TestChangeColourSpaceWithSourceSpace() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            VipsInterpretation beforeColourSpace = VipsInterpretation.SRGB;
-            VipsInterpretation afterColourSpace = VipsInterpretation.CMYK;
+            VipsInterpretation beforeColourSpace = VipsInterpretation.Srgb;
+            VipsInterpretation afterColourSpace = VipsInterpretation.Cmyk;
 
             assertEquals(beforeColourSpace, img.imageGetInterpretation());
             img.colourspace(afterColourSpace, beforeColourSpace);
@@ -384,7 +384,7 @@ public class VipsImageTest {
             int w = img.getWidth();
             int h = img.getHeight();
             // Surround image with a 10-pixel white band
-            img.pad(new Dimension(w + 20, h + 20), pixel, VipsCompassDirection.CENTRE);
+            img.pad(new Dimension(w + 20, h + 20), pixel, VipsCompassDirection.Centre);
             assertEquals(w + 20, img.getWidth());
             assertEquals(h + 20, img.getHeight());
             assertEquals(pixel, img.getPointPixelPacket(new Point(0, 0)));
@@ -401,7 +401,7 @@ public class VipsImageTest {
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
 
             // Surround image with a 10-pixel blue band
-            img.pad(new Dimension(img.getWidth() + 20, img.getHeight() + 20), pixel, VipsCompassDirection.CENTRE);
+            img.pad(new Dimension(img.getWidth() + 20, img.getHeight() + 20), pixel, VipsCompassDirection.Centre);
             assertEquals(pixel, img.getPointPixelPacket(new Point(0, 0)));
             assertEquals(pixel, img.getPointPixelPacket(new Point(img.getWidth() - 1, 0)));
             assertEquals(pixel, img.getPointPixelPacket(new Point(0, img.getHeight() - 1)));
@@ -416,7 +416,7 @@ public class VipsImageTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             // Surround image with a 10-pixel blue band
-            img.pad(new Dimension(img.getWidth() + 20, img.getHeight() + 20), pixel, VipsCompassDirection.CENTRE);
+            img.pad(new Dimension(img.getWidth() + 20, img.getHeight() + 20), pixel, VipsCompassDirection.Centre);
             assertEquals(expected, img.getPointPixelPacket(new Point(0, 0)));
             assertEquals(expected, img.getPointPixelPacket(new Point(img.getWidth() - 1, 0)));
             assertEquals(expected, img.getPointPixelPacket(new Point(0, img.getHeight() - 1)));
@@ -537,7 +537,7 @@ public class VipsImageTest {
             img.crop(new Rectangle(10, 10, width - 10, height - 10));
             width = img.getWidth();
             height = img.getHeight();
-            img.pad(new Dimension(width + 10, height + 10), pixel, VipsCompassDirection.CENTRE);
+            img.pad(new Dimension(width + 10, height + 10), pixel, VipsCompassDirection.Centre);
 
             byte[] out = img.writeToArray(vipsImageFormat, JPGQuality, true);
             assertNotNull(out);
@@ -584,8 +584,8 @@ public class VipsImageTest {
         ByteBuffer bufferCmyk = VipsTestUtils.getDirectByteBuffer("in_vips_cmyk.jpg");
         try (VipsImage imgSrgb = new VipsImage(bufferSrgb, bufferSrgb.capacity());
              VipsImage imgCmyk = new VipsImage(bufferCmyk, bufferCmyk.capacity())) {
-            Assert.assertEquals(VipsInterpretation.SRGB, imgSrgb.getInterpretation());
-            Assert.assertEquals(VipsInterpretation.CMYK, imgCmyk.getInterpretation());
+            Assert.assertEquals(VipsInterpretation.Srgb, imgSrgb.getInterpretation());
+            Assert.assertEquals(VipsInterpretation.Cmyk, imgCmyk.getInterpretation());
         }
     }
 
@@ -658,7 +658,7 @@ public class VipsImageTest {
             // implement https://gist.github.com/jcupitt/ee3afcbb931b41b4d7f4
             int N_BINS = 10;
             int BIN_SIZE = 256 / N_BINS;
-            img.colourspace(VipsInterpretation.SRGB);
+            img.colourspace(VipsInterpretation.Srgb);
             img.histFindNdim(N_BINS);
             Max1Result maxpos = img.max1();
             double[] pixel = img.getPoint(maxpos.x, maxpos.y);

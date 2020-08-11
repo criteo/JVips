@@ -18,27 +18,27 @@ import java.util.Map;
 
 public enum VipsForeignTiffCompression {
     // no compression
-    NONE(0),
+    None(0),
     // jpeg compression
-    JPEG(1),
+    Jpeg(1),
     // deflate (zip) compression
-    DEFLATE(2),
+    Deflate(2),
     // packbits compression
-    PACKBITS(3),
+    Packbits(3),
     // fax4 compression
-    CCITTFAX4(4),
+    Ccittfax4(4),
     // LZW compression
-    LZW(5),
+    Lzw(5),
     // WEBP compression
-    WEBP(6),
+    Webp(6),
     // ZSTD compression
-    ZSTD(7),
-    LAST(8);
+    Zstd(7),
+    Last(8);
 
     private int value;
     private static Map map = new HashMap<VipsForeignTiffCompression, Integer>();
 
-    VipsForeignTiffCompression(int i) {
+    private VipsForeignTiffCompression(int i) {
       value = i;
     }
 

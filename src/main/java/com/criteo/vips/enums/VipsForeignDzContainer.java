@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsForeignDzContainer {
     // write tiles to the filesystem
-    FS(0),
+    Fs(0),
     // write tiles to a zip file
-    ZIP(1),
+    Zip(1),
     // write to a szi file
-    SZI(2),
-    LAST(3);
+    Szi(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsForeignDzContainer, Integer>();
 
-    VipsForeignDzContainer(int i) {
+    private VipsForeignDzContainer(int i) {
       value = i;
     }
 

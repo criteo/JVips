@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsCombine {
     // take the maximum of the possible values
-    MAX(0),
+    Max(0),
     // sum all the values
-    SUM(1),
+    Sum(1),
     // take the minimum value
-    MIN(2),
-    LAST(3);
+    Min(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsCombine, Integer>();
 
-    VipsCombine(int i) {
+    private VipsCombine(int i) {
       value = i;
     }
 

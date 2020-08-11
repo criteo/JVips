@@ -18,29 +18,29 @@ import java.util.Map;
 
 public enum VipsCompassDirection {
     // centre
-    CENTRE(0),
+    Centre(0),
     // north
-    NORTH(1),
+    North(1),
     // east
-    EAST(2),
+    East(2),
     // south
-    SOUTH(3),
+    South(3),
     // west
-    WEST(4),
+    West(4),
     // north-east
-    NORTH_EAST(5),
+    NorthEast(5),
     // south-east
-    SOUTH_EAST(6),
+    SouthEast(6),
     // south-west
-    SOUTH_WEST(7),
+    SouthWest(7),
     // north-west
-    NORTH_WEST(8),
-    LAST(9);
+    NorthWest(8),
+    Last(9);
 
     private int value;
     private static Map map = new HashMap<VipsCompassDirection, Integer>();
 
-    VipsCompassDirection(int i) {
+    private VipsCompassDirection(int i) {
       value = i;
     }
 

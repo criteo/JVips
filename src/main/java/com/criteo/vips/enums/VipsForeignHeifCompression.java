@@ -18,19 +18,19 @@ import java.util.Map;
 
 public enum VipsForeignHeifCompression {
     // x265
-    HEVC(1),
+    Hevc(1),
     // x264
-    AVC(2),
+    Avc(2),
     // jpeg
-    JPEG(3),
+    Jpeg(3),
     // aom
-    AV1(4),
-    LAST(5);
+    Av1(4),
+    Last(5);
 
     private int value;
     private static Map map = new HashMap<VipsForeignHeifCompression, Integer>();
 
-    VipsForeignHeifCompression(int i) {
+    private VipsForeignHeifCompression(int i) {
       value = i;
     }
 

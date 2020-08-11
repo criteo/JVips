@@ -18,15 +18,15 @@ import java.util.Map;
 
 public enum VipsOperationMath2 {
     // pow( left, right )
-    POW(0),
+    Pow(0),
     // pow( right, left ) 
-    WOP(1),
-    LAST(2);
+    Wop(1),
+    Last(2);
 
     private int value;
     private static Map map = new HashMap<VipsOperationMath2, Integer>();
 
-    VipsOperationMath2(int i) {
+    private VipsOperationMath2(int i) {
       value = i;
     }
 

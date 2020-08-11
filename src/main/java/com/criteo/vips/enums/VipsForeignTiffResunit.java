@@ -18,15 +18,15 @@ import java.util.Map;
 
 public enum VipsForeignTiffResunit {
     // use centimeters
-    CM(0),
+    Cm(0),
     // use inches
-    INCH(1),
-    LAST(2);
+    Inch(1),
+    Last(2);
 
     private int value;
     private static Map map = new HashMap<VipsForeignTiffResunit, Integer>();
 
-    VipsForeignTiffResunit(int i) {
+    private VipsForeignTiffResunit(int i) {
       value = i;
     }
 

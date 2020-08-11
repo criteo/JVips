@@ -18,61 +18,61 @@ import java.util.Map;
 
 public enum VipsBlendMode {
     // where the second object is drawn, the first is removed
-    CLEAR(0),
+    Clear(0),
     // the second object is drawn as if nothing were below
-    SOURCE(1),
+    Source(1),
     // the image shows what you would expect if you held two semi-transparent slides on top of each other
-    OVER(2),
+    Over(2),
     // the first object is removed completely, the second is only drawn where the first was
-    IN(3),
+    In(3),
     // the second is drawn only where the first isn't
-    OUT(4),
+    Out(4),
     // this leaves the first object mostly intact, but mixes both objects in the overlapping area
-    ATOP(5),
+    Atop(5),
     // leaves the first object untouched, the second is discarded completely
-    DEST(6),
+    Dest(6),
     // like OVER, but swaps the arguments
-    DEST_OVER(7),
+    DestOver(7),
     // like IN, but swaps the arguments
-    DEST_IN(8),
+    DestIn(8),
     // like OUT, but swaps the arguments
-    DEST_OUT(9),
+    DestOut(9),
     // like ATOP, but swaps the arguments
-    DEST_ATOP(10),
+    DestAtop(10),
     // something like a difference operator
-    XOR(11),
+    Xor(11),
     // a bit like adding the two images
-    ADD(12),
+    Add(12),
     // a bit like the darker of the two
-    SATURATE(13),
+    Saturate(13),
     // at least as dark as the darker of the two inputs
-    MULTIPLY(14),
+    Multiply(14),
     // at least as light as the lighter of the inputs
-    SCREEN(15),
+    Screen(15),
     // multiplies or screens colors, depending on the lightness
-    OVERLAY(16),
+    Overlay(16),
     // the darker of each component
-    DARKEN(17),
+    Darken(17),
     // the lighter of each component
-    LIGHTEN(18),
+    Lighten(18),
     // brighten first by a factor second
-    COLOUR_DODGE(19),
+    ColourDodge(19),
     // darken first by a factor of second
-    COLOUR_BURN(20),
+    ColourBurn(20),
     // multiply or screen, depending on lightness
-    HARD_LIGHT(21),
+    HardLight(21),
     // darken or lighten, depending on lightness
-    SOFT_LIGHT(22),
+    SoftLight(22),
     // difference of the two
-    DIFFERENCE(23),
+    Difference(23),
     // somewhat like DIFFERENCE, but lower-contrast
-    EXCLUSION(24),
-    LAST(25);
+    Exclusion(24),
+    Last(25);
 
     private int value;
     private static Map map = new HashMap<VipsBlendMode, Integer>();
 
-    VipsBlendMode(int i) {
+    private VipsBlendMode(int i) {
       value = i;
     }
 

@@ -81,7 +81,7 @@ public class SimpleBenchmark {
 
         img.resize(resizeTarget, false);
         img.crop(cropTarget);
-        img.pad(padTarget, pixelPacket, VipsCompassDirection.CENTRE);
+        img.pad(padTarget, pixelPacket, VipsCompassDirection.Centre);
         byte[] out = img.writeToArray(VipsImageFormat.JPG, 80, false);
         img.release();
     }

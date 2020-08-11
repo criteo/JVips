@@ -18,15 +18,15 @@ import java.util.Map;
 
 public enum VipsOperationMorphology {
     // true if all set
-    ERODE(0),
+    Erode(0),
     // true if one set
-    DILATE(1),
-    LAST(2);
+    Dilate(1),
+    Last(2);
 
     private int value;
     private static Map map = new HashMap<VipsOperationMorphology, Integer>();
 
-    VipsOperationMorphology(int i) {
+    private VipsOperationMorphology(int i) {
       value = i;
     }
 

@@ -18,15 +18,15 @@ import java.util.Map;
 
 public enum VipsCombineMode {
     // set pixels to the new value
-    SET(0),
+    Set(0),
     // add pixels
-    ADD(1),
-    LAST(2);
+    Add(1),
+    Last(2);
 
     private int value;
     private static Map map = new HashMap<VipsCombineMode, Integer>();
 
-    VipsCombineMode(int i) {
+    private VipsCombineMode(int i) {
       value = i;
     }
 

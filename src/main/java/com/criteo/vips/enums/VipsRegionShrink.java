@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsRegionShrink {
     // use the average
-    MEAN(0),
+    Mean(0),
     // use the median
-    MEDIAN(1),
+    Median(1),
     // use the mode
-    MODE(2),
-    LAST(3);
+    Mode(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsRegionShrink, Integer>();
 
-    VipsRegionShrink(int i) {
+    private VipsRegionShrink(int i) {
       value = i;
     }
 
