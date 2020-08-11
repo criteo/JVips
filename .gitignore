@@ -11,3 +11,6 @@ lib/checkout/
 build/
 src/main/java/com/criteo/vips/META-INF/
 target/
+script/enum-generator/vips-*
+script/enum-generator/enums
+script/enum-generator/test
