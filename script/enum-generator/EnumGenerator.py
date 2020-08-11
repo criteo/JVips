@@ -38,7 +38,7 @@ def read_html_source(filename):
 def build_dict(sources):
     dictionary = {}
     for source in sources:
-        soup = BeautifulSoup(source)
+        soup = BeautifulSoup(source, features="html.parser")
         refsect2 = soup.find_all('div', 'refsect2')
         for ref in refsect2:
             name = ref.find('a')['name']
