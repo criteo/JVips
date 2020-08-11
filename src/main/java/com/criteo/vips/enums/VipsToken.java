@@ -18,20 +18,20 @@ import java.util.Map;
 
 public enum VipsToken {
     // left bracket
-    LEFT(1),
+    Left(1),
     // right bracket
-    RIGHT(2),
+    Right(2),
     // string constant
-    STRING(3),
+    String(3),
     // equals sign
-    EQUALS(4),
+    Equals(4),
     // comma
-    COMMA(5);
+    Comma(5);
 
     private int value;
     private static Map map = new HashMap<VipsToken, Integer>();
 
-    VipsToken(int i) {
+    private VipsToken(int i) {
       value = i;
     }
 

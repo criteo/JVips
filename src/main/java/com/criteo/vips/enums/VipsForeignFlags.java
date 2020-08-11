@@ -18,19 +18,19 @@ import java.util.Map;
 
 public enum VipsForeignFlags {
     // no flags set
-    NONE(0),
+    None(0),
     // the image may be read lazilly
-    PARTIAL(1),
+    Partial(1),
     // image pixels are most-significant byte first
-    BIGENDIAN(2),
+    Bigendian(2),
     // top-to-bottom lazy reading
-    SEQUENTIAL(4),
-    ALL(7);
+    Sequential(4),
+    All(7);
 
     private int value;
     private static Map map = new HashMap<VipsForeignFlags, Integer>();
 
-    VipsForeignFlags(int i) {
+    private VipsForeignFlags(int i) {
       value = i;
     }
 

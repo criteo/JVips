@@ -18,19 +18,19 @@ import java.util.Map;
 
 public enum VipsOperationFlags {
     // no flags
-    NONE(0),
+    None(0),
     // can work sequentially with a small buffer
-    SEQUENTIAL(1),
-    SEQUENTIAL_UNBUFFERED(2),
+    Sequential(1),
+    SequentialUnbuffered(2),
     // must not be cached
-    NOCACHE(4),
+    Nocache(4),
     // a compatibility thing
-    DEPRECATED(8);
+    Deprecated(8);
 
     private int value;
     private static Map map = new HashMap<VipsOperationFlags, Integer>();
 
-    VipsOperationFlags(int i) {
+    private VipsOperationFlags(int i) {
       value = i;
     }
 

@@ -18,22 +18,22 @@ import java.util.Map;
 
 public enum VipsOperationRelational {
     // ==
-    EQUAL(0),
+    Equal(0),
     // !=
-    NOTEQ(1),
+    Noteq(1),
     // <
-    LESS(2),
+    Less(2),
     // <=
-    LESSEQ(3),
-    MORE(4),
+    Lesseq(3),
+    More(4),
     // =
-    MOREEQ(5),
-    LAST(6);
+    Moreeq(5),
+    Last(6);
 
     private int value;
     private static Map map = new HashMap<VipsOperationRelational, Integer>();
 
-    VipsOperationRelational(int i) {
+    private VipsOperationRelational(int i) {
       value = i;
     }
 

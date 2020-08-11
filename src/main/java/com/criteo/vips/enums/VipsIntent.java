@@ -18,19 +18,19 @@ import java.util.Map;
 
 public enum VipsIntent {
     // perceptual rendering intent
-    PERCEPTUAL(0),
+    Perceptual(0),
     // relative colorimetric rendering intent
-    RELATIVE(1),
+    Relative(1),
     // saturation rendering intent
-    SATURATION(2),
+    Saturation(2),
     // absolute colorimetric rendering intent
-    ABSOLUTE(3),
-    LAST(4);
+    Absolute(3),
+    Last(4);
 
     private int value;
     private static Map map = new HashMap<VipsIntent, Integer>();
 
-    VipsIntent(int i) {
+    private VipsIntent(int i) {
       value = i;
     }
 

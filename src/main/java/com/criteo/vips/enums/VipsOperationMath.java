@@ -18,31 +18,31 @@ import java.util.Map;
 
 public enum VipsOperationMath {
     // sin(), angles in degrees
-    SIN(0),
+    Sin(0),
     // cos(), angles in degrees
-    COS(1),
+    Cos(1),
     // tan(), angles in degrees
-    TAN(2),
+    Tan(2),
     // asin(), angles in degrees
-    ASIN(3),
+    Asin(3),
     // acos(), angles in degrees
-    ACOS(4),
+    Acos(4),
     // atan(), angles in degrees
-    ATAN(5),
+    Atan(5),
     // log base e 
-    LOG(6),
+    Log(6),
     // log base 10 
-    LOG10(7),
+    Log10(7),
     // e to the something
-    EXP(8),
+    Exp(8),
     // 10 to the something
-    EXP10(9),
-    LAST(10);
+    Exp10(9),
+    Last(10);
 
     private int value;
     private static Map map = new HashMap<VipsOperationMath, Integer>();
 
-    VipsOperationMath(int i) {
+    private VipsOperationMath(int i) {
       value = i;
     }
 

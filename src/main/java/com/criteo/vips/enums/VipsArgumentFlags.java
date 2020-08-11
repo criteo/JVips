@@ -18,28 +18,28 @@ import java.util.Map;
 
 public enum VipsArgumentFlags {
     // no flags
-    NONE(0),
+    None(0),
     // must be set in the constructor
-    REQUIRED(1),
+    Required(1),
     // can only be set in the constructor
-    CONSTRUCT(2),
+    Construct(2),
     // can only be set once
-    SET_ONCE(4),
+    SetOnce(4),
     // don't do use-before-set checks
-    SET_ALWAYS(8),
+    SetAlways(8),
     // is an input argument (one we depend on)
-    INPUT(16),
+    Input(16),
     // is an output argument (depends on us)
-    OUTPUT(32),
+    Output(32),
     // just there for back-compat, hide 
-    DEPRECATED(64),
+    Deprecated(64),
     // the input argument will be modified
-    MODIFY(128);
+    Modify(128);
 
     private int value;
     private static Map map = new HashMap<VipsArgumentFlags, Integer>();
 
-    VipsArgumentFlags(int i) {
+    private VipsArgumentFlags(int i) {
       value = i;
     }
 

@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsForeignDzDepth {
     // create layers down to 1x1 pixel
-    ONEPIXEL(0),
+    Onepixel(0),
     // create layers down to 1x1 tile
-    ONETILE(1),
+    Onetile(1),
     // only create a single layer
-    ONE(2),
-    LAST(3);
+    One(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsForeignDzDepth, Integer>();
 
-    VipsForeignDzDepth(int i) {
+    private VipsForeignDzDepth(int i) {
       value = i;
     }
 

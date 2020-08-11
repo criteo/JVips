@@ -18,21 +18,21 @@ import java.util.Map;
 
 public enum VipsOperationBoolean {
     // &
-    AND(0),
+    And(0),
     // |
-    OR(1),
+    Or(1),
     // ^
-    EOR(2),
+    Eor(2),
     // >
-    LSHIFT(3),
+    Lshift(3),
     // <<
-    RSHIFT(4),
-    LAST(5);
+    Rshift(4),
+    Last(5);
 
     private int value;
     private static Map map = new HashMap<VipsOperationBoolean, Integer>();
 
-    VipsOperationBoolean(int i) {
+    private VipsOperationBoolean(int i) {
       value = i;
     }
 

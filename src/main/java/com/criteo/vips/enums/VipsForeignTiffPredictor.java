@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsForeignTiffPredictor {
     // no prediction
-    NONE(1),
+    None(1),
     // horizontal differencing
-    HORIZONTAL(2),
+    Horizontal(2),
     // float predictor
-    FLOAT(3),
-    LAST(4);
+    Float(3),
+    Last(4);
 
     private int value;
     private static Map map = new HashMap<VipsForeignTiffPredictor, Integer>();
 
-    VipsForeignTiffPredictor(int i) {
+    private VipsForeignTiffPredictor(int i) {
       value = i;
     }
 

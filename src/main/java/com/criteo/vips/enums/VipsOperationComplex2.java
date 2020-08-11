@@ -18,13 +18,13 @@ import java.util.Map;
 
 public enum VipsOperationComplex2 {
     // convert to polar coordinates
-    CROSS_PHASE(0),
-    LAST(1);
+    CrossPhase(0),
+    Last(1);
 
     private int value;
     private static Map map = new HashMap<VipsOperationComplex2, Integer>();
 
-    VipsOperationComplex2(int i) {
+    private VipsOperationComplex2(int i) {
       value = i;
     }
 

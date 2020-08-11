@@ -18,23 +18,23 @@ import java.util.Map;
 
 public enum VipsSaveable {
     // 1 band (eg. CSV)
-    MONO(0),
+    Mono(0),
     // 1 or 3 bands (eg. PPM) 
-    RGB(1),
+    Rgb(1),
     // 1, 2, 3 or 4 bands (eg. PNG)
-    RGBA(2),
+    Rgba(2),
     // 3 or 4 bands (eg. WEBP)
-    RGBA_ONLY(3),
+    RgbaOnly(3),
     // 1, 3 or 4 bands (eg. JPEG)
-    RGB_CMYK(4),
+    RgbCmyk(4),
     // any number of bands (eg. TIFF)
-    ANY(5),
-    LAST(6);
+    Any(5),
+    Last(6);
 
     private int value;
     private static Map map = new HashMap<VipsSaveable, Integer>();
 
-    VipsSaveable(int i) {
+    private VipsSaveable(int i) {
       value = i;
     }
 

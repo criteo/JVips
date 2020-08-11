@@ -18,17 +18,17 @@ import java.util.Map;
 
 public enum VipsOperationRound {
     // round to nearest
-    RINT(0),
+    Rint(0),
     // the smallest integral value not less than
-    CEIL(1),
+    Ceil(1),
     // largest integral value not greater than
-    FLOOR(2),
-    LAST(3);
+    Floor(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsOperationRound, Integer>();
 
-    VipsOperationRound(int i) {
+    private VipsOperationRound(int i) {
       value = i;
     }
 

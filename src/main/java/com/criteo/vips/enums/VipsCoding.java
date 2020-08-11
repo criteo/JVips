@@ -17,19 +17,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum VipsCoding {
-    ERROR(-1),
+    Error(-1),
     // pixels are not coded
-    NONE(0),
+    None(0),
     // pixels encode 3 float CIELAB values as 4 uchar
-    LABQ(2),
+    Labq(2),
     // pixels encode 3 float RGB as 4 uchar (Radiance coding)
-    RAD(6),
-    LAST(7);
+    Rad(6),
+    Last(7);
 
     private int value;
     private static Map map = new HashMap<VipsCoding, Integer>();
 
-    VipsCoding(int i) {
+    private VipsCoding(int i) {
       value = i;
     }
 

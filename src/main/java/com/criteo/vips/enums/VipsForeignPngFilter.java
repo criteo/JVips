@@ -18,22 +18,22 @@ import java.util.Map;
 
 public enum VipsForeignPngFilter {
     // no filtering
-    NONE(8),
+    None(8),
     // difference to the left
-    SUB(16),
+    Sub(16),
     // difference up
-    UP(32),
+    Up(32),
     // average of left and up
-    AVG(64),
+    Avg(64),
     // pick best neighbor predictor automatically
-    PAETH(128),
+    Paeth(128),
     // adaptive
-    ALL(248);
+    All(248);
 
     private int value;
     private static Map map = new HashMap<VipsForeignPngFilter, Integer>();
 
-    VipsForeignPngFilter(int i) {
+    private VipsForeignPngFilter(int i) {
       value = i;
     }
 

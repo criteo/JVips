@@ -18,23 +18,23 @@ import java.util.Map;
 
 public enum VipsForeignWebpPreset {
     // default preset
-    DEFAULT(0),
+    Default(0),
     // digital picture, like portrait, inner shot
-    PICTURE(1),
+    Picture(1),
     // outdoor photograph, with natural lighting
-    PHOTO(2),
+    Photo(2),
     // hand or line drawing, with high-contrast details
-    DRAWING(3),
+    Drawing(3),
     // small-sized colorful images
-    ICON(4),
+    Icon(4),
     // text-like
-    TEXT(5),
-    LAST(6);
+    Text(5),
+    Last(6);
 
     private int value;
     private static Map map = new HashMap<VipsForeignWebpPreset, Integer>();
 
-    VipsForeignWebpPreset(int i) {
+    private VipsForeignWebpPreset(int i) {
       value = i;
     }
 

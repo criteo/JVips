@@ -18,16 +18,16 @@ import java.util.Map;
 
 public enum VipsAccess {
     // can read anywhere
-    RANDOM(0),
+    Random(0),
     // top-to-bottom reading only, but with a small buffer
-    SEQUENTIAL(1),
-    SEQUENTIAL_UNBUFFERED(2),
-    LAST(3);
+    Sequential(1),
+    SequentialUnbuffered(2),
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsAccess, Integer>();
 
-    VipsAccess(int i) {
+    private VipsAccess(int i) {
       value = i;
     }
 

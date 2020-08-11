@@ -17,20 +17,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum VipsDemandStyle {
-    ERROR(-1),
+    Error(-1),
     // demand in small (typically 64x64 pixel) tiles
-    SMALLTILE(0),
+    Smalltile(0),
     // demand in fat (typically 10 pixel high) strips
-    FATSTRIP(1),
+    Fatstrip(1),
     // demand in thin (typically 1 pixel high) strips
-    THINSTRIP(2),
+    Thinstrip(2),
     // demand geometry does not matter
-    ANY(3);
+    Any(3);
 
     private int value;
     private static Map map = new HashMap<VipsDemandStyle, Integer>();
 
-    VipsDemandStyle(int i) {
+    private VipsDemandStyle(int i) {
       value = i;
     }
 

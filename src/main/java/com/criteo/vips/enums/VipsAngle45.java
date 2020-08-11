@@ -33,12 +33,12 @@ public enum VipsAngle45 {
     D270(6),
     // 45 degrees anti-clockwise
     D315(7),
-    LAST(8);
+    Last(8);
 
     private int value;
     private static Map map = new HashMap<VipsAngle45, Integer>();
 
-    VipsAngle45(int i) {
+    private VipsAngle45(int i) {
       value = i;
     }
 

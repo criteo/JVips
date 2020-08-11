@@ -17,50 +17,50 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum VipsInterpretation {
-    ERROR(-1),
+    Error(-1),
     // generic many-band image
-    MULTIBAND(0),
+    Multiband(0),
     // some kind of single-band image
-    B_W(1),
+    BW(1),
     // a 1D image, eg. histogram or lookup table
-    HISTOGRAM(10),
+    Histogram(10),
     // the first three bands are CIE XYZ 
-    XYZ(12),
+    Xyz(12),
     // pixels are in CIE Lab space
-    LAB(13),
+    Lab(13),
     // the first four bands are in CMYK space
-    CMYK(15),
-    LABQ(16),
+    Cmyk(15),
+    Labq(16),
     // generic RGB space
-    RGB(17),
+    Rgb(17),
     // a uniform colourspace based on CMC(1:1)
-    CMC(18),
+    Cmc(18),
     // pixels are in CIE LCh space
-    LCH(19),
+    Lch(19),
     // CIE LAB coded as three signed 16-bit values
-    LABS(21),
+    Labs(21),
     // pixels are sRGB
-    SRGB(22),
+    Srgb(22),
     // pixels are CIE Yxy
-    YXY(23),
+    Yxy(23),
     // image is in fourier space
-    FOURIER(24),
+    Fourier(24),
     // generic 16-bit RGB
-    RGB16(25),
+    Rgb16(25),
     // generic 16-bit mono
-    GREY16(26),
+    Grey16(26),
     // a matrix
-    MATRIX(27),
+    Matrix(27),
     // pixels are scRGB
-    SCRGB(28),
+    Scrgb(28),
     // pixels are HSV
-    HSV(29),
-    LAST(30);
+    Hsv(29),
+    Last(30);
 
     private int value;
     private static Map map = new HashMap<VipsInterpretation, Integer>();
 
-    VipsInterpretation(int i) {
+    private VipsInterpretation(int i) {
       value = i;
     }
 

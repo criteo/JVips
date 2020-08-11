@@ -18,22 +18,22 @@ import java.util.Map;
 
 public enum VipsExtend {
     // extend with black (all 0) pixels
-    BLACK(0),
+    Black(0),
     // copy the image edges
-    COPY(1),
+    Copy(1),
     // repeat the whole image
-    REPEAT(2),
+    Repeat(2),
     // mirror the whole image
-    MIRROR(3),
+    Mirror(3),
     // extend with white (all bits set) pixels
-    WHITE(4),
-    BACKGROUND(5),
-    LAST(6);
+    White(4),
+    Background(5),
+    Last(6);
 
     private int value;
     private static Map map = new HashMap<VipsExtend, Integer>();
 
-    VipsExtend(int i) {
+    private VipsExtend(int i) {
       value = i;
     }
 

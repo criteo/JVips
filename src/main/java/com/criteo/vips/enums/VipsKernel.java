@@ -18,22 +18,22 @@ import java.util.Map;
 
 public enum VipsKernel {
     // The nearest pixel to the point.
-    NEAREST(0),
+    Nearest(0),
     // Convolve with a triangle filter. 
-    LINEAR(1),
+    Linear(1),
     // Convolve with a cubic filter. 
-    CUBIC(2),
-    MITCHELL(3),
+    Cubic(2),
+    Mitchell(3),
     // Convolve with a two-lobe Lanczos kernel.
-    LANCZOS2(4),
+    Lanczos2(4),
     // Convolve with a three-lobe Lanczos kernel.
-    LANCZOS3(5),
-    LAST(6);
+    Lanczos3(5),
+    Last(6);
 
     private int value;
     private static Map map = new HashMap<VipsKernel, Integer>();
 
-    VipsKernel(int i) {
+    private VipsKernel(int i) {
       value = i;
     }
 

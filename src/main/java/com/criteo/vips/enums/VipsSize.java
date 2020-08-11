@@ -18,19 +18,19 @@ import java.util.Map;
 
 public enum VipsSize {
     // size both up and down
-    BOTH(0),
+    Both(0),
     // only upsize
-    UP(1),
+    Up(1),
     // only downsize
-    DOWN(2),
+    Down(2),
     // force size, that is, break aspect ratio
-    FORCE(3),
-    LAST(4);
+    Force(3),
+    Last(4);
 
     private int value;
     private static Map map = new HashMap<VipsSize, Integer>();
 
-    VipsSize(int i) {
+    private VipsSize(int i) {
       value = i;
     }
 
