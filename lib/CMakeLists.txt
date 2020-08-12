@@ -46,10 +46,19 @@ list(APPEND CONFIGURE_VARS
 
 find_library(LIBIMAGEQUANT imagequant PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if (NOT LIBIMAGEQUANT)
+    # https://github.com/ImageOptim/libimagequant/issues/36
+    if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_C_COMPILER_VERSION VERSION_GREATER 7.0 AND ${BUILD_TARGET} STREQUAL "linux")
+        set(LIQ_OPENMP "--with-openmp")
+    else()
+        set(LIQ_OPENMP "--without-openmp")
+    endif()
     ExternalProject_Add(libimagequant
       URL "https://github.com/ImageOptim/libimagequant/archive/${LIQ_VERSION}.tar.gz"
       PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libimagequant"
-      CONFIGURE_COMMAND ./configure CC=${CMAKE_C_COMPILER} CFLAGS=${CONFIGURE_CFLAGS} --prefix=${EXT_INSTALL_DIR} --with-sse --without-openmp
+      CONFIGURE_COMMAND ./configure CC=${CMAKE_C_COMPILER} CFLAGS=${CONFIGURE_CFLAGS}
+      --prefix=${EXT_INSTALL_DIR}
+      --with-sse
+      ${LIQ_OPENMP}
       BUILD_IN_SOURCE 1
       )
 
