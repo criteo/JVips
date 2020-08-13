@@ -24,7 +24,7 @@ Feel free to contribute.
 
 # Example
 
-Look at the hello world program in [HelloWorld.java](src/example/java/com/criteo/vips/HelloWorld.java). It opens an image file, resize it, and prints its size.
+Look at the hello world program in [SimpleExample.java](src/test/java/com/criteo/vips/example/SimpleExample.java). It opens an image file, resize it, and prints its size.
 
 # Installation
 
