@@ -284,7 +284,18 @@
                                 <include>**/*Benchmark.java</include>
                             </includes>
                         </configuration>
-                    </execution>
+                    </execution><execution>
+                    <id>example</id>
+                    <goals>
+                        <goal>test</goal>
+                    </goals>
+                    <configuration>
+                        <includes>
+                            <include>**/*Example.java</include>
+                        </includes>
+                        <skipTests>true</skipTests>
+                    </configuration>
+                </execution>
                 </executions>
             </plugin>
 

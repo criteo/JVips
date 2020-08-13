@@ -21,14 +21,14 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
-class VipsTestUtils {
-    static byte[] getByteArray(String filename) throws IOException {
+public class VipsTestUtils {
+    public static byte[] getByteArray(String filename) throws IOException {
         ClassLoader classLoader = VipsTestUtils.class.getClassLoader();
         filename = classLoader.getResource(filename).getFile();
         return Files.readAllBytes(new File(filename).toPath());
     }
 
-    static ByteBuffer getDirectByteBuffer(String filename) throws IOException {
+    public static ByteBuffer getDirectByteBuffer(String filename) throws IOException {
         byte[] bytes = getByteArray(filename);
         ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
         buffer.put(bytes, 0, bytes.length);
