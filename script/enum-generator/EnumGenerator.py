@@ -1,4 +1,5 @@
 import os
+import glob
 import re
 import wget
 import tarfile
@@ -7,10 +8,6 @@ from string import Template
 from itertools import takewhile
 
 version = '8.9.0'
-root = os.path.join(os.getcwd(), f'vips-{version}/doc/html')
-output = os.path.join(os.getcwd(), 'enums')
-test = os.path.join(os.getcwd(), 'test')
-url = f'https://github.com/libvips/libvips/releases/download/v{version}/vips-{version}.tar.gz'
 
 
 def traverse(root):
@@ -66,19 +63,19 @@ def build_dict(sources):
     return dictionary
 
 
-def traverse_dictionary(dictionary):
+def traverse_dictionary(dictionary, enum_output_dir, test_output_dir, license_comment):
     tests = []
     for item in dictionary.values():
         if 'enum ' in item['name'] and 'members' in item['data']:
-            compute_enum(item, tests)
+            compute_enum(item, tests, enum_output_dir, license_comment)
 
     tests = ''.join(tests)
     # generate enum tests
     with open('VipsEnumTestTemplate.c', 'r', encoding='utf-8') as infile:
         tpl = infile.read()
-        with open(f'{test}/VipsEnumTest.c', 'w', encoding='utf-8') as outfile:
+        with open(f'{test_output_dir}/VipsEnumTest.c', 'w', encoding='utf-8') as outfile:
             src = Template(tpl)
-            src = src.substitute({'license': license, 'tests': tests})
+            src = src.substitute({'license': license_comment, 'tests': tests})
             outfile.write(src)
 
 # Enums
@@ -155,7 +152,7 @@ enum_overwrites = {
 }
 
 
-def compute_enum(item, tests):
+def compute_enum(item, tests, enum_output_dir, license_comment):
     members = []
     # remove 'enum' prefix
     name = item['name'].split(' ')[1]
@@ -191,11 +188,11 @@ def compute_enum(item, tests):
                 value = f'    // {description}\n{value}'
             values.append(value)
         # generate enum class file
-        with open(f'{output}/{name}.java', 'w', encoding='utf-8') as outfile:
+        with open(f'{enum_output_dir}/{name}.java', 'w', encoding='utf-8') as outfile:
             src = Template(tpl)
             values = sep.join(values)
             src = src.substitute(
-                {'license': license, 'name': name, 'values': values})
+                {'license': license_comment, 'name': name, 'values': values})
             outfile.write(src)
 
 # Utils
@@ -218,19 +215,40 @@ def to_snake_case(pascalCase):
     return '_'.join(re.findall('[A-Z][^A-Z]*', pascalCase)).upper()
 
 
-if __name__ == '__main__':
-    tarball = wget.download(url)
-    with tarfile.open(tarball) as tf:
-        tf.extractall()
+def main():
+    if not os.path.isfile('EnumGenerator.py'):
+        raise Exception(
+            "Script must run from the script/enum-generator directory")
+
+    documentation = os.path.join(os.getcwd(), f'vips-{version}/doc/html')
+    enum_output_dir = os.path.join(
+        os.getcwd(), '../../src/main/java/com/criteo/vips/enums')
+    test_output_dir = os.path.join(os.getcwd(), '../../src/test/c')
+
+    for java_file in glob.glob(f'{enum_output_dir}/*.java'):
+        os.remove(java_file)
+    for c_file in glob.glob(f'{test_output_dir}/*.{{c,h}}'):
+        os.remove(c_file)
+
+    if not os.path.isdir(documentation):
+        url = f'https://github.com/libvips/libvips/releases/download/v{version}/vips-{version}.tar.gz'
+        tarball = wget.download(url)
+        with tarfile.open(tarball) as tf:
+            tf.extractall()
 
     with open(os.path.join(os.getcwd(), 'LICENSE'), 'r', encoding='utf-8') as infile:
-        license = infile.read()
+        license_comment = infile.read()
 
-    if not os.path.exists(output):
-        os.makedirs(output)
-    if not os.path.exists(test):
-        os.makedirs(test)
+    if not os.path.exists(enum_output_dir):
+        os.makedirs(enum_output_dir)
+    if not os.path.exists(test_output_dir):
+        os.makedirs(test_output_dir)
 
-    sources = traverse(root)
+    sources = traverse(documentation)
     dictionary = build_dict(sources)
-    traverse_dictionary(dictionary)
+    traverse_dictionary(dictionary, enum_output_dir,
+                        test_output_dir, license_comment)
+
+
+if __name__ == '__main__':
+    main()
