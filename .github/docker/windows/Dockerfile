@@ -17,6 +17,8 @@ ENV YUM_OPTIONS="-y --setopt=skip_missing_names_on_install=False"
 RUN yum install ${YUM_OPTIONS} \
     wget \
     git \
+    python3 \
+    python3-pip \
     make \
     cmake \
     maven \
