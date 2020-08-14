@@ -9,6 +9,8 @@ from string import Template
 from itertools import takewhile
 
 DEFAULT_VIPS_VERSION = '8.9.0'
+JAVA_ENUM_TEMPLATE = "template/Enum.java"
+C_ENUM_TEST_TEMPLATE = "template/VipsEnumTest.c"
 
 
 def traverse(root):
@@ -72,9 +74,9 @@ def traverse_dictionary(dictionary, enum_output_dir, test_output_dir, license_co
 
     tests = ''.join(tests)
     # generate enum tests
-    with open('VipsEnumTestTemplate.c', 'r', encoding='utf-8') as infile:
+    with open(C_ENUM_TEST_TEMPLATE, 'r', encoding='utf-8') as infile:
         tpl = infile.read()
-        with open(f'{test_output_dir}/VipsEnumTest.c', 'w', encoding='utf-8') as outfile:
+        with open(f'{test_output_dir}/{os.path.basename(C_ENUM_TEST_TEMPLATE)}', 'w', encoding='utf-8') as outfile:
             src = Template(tpl)
             src = src.substitute({'license': license_comment, 'tests': tests})
             outfile.write(src)
@@ -165,7 +167,7 @@ def compute_enum(item, tests, enum_output_dir, license_comment):
         if member_desc and member_desc.p:
             description = member_desc.p.string
         members.append({'name': member_name, 'description': description})
-    with open('EnumTemplate.java', 'r', encoding='utf-8') as infile:
+    with open(JAVA_ENUM_TEMPLATE, 'r', encoding='utf-8') as infile:
         tpl = infile.read()
         sep = ',\n'
         cpt = 0
