@@ -52,7 +52,7 @@ RUN ln -s /usr/bin/cmake3 /usr/bin/cmake
 RUN groupadd -g $GID -o $UNAME
 RUN useradd -l -m -u $UID -g $GID -o -s /bin/bash -d /home/$UNAME $UNAME
 
-RUN echo 'for scl in /opt/rh/*/enable; do source $scl; done' >> /home/$UNAME/.bashrc
+RUN echo 'for scl in /opt/rh/*/enable; do source $scl; done' >> /etc/profile.d/rhscl.sh
 
 USER $UNAME
 
