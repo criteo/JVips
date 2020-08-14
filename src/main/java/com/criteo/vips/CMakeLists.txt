@@ -1,8 +1,6 @@
 # Pre-compile java classes for generating JNI header files
 
 set(JAVA_SOURCE_DIRECTORY "${PROJECT_SOURCE_DIR}/src/main/java/com/criteo/vips/")
-add_subdirectory(${JAVA_SOURCE_DIRECTORY}/enums)
-
 set(JNI_HEADER_DIRECTORY "${PROJECT_SOURCE_DIR}/src/main/c/")
 set(JAVA_SOURCE_FILES
     "${JAVA_SOURCE_DIRECTORY}/Max1Result.java"
@@ -12,6 +10,7 @@ set(JAVA_SOURCE_FILES
     "${JAVA_SOURCE_DIRECTORY}/VipsException.java"
     "${JAVA_SOURCE_DIRECTORY}/Image.java"
     "${JAVA_SOURCE_DIRECTORY}/VipsImage.java")
+file(GLOB JAVA_ENUM_SOURCE_FILES "${JAVA_SOURCE_DIRECTORY}/enums/*.java")
 
 add_jar(JVipsWrapper ${JAVA_ENUM_SOURCE_FILES} ${JAVA_SOURCE_FILES})
 
