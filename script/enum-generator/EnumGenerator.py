@@ -1,13 +1,14 @@
 import os
 import glob
 import re
+import argparse
 import wget
 import tarfile
 from bs4 import BeautifulSoup
 from string import Template
 from itertools import takewhile
 
-version = '8.9.0'
+DEFAULT_VIPS_VERSION = '8.9.0'
 
 
 def traverse(root):
@@ -216,6 +217,14 @@ def to_snake_case(pascalCase):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description='Generate Java enumerations from Vips documentation.')
+    parser.add_argument('version', metavar='x.y.z', type=str, nargs='?', default=DEFAULT_VIPS_VERSION,
+                        help='Vips version')
+
+    args = parser.parse_args()
+    version = args.version
+
     if not os.path.isfile('EnumGenerator.py'):
         raise Exception(
             "Script must run from the script/enum-generator directory")
