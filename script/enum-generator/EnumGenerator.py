@@ -68,7 +68,7 @@ def build_dict(sources):
 
 def traverse_dictionary(dictionary, enum_output_dir, test_output_dir, license_comment):
     tests = []
-    for item in dictionary.values():
+    for key, item in sorted(dictionary.items()):
         if 'enum ' in item['name'] and 'members' in item['data']:
             compute_enum(item, tests, enum_output_dir, license_comment)
 
