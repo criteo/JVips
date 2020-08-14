@@ -29,11 +29,7 @@ public enum VipsForeignTiffCompression {
     Ccittfax4(4),
     // LZW compression
     Lzw(5),
-    // WEBP compression
-    Webp(6),
-    // ZSTD compression
-    Zstd(7),
-    Last(8);
+    Last(6);
 
     private int value;
     private static Map map = new HashMap<VipsForeignTiffCompression, Integer>();

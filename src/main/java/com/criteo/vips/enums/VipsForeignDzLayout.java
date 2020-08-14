@@ -23,9 +23,7 @@ public enum VipsForeignDzLayout {
     Zoomify(1),
     // use Google maps directory layout
     Google(2),
-    // use IIIF directory layout
-    Iiif(3),
-    Last(4);
+    Last(3);
 
     private int value;
     private static Map map = new HashMap<VipsForeignDzLayout, Integer>();
