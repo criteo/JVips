@@ -237,6 +237,8 @@ def main():
     test_output_dir = os.path.join(os.getcwd(), '../../src/test/c')
 
     for java_file in glob.glob(f'{enum_output_dir}/*.java'):
+        if java_file.endswith("VipsImageFormat.java"):
+            continue
         os.remove(java_file)
     for c_file in glob.glob(f'{test_output_dir}/*.{{c,h}}'):
         os.remove(c_file)
