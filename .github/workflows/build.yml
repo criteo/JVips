@@ -52,6 +52,7 @@ jobs:
 
   build_for_macos:
     runs-on: macos-latest
+    if: github.event_name != 'pull_request' # To speed up the feedback
     name: Build for macOS
     steps:
       - name: Checkout
