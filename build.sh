@@ -48,6 +48,8 @@ export DEBUG
 export BUILDDIR="${BASEDIR}/build"
 
 CMAKE_BIN=$(which cmake3 || which cmake)
+PYTHON_BIN=$(which python3 || which python)
+PIP_BIN=$(which pip-3 || which pip3 || which pip)
 
 # Copy maven dependencies for some tests
 mkdir -p "${BUILDDIR}"/artifacts/
@@ -55,6 +57,15 @@ mvn ${MAVEN_ARGS} dependency:copy-dependencies -DoutputDirectory="${BUILDDIR}"/a
 
 # Create the resource directory where all native libraries will be copied.
 mkdir -p "${BUILDDIR}"/all/
+
+source lib/VERSIONS
+VERSION="${VIPS_VERSION}-$(git rev-parse --short HEAD)"
+
+(
+    cd script/enum-generator
+    ${PIP_BIN} install --user -r requirements.txt
+    ${PYTHON_BIN} EnumGenerator.py "${VIPS_VERSION}"
+)
 
 ##########################
 ###### Build Linux #######
@@ -165,9 +176,6 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
     done
 
 fi
-
-source lib/VERSIONS
-VERSION="${VIPS_VERSION}-$(git rev-parse --short HEAD)"
 
 mvn ${MAVEN_ARGS} -DnewVersion=${VERSION} versions:set
 mvn ${MAVEN_ARGS} -DskipTests clean package
