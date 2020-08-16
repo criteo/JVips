@@ -44,127 +44,165 @@ list(APPEND CONFIGURE_VARS
   ${CONFIGURE_HOST}
   )
 
-ExternalProject_Add(libimagequant
-  URL "https://github.com/ImageOptim/libimagequant/archive/${LIQ_VERSION}.tar.gz"
-  PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libimagequant"
-  CONFIGURE_COMMAND ./configure CC=${CMAKE_C_COMPILER} CFLAGS=${CONFIGURE_CFLAGS} --prefix=${EXT_INSTALL_DIR} --with-sse --without-openmp
-  BUILD_IN_SOURCE 1
-  )
+find_library(LIBIMAGEQUANT imagequant PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if (NOT LIBIMAGEQUANT)
+    ExternalProject_Add(libimagequant
+      URL "https://github.com/ImageOptim/libimagequant/archive/${LIQ_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libimagequant"
+      CONFIGURE_COMMAND ./configure CC=${CMAKE_C_COMPILER} CFLAGS=${CONFIGURE_CFLAGS} --prefix=${EXT_INSTALL_DIR} --with-sse --without-openmp
+      BUILD_IN_SOURCE 1
+      )
 
-if(${BUILD_TARGET} STREQUAL "w64")
-  ExternalProject_Add_Step(libimagequant rename-dll
-  COMMAND mv libimagequant.so libimagequant.dll
-  WORKING_DIRECTORY ${EXT_INSTALL_DIR}/lib/
-  DEPENDEES install
-  )
-  ExternalProject_Add_StepTargets(libimagequant rename-dll)
+    if (${BUILD_TARGET} STREQUAL "w64")
+      ExternalProject_Add_Step(libimagequant rename-dll
+      COMMAND mv libimagequant.so libimagequant.dll
+      WORKING_DIRECTORY ${EXT_INSTALL_DIR}/lib/
+      DEPENDEES install
+      )
+      ExternalProject_Add_StepTargets(libimagequant rename-dll) 
+    endif()
+else()
+    add_custom_target(libimagequant "")
 endif()
 
-ExternalProject_Add(libexif
-  URL "https://github.com/libexif/libexif/releases/download/libexif-${EXIF_VERSION_TAG}-release/libexif-${EXIF_VERSION}.tar.gz"
-  PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libexif"
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libexif/src/libexif/configure
-  ${CONFIGURE_VARS}
-  --enable-shared
-  --disable-static
-  --disable-docs
-  )
+find_library(LIBEXIF exif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT LIBEXIF)
+    ExternalProject_Add(libexif
+      URL "https://github.com/libexif/libexif/releases/download/libexif-${EXIF_VERSION_TAG}-release/libexif-${EXIF_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libexif"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libexif/src/libexif/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      )
+else()
+    add_custom_target(libexif "")
+endif()
 
-ExternalProject_Add(libjpeg-turbo
-  URL "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${JPG_VERSION}.tar.gz"
-  PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libjpeg-turbo"
-  PATCH_COMMAND autoreconf -fiv
-  CONFIGURE_COMMAND ./configure
-  ${CONFIGURE_VARS}
-  --enable-shared
-  --disable-static
-  --with-jpeg8
-  BUILD_IN_SOURCE 1
-  )
+find_library(LIBJPEG jpeg turbojpeg PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT LIBJPEG)
+    ExternalProject_Add(libjpeg
+      URL "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${JPG_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libjpeg-turbo"
+      PATCH_COMMAND autoreconf -fiv
+      CONFIGURE_COMMAND ./configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --with-jpeg8
+      BUILD_IN_SOURCE 1
+      )
+else()
+    add_custom_target(libjpeg "")
+endif()
 
-ExternalProject_Add(libpng
-  URL "https://downloads.sourceforge.net/libpng/libpng-${PNG_VERSION}.tar.gz"
-  PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libpng"
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libpng/src/libpng/configure
-  ${CONFIGURE_VARS}
-  --enable-shared
-  --disable-static
-  --disable-dependency-tracking
-  --disable-silent-rules
-  )
+find_library(LIBPNG png PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT LIBPNG)
+    ExternalProject_Add(libpng
+      URL "https://downloads.sourceforge.net/libpng/libpng-${PNG_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libpng"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libpng/src/libpng/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-dependency-tracking
+      --disable-silent-rules
+      )
+else()
+    add_custom_target(libpng "")
+endif()
 
-# giflib hasn't a standard build system, don't append CONFIGURE_VARS
-ExternalProject_Add(giflib
-  URL "https://downloads.sourceforge.net/project/giflib/giflib-${GIF_VERSION}.tar.bz2"
-  PREFIX "${CMAKE_CURRENT_BINARY_DIR}/giflib"
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/giflib/src/giflib/configure
-  --prefix=${EXT_INSTALL_DIR}
-  ${CONFIGURE_HOST}
-  --enable-shared
-  --disable-static
-  --disable-dependency-tracking
-  )
+find_library(GIFLIB gif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if (NOT GIFLIB)
+    # giflib hasn't a standard build system, don't append CONFIGURE_VARS
+    ExternalProject_Add(giflib
+      URL "https://downloads.sourceforge.net/project/giflib/giflib-${GIF_VERSION}.tar.bz2"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/giflib"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/giflib/src/giflib/configure
+      --prefix=${EXT_INSTALL_DIR}
+      ${CONFIGURE_HOST}
+      --enable-shared
+      --disable-static
+      --disable-dependency-tracking
+      )
+else()
+    add_custom_target(giflib "")
+endif()
 
-ExternalProject_Add(libwebp
-  URL "http://downloads.webmproject.org/releases/webp/libwebp-${WEBP_VERSION}.tar.gz"
-  PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libwebp"
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libwebp/src/libwebp/configure
-  ${CONFIGURE_VARS}
-  --with-gifincludedir=${EXT_INSTALL_DIR}/include
-  --with-giflibdir=${EXT_INSTALL_DIR}/lib
-  --with-jpegincludedir=${EXT_INSTALL_DIR}/include
-  --with-jpeglibdir=${EXT_INSTALL_DIR}/lib
-  --with-pngincludedir=${EXT_INSTALL_DIR}/include
-  --with-pnglibdir=${EXT_INSTALL_DIR}/lib
-  --enable-shared
-  --disable-static
-  --disable-dependency-tracking
-  --enable-libwebpmux
-  --without-orc
-  --disable-assert
-  --enable-avx2
-  --enable-sse4.1
-  --enable-sse2
-  --enable-threading
-  DEPENDS libjpeg-turbo libpng giflib
-  )
+find_library(LIBWEBP webp webpmux webpdemux PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT LIBWEBP)
+    ExternalProject_Add(libwebp
+      URL "http://downloads.webmproject.org/releases/webp/libwebp-${WEBP_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libwebp"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libwebp/src/libwebp/configure
+      ${CONFIGURE_VARS}
+      --with-gifincludedir=${EXT_INSTALL_DIR}/include
+      --with-giflibdir=${EXT_INSTALL_DIR}/lib
+      --with-jpegincludedir=${EXT_INSTALL_DIR}/include
+      --with-jpeglibdir=${EXT_INSTALL_DIR}/lib
+      --with-pngincludedir=${EXT_INSTALL_DIR}/include
+      --with-pnglibdir=${EXT_INSTALL_DIR}/lib
+      --enable-shared
+      --disable-static
+      --disable-dependency-tracking
+      --enable-libwebpmux
+      --without-orc
+      --disable-assert
+      --enable-avx2
+      --enable-sse4.1
+      --enable-sse2
+      --enable-threading
+      DEPENDS libjpeg libpng giflib
+      )
+endif()
 
-ExternalProject_Add(lcms2
-  URL "https://github.com/mm2/Little-CMS/archive/lcms${LCMS2_VERSION}.tar.gz"
-  PREFIX "${CMAKE_CURRENT_BINARY_DIR}/lcms2"
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/lcms2/src/lcms2/configure
-  ${CONFIGURE_VARS}
-  --enable-shared
-  --disable-static
-  --disable-dependency-tracking
-  )
+find_library(LCMS2 lcms2 EXACT PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT LCMS2)
+    ExternalProject_Add(lcms2
+      URL "https://github.com/mm2/Little-CMS/archive/lcms${LCMS2_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/lcms2"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/lcms2/src/lcms2/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-dependency-tracking
+      )
+else()
+    add_custom_target(lcms2 "")
+endif()
 
-# Cannot set CFLAGS with space separated flags 
-ExternalProject_Add(libvips
-  URL "https://github.com/libvips/libvips/archive/v${VIPS_VERSION}.tar.gz"
-  PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libvips"
-  CONFIGURE_COMMAND ./autogen.sh
-  PKG_CONFIG_PATH=${EXT_INSTALL_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH
-  LDFLAGS=-L${EXT_INSTALL_DIR}/lib,-Wl,-rpath=${EXT_INSTALL_DIR}/lib
-  CPPFLAGS=-I${EXT_INSTALL_DIR}/include
-  --prefix=${EXT_INSTALL_DIR}
-  ${CONFIGURE_HOST}
-  --enable-shared
-  --disable-static
-  --disable-dependency-tracking
-  --with-libwebp
-  --with-lcms
-  --with-imagequant
-  --with-jpeg
-  --with-jpeg-includes=${EXT_INSTALL_DIR}/include
-  --with-jpeg-libraries=${EXT_INSTALL_DIR}/lib
-  --without-magick
-  --without-orc
-  --without-gsf
-  --without-rsvg
-  DEPENDS libimagequant libjpeg-turbo libpng giflib libwebp lcms2
-  BUILD_IN_SOURCE 1
-  )
+find_library(VIPS vips PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT VIPS)
+    # Cannot set CFLAGS with space separated flags
+    ExternalProject_Add(libvips
+      URL "https://github.com/libvips/libvips/archive/v${VIPS_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libvips"
+      CONFIGURE_COMMAND ./autogen.sh
+      PKG_CONFIG_PATH=${EXT_INSTALL_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH
+      LDFLAGS=-L${EXT_INSTALL_DIR}/lib,-Wl,-rpath=${EXT_INSTALL_DIR}/lib
+      CPPFLAGS=-I${EXT_INSTALL_DIR}/include
+      --prefix=${EXT_INSTALL_DIR}
+      ${CONFIGURE_HOST}
+      --enable-shared
+      --disable-static
+      --disable-dependency-tracking
+      --with-libwebp
+      --with-lcms
+      --with-imagequant
+      --with-jpeg
+      --with-jpeg-includes=${EXT_INSTALL_DIR}/include
+      --with-jpeg-libraries=${EXT_INSTALL_DIR}/lib
+      --without-magick
+      --without-orc
+      --without-gsf
+      --without-rsvg
+      DEPENDS libjpeg libpng giflib libwebp libimagequant lcms2
+      BUILD_IN_SOURCE 1
+      )
+else()
+    add_custom_target(libvips "")
+endif()
 
 set(VIPS_INCLUDE_DIRS CACHE INTERNAL "${EXT_INSTALL_DIR}/include")
 set(VIPS_LIBRARY_DIRS CACHE INTERNAL "${EXT_INSTALL_DIR}/lib")
