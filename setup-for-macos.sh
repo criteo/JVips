@@ -15,7 +15,7 @@ function brew-install-version {
     }
 
     [ ! -e /usr/local/bin/$formula ] || brew uninstall --force $formula_name
-    brew install --build-from-source https://raw.githubusercontent.com/Homebrew/homebrew-core/$commit/Formula/$formula.rb
+    HOMEBREW_NO_AUTO_UPDATE=1 brew install --build-from-source https://raw.githubusercontent.com/Homebrew/homebrew-core/$commit/Formula/$formula.rb
 
     echo "$formula_name $formula_version installed."
 }
