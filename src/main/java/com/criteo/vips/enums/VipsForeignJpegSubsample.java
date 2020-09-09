@@ -16,38 +16,30 @@ package com.criteo.vips.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum VipsInteresting {
-    // do nothing
-    None(0),
-    // just take the centre
-    Centre(1),
-    // use an entropy measure
-    Entropy(2),
-    // look for features likely to draw human attention
-    Attention(3),
-    // position the crop towards the low coordinate
-    Low(4),
-    // position the crop towards the high coordinate
-    High(5),
-    // everything is interesting
-    All(6),
-    Last(7);
+public enum VipsForeignJpegSubsample {
+    // default preset
+    Auto(0),
+    // always perform subsampling
+    On(1),
+    // never perform subsampling
+    Off(2),
+    Last(3);
 
     private int value;
-    private static Map map = new HashMap<VipsInteresting, Integer>();
+    private static Map map = new HashMap<VipsForeignJpegSubsample, Integer>();
 
-    private VipsInteresting(int i) {
+    private VipsForeignJpegSubsample(int i) {
       value = i;
     }
 
     static {
-        for (VipsInteresting e : VipsInteresting.values()) {
+        for (VipsForeignJpegSubsample e : VipsForeignJpegSubsample.values()) {
             map.put(e.value, e);
         }
     }
 
-    public static VipsInteresting valueOf(int i) {
-        return (VipsInteresting) map.get(i);
+    public static VipsForeignJpegSubsample valueOf(int i) {
+        return (VipsForeignJpegSubsample) map.get(i);
     }
 
     public int getValue() {
