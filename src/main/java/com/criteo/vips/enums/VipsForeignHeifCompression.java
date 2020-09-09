@@ -16,40 +16,32 @@ package com.criteo.vips.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum VipsForeignTiffCompression {
-    // no compression
-    None(0),
-    // jpeg compression
-    Jpeg(1),
-    // deflate (zip) compression
-    Deflate(2),
-    // packbits compression
-    Packbits(3),
-    // fax4 compression
-    Ccittfax4(4),
-    // LZW compression
-    Lzw(5),
-    // WEBP compression
-    Webp(6),
-    // ZSTD compression
-    Zstd(7),
-    Last(8);
+public enum VipsForeignHeifCompression {
+    // x265
+    Hevc(1),
+    // x264
+    Avc(2),
+    // jpeg
+    Jpeg(3),
+    // aom
+    Av1(4),
+    Last(5);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignTiffCompression, Integer>();
+    private static Map map = new HashMap<VipsForeignHeifCompression, Integer>();
 
-    private VipsForeignTiffCompression(int i) {
+    private VipsForeignHeifCompression(int i) {
       value = i;
     }
 
     static {
-        for (VipsForeignTiffCompression e : VipsForeignTiffCompression.values()) {
+        for (VipsForeignHeifCompression e : VipsForeignHeifCompression.values()) {
             map.put(e.value, e);
         }
     }
 
-    public static VipsForeignTiffCompression valueOf(int i) {
-        return (VipsForeignTiffCompression) map.get(i);
+    public static VipsForeignHeifCompression valueOf(int i) {
+        return (VipsForeignHeifCompression) map.get(i);
     }
 
     public int getValue() {

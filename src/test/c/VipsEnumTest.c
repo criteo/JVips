@@ -179,6 +179,7 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_DZ, "com/criteo/vips/enums/VipsForeignDzLayout", "Dz");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_ZOOMIFY, "com/criteo/vips/enums/VipsForeignDzLayout", "Zoomify");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_GOOGLE, "com/criteo/vips/enums/VipsForeignDzLayout", "Google");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_IIIF, "com/criteo/vips/enums/VipsForeignDzLayout", "Iiif");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_LAST, "com/criteo/vips/enums/VipsForeignDzLayout", "Last");
     // VipsForeignFlags
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_NONE, "com/criteo/vips/enums/VipsForeignFlags", "None");
@@ -186,6 +187,12 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_BIGENDIAN, "com/criteo/vips/enums/VipsForeignFlags", "Bigendian");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_SEQUENTIAL, "com/criteo/vips/enums/VipsForeignFlags", "Sequential");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_ALL, "com/criteo/vips/enums/VipsForeignFlags", "All");
+    // VipsForeignHeifCompression
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_HEIF_COMPRESSION_HEVC, "com/criteo/vips/enums/VipsForeignHeifCompression", "Hevc");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_HEIF_COMPRESSION_AVC, "com/criteo/vips/enums/VipsForeignHeifCompression", "Avc");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_HEIF_COMPRESSION_JPEG, "com/criteo/vips/enums/VipsForeignHeifCompression", "Jpeg");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_HEIF_COMPRESSION_AV1, "com/criteo/vips/enums/VipsForeignHeifCompression", "Av1");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_HEIF_COMPRESSION_LAST, "com/criteo/vips/enums/VipsForeignHeifCompression", "Last");
     // VipsForeignPngFilter
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PNG_FILTER_NONE, "com/criteo/vips/enums/VipsForeignPngFilter", "None");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PNG_FILTER_SUB, "com/criteo/vips/enums/VipsForeignPngFilter", "Sub");
@@ -200,6 +207,8 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_PACKBITS, "com/criteo/vips/enums/VipsForeignTiffCompression", "Packbits");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_CCITTFAX4, "com/criteo/vips/enums/VipsForeignTiffCompression", "Ccittfax4");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_LZW, "com/criteo/vips/enums/VipsForeignTiffCompression", "Lzw");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_WEBP, "com/criteo/vips/enums/VipsForeignTiffCompression", "Webp");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_ZSTD, "com/criteo/vips/enums/VipsForeignTiffCompression", "Zstd");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_LAST, "com/criteo/vips/enums/VipsForeignTiffCompression", "Last");
     // VipsForeignTiffPredictor
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_PREDICTOR_NONE, "com/criteo/vips/enums/VipsForeignTiffPredictor", "None");
