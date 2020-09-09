@@ -106,7 +106,26 @@ else()
     add_custom_target(libjpeg "")
 endif()
 
-find_library(LIBPNG png PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+set(WITH_LIBSPNG_FLAG "")
+if (WITH_LIBSPNG)
+    set(WITH_LIBSPNG_FLAG "--with-libspng")
+    find_library(LIBSPNG spng PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+    if(NOT LIBSPNG)
+        ExternalProject_Add(libspng
+          URL "https://github.com/randy408/libspng/archive/v${SPNG_VERSION}.tar.gz"
+          PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libspng"
+          PATCH_COMMAND patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/patches/libspng-0.6-fixes.patch
+          CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+          BUILD_IN_SOURCE 1
+          )
+    else()
+        add_custom_target(libspng "")
+    endif()
+else()
+    add_custom_target(libspng "")
+endif()
+
+find_library(LIBPNG libpng PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LIBPNG)
     ExternalProject_Add(libpng
       URL "https://downloads.sourceforge.net/libpng/libpng-${PNG_VERSION}.tar.gz"
@@ -164,6 +183,8 @@ if(NOT LIBWEBP)
       --enable-threading
       DEPENDS libjpeg libpng giflib
       )
+else()
+    add_custom_target(libwebp "")
 endif()
 
 find_library(LCMS2 lcms2 EXACT PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
@@ -206,7 +227,10 @@ if(NOT VIPS)
       --without-orc
       --without-gsf
       --without-rsvg
-      DEPENDS libjpeg libpng giflib libwebp libimagequant lcms2
+      SPNG_LIBS="-L${EXT_INSTALL_DIR}/lib -lspng"
+      SPNG_CFLAGS=-I${EXT_INSTALL_DIR}/include
+      ${WITH_LIBSPNG_FLAG}
+      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2
       BUILD_IN_SOURCE 1
       )
 else()
