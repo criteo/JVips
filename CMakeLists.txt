@@ -66,6 +66,9 @@ else()
     include_directories(${VIPS_INCLUDE_DIRS})
 endif()
 
+# Use libspng if WITH_LIBSPNG is ON, libpng otherwise.
+set(WITH_LIBSPNG OFF)
+
 add_subdirectory(src/main/java/com/criteo/vips/)
 add_subdirectory(src/main/c)
 
