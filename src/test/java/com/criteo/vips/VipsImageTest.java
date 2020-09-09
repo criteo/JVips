@@ -786,7 +786,8 @@ public class VipsImageTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("exif_rotate_90_cw.jpg");
 
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            assertEquals(VipsAngle.D90, img.getAutorotAngle());
+            // Autorotate has been fixed in libvips 8.10.1 in jpegload()
+            assertEquals(VipsAngle.D0, img.getAutorotAngle());
             img.removeAutorotAngle();
             assertEquals(VipsAngle.D0, img.getAutorotAngle());
         }

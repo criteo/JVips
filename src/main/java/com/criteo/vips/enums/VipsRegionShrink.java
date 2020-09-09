@@ -23,7 +23,13 @@ public enum VipsRegionShrink {
     Median(1),
     // use the mode
     Mode(2),
-    Last(3);
+    // use the maximum
+    Max(3),
+    // use the minimum
+    Min(4),
+    // use the top-left pixel
+    Nearest(5),
+    Last(6);
 
     private int value;
     private static Map map = new HashMap<VipsRegionShrink, Integer>();
