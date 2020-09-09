@@ -106,9 +106,11 @@ else()
     add_custom_target(libjpeg "")
 endif()
 
-set(WITH_LIBSPNG_FLAG "")
 if (WITH_LIBSPNG)
-    set(WITH_LIBSPNG_FLAG "--with-libspng")
+    list(APPEND LIBSPNG_FLAGS
+    --with-libspng
+    SPNG_LIBS="-L${EXT_INSTALL_DIR}/lib -lspng"
+    SPNG_CFLAGS=-I${EXT_INSTALL_DIR}/include)
     find_library(LIBSPNG spng PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
     if(NOT LIBSPNG)
         ExternalProject_Add(libspng
@@ -126,6 +128,8 @@ if (WITH_LIBSPNG)
         add_custom_target(libspng "")
     endif()
 else()
+    list(APPEND LIBSPNG_FLAGS
+    --without-libspng)
     add_custom_target(libspng "")
 endif()
 
@@ -231,9 +235,7 @@ if(NOT VIPS)
       --without-orc
       --without-gsf
       --without-rsvg
-      SPNG_LIBS="-L${EXT_INSTALL_DIR}/lib -lspng"
-      SPNG_CFLAGS=-I${EXT_INSTALL_DIR}/include
-      ${WITH_LIBSPNG_FLAG}
+      ${LIBSPNG_FLAGS}
       DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2
       BUILD_IN_SOURCE 1
       )
