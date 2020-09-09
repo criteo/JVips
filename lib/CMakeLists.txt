@@ -115,7 +115,11 @@ if (WITH_LIBSPNG)
           URL "https://github.com/randy408/libspng/archive/v${SPNG_VERSION}.tar.gz"
           PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libspng"
           PATCH_COMMAND patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/patches/libspng-0.6-fixes.patch
-          CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+          CMAKE_ARGS
+          -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+          -DCMAKE_BUILD_TYPE=Release
+          -DSPNG_STATIC=OFF
+          -DENABLE_OPT=ON
           BUILD_IN_SOURCE 1
           )
     else()
