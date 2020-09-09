@@ -50,7 +50,7 @@ public class SimpleBenchmark {
                 .warmupTime(TimeValue.seconds(1))
                 .warmupIterations(3)
                 .measurementTime(TimeValue.seconds(1))
-                .measurementIterations(20)
+                .measurementIterations(10)
                 .threads(2)
                 .forks(1)
                 .shouldFailOnError(true)
@@ -63,26 +63,39 @@ public class SimpleBenchmark {
     @State(Scope.Thread)
     public static class BenchmarkState
     {
-        byte[] content;
+        byte[] jpegContent;
+        byte[] pngContent;
 
         @Setup(Level.Trial)
         public void initialize() throws IOException {
             ClassLoader classLoader = SimpleBenchmark.class.getClassLoader();
-            String path = classLoader.getResource("in_vips.jpg").getFile();
-            content = Files.readAllBytes(new File(path).toPath());
+            String jpegPath = classLoader.getResource("in_vips.jpg").getFile();
+            String pngPath = classLoader.getResource("in_vips.png").getFile();
+
+            jpegContent = Files.readAllBytes(new File(jpegPath).toPath());
+            pngContent = Files.readAllBytes(new File(pngPath).toPath());
 
             VipsContext.setMaxCache(0);
         }
     }
 
     @Benchmark
-    public void ResizeCropPad(BenchmarkState state, Blackhole bh) {
-        VipsImage img = new VipsImage(state.content, state.content.length);
+    public void ResizeCropPadJpeg(BenchmarkState state, Blackhole bh) {
+        ResizeCropPad(state.jpegContent, VipsImageFormat.JPG);
+    }
+
+    @Benchmark
+    public void ResizeCropPadPng(BenchmarkState state, Blackhole bh) {
+        ResizeCropPad(state.pngContent, VipsImageFormat.PNG);
+    }
+
+    private void ResizeCropPad(byte[] content, VipsImageFormat format) {
+        VipsImage img = new VipsImage(content, content.length);
 
         img.resize(resizeTarget, false);
         img.crop(cropTarget);
         img.pad(padTarget, pixelPacket, VipsCompassDirection.Centre);
-        byte[] out = img.writeToArray(VipsImageFormat.JPG, 80, false);
+        byte[] out = img.writeToArray(format, 80, false);
         img.release();
     }
 }
