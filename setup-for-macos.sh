@@ -47,6 +47,11 @@ command -v pkg-config || {
 [ -z "$GITHUB_ACTIONS" ] || {
     brew unlink python@3.8
     brew uninstall ruby@2.6
+    brew uninstall sqlite
+    brew uninstall llvm
+    brew uninstall node@12
+    brew uninstall php
+    brew uninstall postgresql
 }
 
 source lib/VERSIONS
