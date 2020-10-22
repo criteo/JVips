@@ -812,4 +812,24 @@ public class VipsImageTest {
             assertEquals(expectedBands, img.getBands());
         }
     }
+
+    @Test
+    public void TestClone() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        VipsImage copy;
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
+            copy = img.clone();
+            assertEquals(img.getHeight(), copy.getHeight());
+            assertEquals(img.getWidth(), copy.getWidth());
+        }
+        try {
+            copy.getBands();
+        }
+        catch (Exception e) {
+            fail("Should not throw exception after original iamge release");
+        }
+        finally {
+            copy.release();
+        }
+    }
 }

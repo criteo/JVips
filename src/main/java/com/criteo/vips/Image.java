@@ -289,6 +289,11 @@ public interface Image extends Closeable {
     void release();
 
     /**
+     * Create a copy of this image
+     */
+    Image clone();
+
+    /**
      * {@inheritDoc}
      */
     @Override
