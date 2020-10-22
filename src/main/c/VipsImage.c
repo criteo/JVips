@@ -596,6 +596,23 @@ JNICALL Java_com_criteo_vips_VipsImage_autorot(JNIEnv *env, jobject image_obj)
     g_object_unref(im);
 }
 
+JNIEXPORT jobject
+JNICALL Java_com_criteo_vips_VipsImage_clone(JNIEnv *env, jobject image_obj)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+    VipsImage *out = NULL;
+    jobject cls = (*env)->FindClass(env, "com/criteo/vips/VipsImage");
+    jmethodID ctor = (*env)->GetMethodID(env, cls, "<init>", "(J)V");
+    jobject image_copy_obj;
+
+    if (vips_copy(im, &out, NULL))
+    {
+        throwVipsException(env, "Unable to copy image");
+        return;
+    }
+    return (*env)->NewObject(env, cls, ctor, (jlong) out);
+}
+
 JNIEXPORT void
 JNICALL Java_com_criteo_vips_VipsImage_removeAutorotAngle(JNIEnv *env, jobject image_obj)
 {

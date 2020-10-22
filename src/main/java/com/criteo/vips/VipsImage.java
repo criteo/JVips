@@ -67,6 +67,10 @@ public class VipsImage extends Vips implements Image {
         // you must call a native method before using this object
     }
 
+    private VipsImage(long handle) {
+        this.vipsImageHandler = handle;
+    }
+
     public static VipsImage black(int width, int height) throws VipsException {
         VipsImage im = new VipsImage();
         im.blackNative(width, height);
@@ -250,6 +254,8 @@ public class VipsImage extends Vips implements Image {
     public native void autorot() throws VipsException;
 
     public native void removeAutorotAngle();
+
+    public native VipsImage clone();
 
     public native void release();
 }
