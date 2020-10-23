@@ -25,7 +25,7 @@ public class Vips {
 
     private final static String[] linuxLibraries = {
             "exif",
-            "png16",
+            "spng",
             "gif",
             "jpeg",
             "turbojpeg",
