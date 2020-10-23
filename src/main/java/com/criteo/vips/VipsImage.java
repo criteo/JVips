@@ -255,7 +255,7 @@ public class VipsImage extends Vips implements Image {
 
     public native void removeAutorotAngle();
 
-    public native VipsImage clone();
+    public native VipsImage clone() throws VipsException;
 
     public native void release();
 }

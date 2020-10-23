@@ -290,8 +290,11 @@ public interface Image extends Closeable {
 
     /**
      * Create a copy of this image
+     *
+     * @return A copy of this image
+     * @throws VipsException if error
      */
-    Image clone();
+    Image clone() throws VipsException;
 
     /**
      * {@inheritDoc}
