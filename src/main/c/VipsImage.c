@@ -608,7 +608,6 @@ JNICALL Java_com_criteo_vips_VipsImage_clone(JNIEnv *env, jobject image_obj)
     if (vips_copy(im, &out, NULL))
     {
         throwVipsException(env, "Unable to copy image");
-        return;
     }
     return (*env)->NewObject(env, cls, ctor, (jlong) out);
 }
