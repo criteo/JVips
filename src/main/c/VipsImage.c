@@ -112,6 +112,25 @@ Java_com_criteo_vips_VipsImage_newFromBuffer(JNIEnv *env, jobject obj, jbyteArra
     (*env)->SetLongField(env, obj, buffer_fid, (jlong) internal_buffer);
 }
 
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImage_newFromFile(JNIEnv *env, jobject obj, jstring filename)
+{
+    const char *str = (*env)->GetStringUTFChars(env, filename, NULL);
+    VipsImage* im = vips_image_new_from_file(str, NULL);
+
+    if (im == NULL)
+    {
+        (*env)->SetLongField(env, obj, handle_fid, (jlong) NULL);
+        (*env)->SetLongField(env, obj, buffer_fid, (jlong) NULL);
+        (*env)->ReleaseStringUTFChars(env, filename, str);
+        throwVipsException(env, "Unable to create an image from file");
+        return;
+    }
+    (*env)->ReleaseStringUTFChars(env, filename, str);
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) im);
+    (*env)->SetLongField(env, obj, buffer_fid, (jlong) NULL);
+}
+
 JNIEXPORT int JNICALL Java_com_criteo_vips_VipsImage_imageGetInterpretationNative(JNIEnv *env, jobject obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);

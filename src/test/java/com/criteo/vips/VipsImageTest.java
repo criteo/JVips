@@ -801,4 +801,15 @@ public class VipsImageTest {
             assertEquals(WhitePixel, img.getPointPixelPacket(0, 0));
         }
     }
+
+    @Test
+    public void TestCreateVipsImageFromFile() throws IOException, VipsException {
+        String filename = VipsTestUtils.getRessourcePath("in_vips.jpg");
+        int expectedBands = 3;
+
+        try (VipsImage img = new VipsImage(filename)) {
+            // Dummy assert to check if the VipsImage has been created
+            assertEquals(expectedBands, img.getBands());
+        }
+    }
 }

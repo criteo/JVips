@@ -22,10 +22,13 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
 public class VipsTestUtils {
-    public static byte[] getByteArray(String filename) throws IOException {
+    public static String getRessourcePath(String filename) {
         ClassLoader classLoader = VipsTestUtils.class.getClassLoader();
-        filename = classLoader.getResource(filename).getFile();
-        return Files.readAllBytes(new File(filename).toPath());
+        return classLoader.getResource(filename).getFile();
+    }
+
+    public static byte[] getByteArray(String filename) throws IOException {
+        return Files.readAllBytes(new File(getRessourcePath(filename)).toPath());
     }
 
     public static ByteBuffer getDirectByteBuffer(String filename) throws IOException {

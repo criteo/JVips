@@ -33,6 +33,14 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromBuffer
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    newFromFile
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromFile
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    blackNative
  * Signature: (II)V
  */
