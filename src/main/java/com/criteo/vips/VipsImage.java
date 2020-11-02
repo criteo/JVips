@@ -80,7 +80,7 @@ public class VipsImage extends Vips implements Image {
     private native void blackNative(int width, int height) throws VipsException;
 
     private void newFromImage(Image image, PixelPacket c) throws VipsException {
-        double[] color = { c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha() };
+        double[] color = {c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()};
         newFromImageNative(image, color);
     }
 
@@ -130,8 +130,7 @@ public class VipsImage extends Vips implements Image {
 
     private native void colourspaceNative(int space, int source_space) throws VipsException;
 
-    public void histFindNdim(int bins) throws VipsException
-    {
+    public void histFindNdim(int bins) throws VipsException {
         histFindNdimNative(bins);
     }
 
@@ -139,6 +138,10 @@ public class VipsImage extends Vips implements Image {
 
     public void resize(Dimension dimension, boolean scale) throws VipsException {
         resizeNative(dimension.width, dimension.height, scale);
+    }
+
+    public void resize(int width, int height, boolean scale) throws VipsException {
+        resizeNative(width, height, scale);
     }
 
     private native void resizeNative(int width, int height, boolean scale) throws VipsException;
@@ -163,8 +166,7 @@ public class VipsImage extends Vips implements Image {
 
     private native void cropNative(int left, int top, int width, int height) throws VipsException;
 
-    public Rectangle findTrim(double threshold, PixelPacket background) throws VipsException
-    {
+    public Rectangle findTrim(double threshold, PixelPacket background) throws VipsException {
         int[] ret = findTrimNative(threshold, background.getComponents());
         return new Rectangle(ret[0], ret[1], ret[2], ret[3]);
     }
@@ -237,7 +239,7 @@ public class VipsImage extends Vips implements Image {
          * The name of the function in libvips is vips_image_get_interpretation
          * so the Java method should be called imageGetInterpretation.  Just
          * the correctly named function here.
-        */
+         */
         return imageGetInterpretation();
     }
 
