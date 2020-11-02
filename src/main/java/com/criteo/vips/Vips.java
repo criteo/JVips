@@ -88,6 +88,10 @@ public class Vips {
         String libName = System.mapLibraryName(name);
         File temp;
         try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(libName)) {
+            if (in == null) {
+                LOGGER.severe("Could not load lib '" + libName + "' via classloader");
+                return;
+            }
             byte[] buffer = new byte[1024];
             int read;
             temp = File.createTempFile(libName, "");
