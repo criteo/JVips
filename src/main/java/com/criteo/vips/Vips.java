@@ -20,10 +20,10 @@ import java.io.*;
 import java.util.logging.Logger;
 
 public class Vips {
-    private final static Logger logger = Logger.getLogger("com.criteo.thirdparty.Vips");
-    private static String SystemName = System.getProperty("os.name").toLowerCase();
+    private static final Logger LOGGER = Logger.getLogger("com.criteo.thirdparty.Vips");
+    private static final String SYSTEM_NAME = System.getProperty("os.name").toLowerCase();
 
-    private final static String[] linuxLibraries = {
+    private static final String[] LINUX_LIBRARIES = {
             "exif",
             "png16",
             "spng",
@@ -44,20 +44,20 @@ public class Vips {
      * "Can't find dependent libraries"
      * Thus, JVips.dll should use system libraries.
      * We only provide libimagequant because it's out of windows binaries release.
-     *
+     * <p>
      * TODO: add Windows 64 embedded libraries
      */
-    private final static String[] windowsLibraries = {
+    private final static String[] WINDOWS_LIBRARIES = {
             "libimagequant"
     };
 
     static {
         try {
             if (tryLoadLibrariesFromJar())
-                logger.info("JVips dependencies have been loaded from jar");
+                LOGGER.info("JVips dependencies have been loaded from jar");
             else
-                logger.info("Using JVips dependencies installed on system");
-            logger.info("Trying to load JVips");
+                LOGGER.info("Using JVips dependencies installed on system");
+            LOGGER.info("Trying to load JVips");
             loadLibraryFromJar("JVips");
             init();
         } catch (IOException e) {
@@ -68,7 +68,7 @@ public class Vips {
     }
 
     private static boolean tryLoadLibrariesFromJar() throws IOException {
-        String[] libraries = !isWindows() ? linuxLibraries : windowsLibraries;
+        String[] libraries = !isWindows() ? LINUX_LIBRARIES : WINDOWS_LIBRARIES;
         try {
             for (String library : libraries) {
                 loadLibraryFromJar(library);
@@ -80,7 +80,8 @@ public class Vips {
     }
 
     private static boolean isWindows() {
-        return SystemName.indexOf("win") >= 0;
+        // might be "Darwin" on macOS.
+        return SYSTEM_NAME.indexOf("win") >= 0;
     }
 
     private static void loadLibraryFromJar(String name) throws IOException {
