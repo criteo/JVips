@@ -195,6 +195,38 @@ else()
     add_custom_target(libwebp "")
 endif()
 
+find_library(LIBAOM aom PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT LIBAOM)
+    ExternalProject_Add(libaom
+      GIT_REPOSITORY "https://aomedia.googlesource.com/aom"
+      GIT_TAG "v2.0.0"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libaom"
+      CMAKE_ARGS
+      -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+      -DCMAKE_BUILD_TYPE=Release
+      -DCMAKE_INSTALL_LIBDIR=lib
+      -DBUILD_SHARED_LIBS=1
+      -DENABLE_CCACHE=0
+      )
+else()
+    add_custom_target(libaom "")
+endif()
+
+find_library(LIBHEIF heif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT LIBHEIF)
+    ExternalProject_Add(libheif
+      URL "https://github.com/strukturag/libheif/releases/download/v${HEIF_VERSION}/libheif-${HEIF_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libheif"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libheif/src/libheif/configure
+      ${CONFIGURE_VARS}
+      --disable-go
+      --with-aom
+      DEPENDS libaom
+      )
+else()
+    add_custom_target(libheif "")
+endif()
+
 find_library(LCMS2 lcms2 EXACT PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LCMS2)
     ExternalProject_Add(lcms2
