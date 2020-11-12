@@ -196,6 +196,12 @@ public class VipsImage extends Vips implements Image {
 
     private native byte[] writePNGToArrayNative(int compression, boolean palette, int colors, boolean strip) throws VipsException;
 
+    public byte[] writeAVIFToArray(int Q, boolean lossless, int speed) throws VipsException {
+        return writeAVIFToArrayNative(Q, lossless, speed);
+    }
+
+    private native byte[] writeAVIFToArrayNative(int Q, boolean lossless, int speed) throws VipsException;
+
     private native byte[] writeToArrayNative(String extension, int quality, boolean strip) throws VipsException;
 
     public native int getWidth();

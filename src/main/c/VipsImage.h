@@ -177,6 +177,14 @@ JNIEXPORT jbyteArray JNICALL Java_com_criteo_vips_VipsImage_writePNGToArrayNativ
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    writeAVIFToArrayNative
+ * Signature: (IZI)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_criteo_vips_VipsImage_writeAVIFToArrayNative
+  (JNIEnv *, jobject, jint, jboolean, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    writeToArrayNative
  * Signature: (Ljava/lang/String;IZ)[B
  */

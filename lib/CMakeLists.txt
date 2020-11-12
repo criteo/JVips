@@ -263,12 +263,13 @@ if(NOT VIPS)
       --with-jpeg
       --with-jpeg-includes=${EXT_INSTALL_DIR}/include
       --with-jpeg-libraries=${EXT_INSTALL_DIR}/lib
+      --with-heif
       --without-magick
       --without-orc
       --without-gsf
       --without-rsvg
       ${LIBSPNG_FLAGS}
-      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2
+      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2 libheif
       BUILD_IN_SOURCE 1
       )
 else()

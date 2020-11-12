@@ -315,10 +315,17 @@ Java_com_criteo_vips_VipsImage_writeToArrayNative(JNIEnv *env, jobject obj, jstr
     size_t result_length = 0;
     int status = 0;
 
-    if (quality < 0)
-        status = vips_image_write_to_buffer(im, ext, &buffer, &result_length, "strip", strip, NULL);
-    else
-        status = vips_image_write_to_buffer(im, ext, &buffer, &result_length, "strip", strip, "Q", quality, NULL);
+    if (strcmp(ext, ".avif") == 0) {
+        if (quality < 0)
+            status = vips_heifsave_buffer(im, &buffer, &result_length, "Q", quality, "compression", VIPS_FOREIGN_HEIF_COMPRESSION_AV1, NULL);
+        else
+            status = vips_heifsave_buffer(im, &buffer, &result_length, "compression", VIPS_FOREIGN_HEIF_COMPRESSION_AV1, NULL);
+    } else {
+        if (quality < 0)
+            status = vips_image_write_to_buffer(im, ext, &buffer, &result_length, "strip", strip, NULL);
+        else
+            status = vips_image_write_to_buffer(im, ext, &buffer, &result_length, "strip", strip, "Q", quality, NULL);
+    }
     if (status)
     {
         (*env)->ReleaseStringUTFChars(env, extension, ext);
@@ -348,6 +355,30 @@ Java_com_criteo_vips_VipsImage_writePNGToArrayNative(JNIEnv *env, jobject obj, j
                             NULL))
     {
         throwVipsException(env, "Unable to write PNG image buffer");
+        return ret;
+    }
+    ret = (*env)->NewByteArray(env, result_length);
+    (*env)->SetByteArrayRegion(env, ret, 0, result_length * sizeof (jbyte), buffer);
+    g_free(buffer);
+    return ret;
+}
+
+JNIEXPORT jbyteArray JNICALL
+Java_com_criteo_vips_VipsImage_writeAVIFToArrayNative(JNIEnv *env, jobject obj, jint q, jboolean lossless, jint speed)
+{
+    jbyteArray ret;
+    void *buffer = NULL;
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    size_t result_length = 0;
+
+    if (vips_heifsave_buffer(im, &buffer, &result_length,
+                            "Q", q,
+                            "lossless", lossless,
+                            "compression", VIPS_FOREIGN_HEIF_COMPRESSION_AV1,
+                            "speed", speed,
+                            NULL))
+    {
+        throwVipsException(env, "Unable to write AVIF image buffer");
         return ret;
     }
     ret = (*env)->NewByteArray(env, result_length);

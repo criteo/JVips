@@ -60,6 +60,10 @@ public class VipsImageTest {
         SignatureByExtension.put(".png", new byte[]{(byte) 137, 80, 78, 71, 13, 10, 26, 10});
         SignatureByExtension.put(".webp", new byte[]{'R', 'I', 'F', 'F'});
         SignatureByExtension.put(".gif", new byte[]{'G', 'I', 'F'});
+        SignatureByExtension.put(".avif", new byte[]{(byte)
+            0x00, 0x00, 0x00, 0x18,
+            'f', 't', 'y', 'p', 'a', 'v', 'i', 'f' 
+        });
     }
 
     @DataPoints("filenames")
@@ -68,7 +72,8 @@ public class VipsImageTest {
             "transparent.png",
             "logo.webp",
             "cat.gif",
-            "02.gif"
+            "02.gif",
+            "stars.avif"
     };
 
     static class DominantColour {
@@ -646,6 +651,35 @@ public class VipsImageTest {
         int colors = 256;
         try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             byte[] out = img.writePNGToArray(compression, true, colors, true);
+            Assert.assertTrue(buffer.length > out.length);
+        }
+    }
+
+    @Theory
+    public void TestWriteAVIFFromByteArrayShouldNotThrows(@FromDataPoints("filenames") String filename,
+                                                         boolean lossless)
+            throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray(filename);
+        // Q 30 gives about the same quality as JPEG Q 75.
+        int Q = 30;
+        // Speed is comprised between 0 and 8.
+        int speed = 4;
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
+            byte[] out = img.writeAVIFToArray(Q, lossless, speed);
+            assertNotNull(out);
+        }
+    }
+
+    @Test
+    public void TestWriteAVIFFromByteArrayShouldShrinkOutputSize()
+            throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray("logo_with_transparent_padding_50x50.png");
+        // Q 30 gives about the same quality as JPEG Q 75.
+        int Q = 30;
+        // Speed is comprised between 0 and 8.
+        int speed = 4;
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
+            byte[] out = img.writeAVIFToArray(Q, false, speed);
             Assert.assertTrue(buffer.length > out.length);
         }
     }
