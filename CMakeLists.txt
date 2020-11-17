@@ -68,6 +68,8 @@ endif()
 
 # Use libspng if WITH_LIBSPNG is ON, libpng otherwise.
 option(WITH_LIBSPNG "Build libvips with libspng" OFF)
+# Compile with libheif if WITH_LIBHEIF is ON, without it otherwise. libheif is required to handle the AVIF format.
+option(WITH_LIBHEIF "Build libvips with libheif" OFF)
 
 add_subdirectory(src/main/java/com/criteo/vips/)
 add_subdirectory(src/main/c)

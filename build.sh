@@ -85,7 +85,7 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
     mkdir -p "${BUILDDIR}/${TARGET}"/JVips
     rm -rf "${BUILDDIR}/${TARGET}"/JVips/*
     pushd "${BUILDDIR}/${TARGET}"/JVips
-    ${CMAKE_BIN} "${BASEDIR}" -DWITH_LIBSPNG=ON -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    ${CMAKE_BIN} "${BASEDIR}" -DWITH_LIBSPNG=ON -DWITH_LIBHEIF=ON -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
     make -j ${JOBS} || {
         echo "Linux JVips build failed"
         exit 1
@@ -158,7 +158,7 @@ if [ ${BUILD_MACOS} -gt 0 ]; then
     mkdir -p "${BUILDDIR}/${TARGET}"/JVips
     rm -rf "${BUILDDIR}/${TARGET}"/JVips/*
     pushd "${BUILDDIR}/${TARGET}/JVips"
-    ${CMAKE_BIN} "${BASEDIR}" -DWITH_LIBSPNG=ON -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    ${CMAKE_BIN} "${BASEDIR}" -DWITH_LIBSPNG=ON -DWITH_LIBHEIF=ON -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN}" -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
     make -j ${JOBS} || {
         echo "macOS JVips build failed"
         exit 1
