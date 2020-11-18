@@ -51,6 +51,9 @@ CMAKE_BIN=$(which cmake3 || which cmake)
 PYTHON_BIN=$(which python3 || which python)
 PIP_BIN=$(which pip-3 || which pip3 || which pip)
 
+# Clear ccache compilation cache.
+rm -rf ~/.ccache
+
 # Copy maven dependencies for some tests
 mkdir -p "${BUILDDIR}"/artifacts/
 mvn ${MAVEN_ARGS} dependency:copy-dependencies -DoutputDirectory="${BUILDDIR}"/artifacts/
