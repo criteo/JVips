@@ -201,7 +201,7 @@ if (WITH_LIBHEIF)
     if(NOT LIBAOM)
         ExternalProject_Add(libaom
           GIT_REPOSITORY "https://aomedia.googlesource.com/aom"
-          GIT_TAG "v2.0.0"
+          GIT_TAG "v${AOM_VERSION}"
           PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libaom"
           CMAKE_ARGS
           -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
