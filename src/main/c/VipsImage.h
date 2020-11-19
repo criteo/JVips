@@ -265,14 +265,6 @@ JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsImage_getNbFrame
 
 /*
  * Class:     com_criteo_vips_VipsImage
- * Method:    getAutorotAngleNative
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsImage_getAutorotAngleNative
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_criteo_vips_VipsImage
  * Method:    autorot
  * Signature: ()V
  */

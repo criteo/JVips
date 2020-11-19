@@ -253,12 +253,6 @@ public class VipsImage extends Vips implements Image {
 
     public native int getNbFrame();
 
-    public VipsAngle getAutorotAngle() {
-        return VipsAngle.valueOf(getAutorotAngleNative());
-    }
-
-    private native int getAutorotAngleNative();
-
     public native void autorot() throws VipsException;
 
     public native void removeAutorotAngle();

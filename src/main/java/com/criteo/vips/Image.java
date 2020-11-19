@@ -267,11 +267,6 @@ public interface Image extends Closeable {
     int getNbFrame();
 
     /**
-     * @return Auto rotation angle metadata
-     */
-    VipsAngle getAutorotAngle();
-
-    /**
      * Apply an auto rotation according to the image EXIF metadata
      *
      * @throws VipsException if error
