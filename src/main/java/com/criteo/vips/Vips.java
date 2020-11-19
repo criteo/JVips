@@ -24,6 +24,8 @@ public class Vips {
     private static final String SYSTEM_NAME = System.getProperty("os.name").toLowerCase();
 
     private static final String[] LINUX_LIBRARIES = {
+            "aom",
+            "heif",
             "exif",
             "png16",
             "spng",
