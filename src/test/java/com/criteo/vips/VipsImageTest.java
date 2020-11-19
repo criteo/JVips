@@ -816,18 +816,6 @@ public class VipsImageTest {
     }
 
     @Test
-    public void TestRemoveAutorotAngle() throws IOException, VipsException {
-        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("exif_rotate_90_cw.jpg");
-
-        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            // Autorotate has been fixed in libvips 8.10.1 in jpegload()
-            assertEquals(VipsAngle.D0, img.getAutorotAngle());
-            img.removeAutorotAngle();
-            assertEquals(VipsAngle.D0, img.getAutorotAngle());
-        }
-    }
-
-    @Test
     public void TestExif90CWAutorot() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("exif_rotate_90_cw.jpg");
 
@@ -861,7 +849,7 @@ public class VipsImageTest {
             copy.getBands();
         }
         catch (Exception e) {
-            fail("Should not throw exception after original iamge release");
+            fail("Should not throw exception after original image release");
         }
         finally {
             copy.release();

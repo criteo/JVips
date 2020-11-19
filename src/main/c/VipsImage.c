@@ -604,14 +604,6 @@ JNICALL Java_com_criteo_vips_VipsImage_linearNative(JNIEnv *env, jobject image_o
     }
 }
 
-JNIEXPORT jint
-JNICALL Java_com_criteo_vips_VipsImage_getAutorotAngleNative(JNIEnv *env, jobject image_obj)
-{
-    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
-
-    return (int) vips_autorot_get_angle(im);
-}
-
 JNIEXPORT void
 JNICALL Java_com_criteo_vips_VipsImage_autorot(JNIEnv *env, jobject image_obj)
 {
