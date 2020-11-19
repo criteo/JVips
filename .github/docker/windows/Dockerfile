@@ -28,6 +28,7 @@ RUN yum install ${YUM_OPTIONS} \
     gcc-c++ \
     clang \
     nasm \
+    yasm \
     autoconf \
     automake \
     libtool \

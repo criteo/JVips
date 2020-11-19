@@ -29,6 +29,7 @@ RUN yum install ${YUM_OPTIONS} \
     clang \
     devtoolset-7-toolchain \
     nasm \
+    yasm \
     autoconf \
     automake \
     libtool \
