@@ -200,8 +200,7 @@ if (WITH_LIBHEIF)
     find_library(LIBAOM aom PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
     if(NOT LIBAOM)
         ExternalProject_Add(libaom
-          GIT_REPOSITORY "https://aomedia.googlesource.com/aom"
-          GIT_TAG "v${AOM_VERSION}"
+          URL "https://aomedia.googlesource.com/aom/+archive/refs/tags/v${AOM_VERSION}.tar.gz"
           PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libaom"
           CMAKE_ARGS
           -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
