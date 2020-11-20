@@ -72,8 +72,7 @@ public class VipsImageTest {
             "transparent.png",
             "logo.webp",
             "cat.gif",
-            "02.gif",
-            "stars.avif"
+            "02.gif"
     };
 
     static class DominantColour {
@@ -140,6 +139,7 @@ public class VipsImageTest {
                                                              VipsImageFormat output,
                                                              boolean strip) throws IOException, VipsException {
         Assume.assumeTrue(output != VipsImageFormat.GIF);
+        Assume.assumeTrue(output != VipsImageFormat.AVIF);
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             byte[] out = img.writeToArray(output, JPGQuality, strip);
@@ -152,6 +152,7 @@ public class VipsImageTest {
                                                       VipsImageFormat output,
                                                       boolean strip) throws IOException, VipsException {
         Assume.assumeTrue(output != VipsImageFormat.GIF);
+        Assume.assumeTrue(output != VipsImageFormat.AVIF);
         byte[] buffer = VipsTestUtils.getByteArray(filename);
         try (VipsImage img = new VipsImage(buffer, buffer.length)) {
             byte[] out = img.writeToArray(output, JPGQuality, strip);
@@ -495,6 +496,7 @@ public class VipsImageTest {
     public void TestShouldWriteToArrayHasCorrectHeaderSignature(String filename, VipsImageFormat vipsImageFormat) throws IOException, VipsException {
         // libvips can't save into gif format
         Assume.assumeTrue(vipsImageFormat != VipsImageFormat.GIF);
+        Assume.assumeTrue(vipsImageFormat != VipsImageFormat.AVIF);
         byte[] expected = SignatureByExtension.get(vipsImageFormat.getFileExtension());
         byte[] signature = new byte[expected.length];
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
@@ -533,6 +535,7 @@ public class VipsImageTest {
     public void TestSimplePipelineShouldNotThrow(String filename, VipsImageFormat vipsImageFormat) throws IOException, VipsException {
         // libvips can't save into gif format
         Assume.assumeTrue(vipsImageFormat != VipsImageFormat.GIF);
+        Assume.assumeTrue(vipsImageFormat != VipsImageFormat.AVIF);
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
         PixelPacket pixel = new PixelPacket(5.0, 255.0, 25.0);
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
@@ -655,6 +658,7 @@ public class VipsImageTest {
         }
     }
 
+    @Ignore
     @Theory
     public void TestWriteAVIFFromByteArrayShouldNotThrows(@FromDataPoints("filenames") String filename,
                                                          boolean lossless)
@@ -670,6 +674,7 @@ public class VipsImageTest {
         }
     }
 
+    @Ignore
     @Test
     public void TestWriteAVIFFromByteArrayShouldShrinkOutputSize()
             throws IOException, VipsException {
