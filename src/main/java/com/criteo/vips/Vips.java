@@ -70,6 +70,8 @@ public class Vips {
     }
 
     private static boolean tryLoadLibrariesFromJar() throws IOException {
+        if (isMacOS())
+            return true;
         String[] libraries = !isWindows() ? LINUX_LIBRARIES : WINDOWS_LIBRARIES;
         try {
             for (String library : libraries) {
@@ -82,8 +84,11 @@ public class Vips {
     }
 
     private static boolean isWindows() {
-        // might be "Darwin" on macOS.
         return SYSTEM_NAME.indexOf("win") >= 0;
+    }
+
+    private static boolean isMacOS() {
+        return (SYSTEM_NAME.indexOf("mac") >= 0);
     }
 
     private static void loadLibraryFromJar(String name) throws IOException {
