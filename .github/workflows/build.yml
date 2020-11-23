@@ -160,6 +160,7 @@ jobs:
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
