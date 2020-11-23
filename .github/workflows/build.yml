@@ -16,6 +16,8 @@ jobs:
 
       - name: Cache Docker layers
         uses: satackey/action-docker-layer-caching@v0.0.8
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
 
       - name: Build Docker builder image
         run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/linux/Dockerfile -t builder .
@@ -38,6 +40,8 @@ jobs:
 
       - name: Cache Docker layers
         uses: satackey/action-docker-layer-caching@v0.0.8
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
 
       - name: Build Docker builder image
         run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/windows/Dockerfile -t builder .
