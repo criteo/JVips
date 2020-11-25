@@ -11,6 +11,9 @@ find_package(PkgConfig REQUIRED)
 find_package(Java 1.8 REQUIRED)
 include(UseJava)
 
+SET (CMAKE_C_COMPILER_WORKS 1)
+SET (CMAKE_CXX_COMPILER_WORKS 1)
+
 set(CMAKE_C_FLAGS "-std=c99")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g3")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -O3 -g")
