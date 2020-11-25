@@ -114,6 +114,8 @@ jobs:
 
       - name: Set up Maven Central Repository
         uses: warrenseine/setup-java@v1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
           java-version: "1.8.0"
           java-package: jdk
