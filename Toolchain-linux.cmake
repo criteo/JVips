@@ -2,6 +2,7 @@ set(BUILD_TARGET linux)
 
 # the name of the target operating system
 SET(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR AMD64)
 
 # which compilers to use for C and C++
 SET(CMAKE_C_COMPILER gcc)

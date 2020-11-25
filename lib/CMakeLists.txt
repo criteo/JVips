@@ -92,14 +92,16 @@ endif()
 find_library(LIBJPEG jpeg turbojpeg PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LIBJPEG)
     ExternalProject_Add(libjpeg
-      URL "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${JPG_VERSION}.tar.gz"
+      URL "https://sourceforge.net/projects/libjpeg-turbo/files/${JPG_VERSION}/libjpeg-turbo-${JPG_VERSION}.tar.gz/download"
       PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libjpeg-turbo"
-      PATCH_COMMAND autoreconf -fiv
-      CONFIGURE_COMMAND ./configure
-      ${CONFIGURE_VARS}
-      --enable-shared
-      --disable-static
-      --with-jpeg8
+      CMAKE_ARGS
+      -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+      -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+      -DWITH_TURBOJPEG=ON
+      -DENABLE_SHARED=ON
+      -DENABLE_STATIC=OFF
+      -DWITH_JPEG8=ON
+      -DWITH_SIMD=ON
       BUILD_IN_SOURCE 1
       )
 else()
@@ -235,7 +237,7 @@ endif()
 find_library(LCMS2 lcms2 EXACT PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LCMS2)
     ExternalProject_Add(lcms2
-      URL "https://github.com/mm2/Little-CMS/archive/lcms${LCMS2_VERSION}.tar.gz"
+      URL "https://sourceforge.net/projects/lcms/files/lcms/${LCMS2_VERSION}/lcms2-${LCMS2_VERSION}.tar.gz/download"
       PREFIX "${CMAKE_CURRENT_BINARY_DIR}/lcms2"
       CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/lcms2/src/lcms2/configure
       ${CONFIGURE_VARS}
