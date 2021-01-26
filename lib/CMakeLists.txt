@@ -220,11 +220,13 @@ if (WITH_LIBHEIF)
         ExternalProject_Add(libheif
           URL "https://github.com/strukturag/libheif/releases/download/v${HEIF_VERSION}/libheif-${HEIF_VERSION}.tar.gz"
           PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libheif"
-          CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libheif/src/libheif/configure
-          ${CONFIGURE_VARS}
-          --disable-go
-          --with-aom
-          DEPENDS libaom
+          CMAKE_ARGS
+          -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+          -DCMAKE_BUILD_TYPE=Release
+          -DHAVE_AOM=yes
+          -DHAVE_GO=no
+           DEPENDS libaom
+          BUILD_IN_SOURCE 1
           )
     else()
         add_custom_target(libheif "")
