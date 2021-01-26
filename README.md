@@ -66,7 +66,7 @@ Install libvips with Homebrew:
 
 ## From source
 
-The build system relies on numerous dependencies including CMake 3 and Maven, as well as native code compilers. Instead of listing them here, please refer to [Dockerfile](Dockerfile) for an up-to-date list.
+The build system relies on numerous dependencies including CMake 3 and Maven, as well as native code compilers. Instead of listing them here, please refer to [Dockerfile](.github/docker/linux/Dockerfile) for an up-to-date list.
 
 The `build.sh` script will download and build a subset of JVips dependencies from source in order to maximize optimizations. However, it is recommended to install all dependencies on the system first, as documented in the sections below.
 
@@ -113,7 +113,7 @@ Windows builds are cross-compiled from Linux using MingW64. WSL and Docker are b
 
 To build with Docker:
 ```
-$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
+$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/windows/Dockerfile -t builder .
 $ docker run --rm -v $(pwd):/app -w /app builder bash -ex build.sh --with-w64 --without-linux --without-macos
 ```
 
@@ -196,7 +196,7 @@ Java_com_criteo_vips_VipsImageImpl_hasAlpha(JNIEnv *env, jobject obj)
 
 To debug the Docker image, you should build, run, and enter it as root:
 ```
-$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t builder .
+$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/linux/Dockerfile -t builder .
 $ docker run --rm -v $(pwd):/app -w /app -u root -it builder bash
 ```
 
