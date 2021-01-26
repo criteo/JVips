@@ -19,7 +19,23 @@ package com.criteo.vips;
 public class VipsException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
+    private String vipsErrorBuffer;
+
     public VipsException(String message) {
         super(message);
+    }
+
+    public VipsException(String message, String vipsErrorBuffer) {
+        super(message);
+        this.vipsErrorBuffer = vipsErrorBuffer;
+    }
+
+    @Override
+    public String getMessage() {
+        String msg = super.getMessage();
+        if (vipsErrorBuffer != null) {
+            return msg + '\n' + " vips error buffer contains: " + vipsErrorBuffer.trim();
+        }
+        return msg;
     }
 }
