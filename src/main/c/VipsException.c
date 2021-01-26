@@ -20,14 +20,35 @@
 
 #include "VipsException.h"
 
+void throwRuntimeExceptionFallback(JNIEnv *env, const char* msg)
+{
+    jclass cls = (*env)->FindClass(env, "java/lang/RuntimeException");
+    (*env)->ThrowNew(env, cls, msg);
+}
+
 void throwVipsException(JNIEnv *env, const char *msg)
 {
-    jclass vips_exception_class = (*env)->FindClass(env, "com/criteo/vips/VipsException");
-
-    if (vips_exception_class == 0) {
-        jclass rt_exception_class = (*env)->FindClass( env, "java/lang/RuntimeException");
-        (*env)->ThrowNew(env, rt_exception_class, "Cannot find VipsException class");
+    jclass cls = (*env)->FindClass(env, "com/criteo/vips/VipsException");
+    if (cls == 0) {
+        throwRuntimeExceptionFallback(env, "Cannot find VipsException class");
         return;
     }
-    (*env)->ThrowNew(env, vips_exception_class, msg);
+
+    jmethodID ctor = (*env)->GetMethodID(env, cls, "<init>", "(Ljava/lang/String;Ljava/lang/String;)V");
+    if (ctor == NULL) {
+        throwRuntimeExceptionFallback(env, "Failed to find the VipsException constructor");
+        return;
+    }
+
+    const char* vipsErrorBuffer = vips_error_buffer();
+    jobject vipsErrorBufferMsg = (*env)->NewStringUTF(env, vipsErrorBuffer);
+    jthrowable throwable = (*env)->NewObject(env, cls, ctor, (*env)->NewStringUTF(env, msg), vipsErrorBufferMsg);
+
+    if (throwable == NULL) {
+        throwRuntimeExceptionFallback(env, "Failed to instanciate VipsException object");
+        return;
+    }
+
+    (*env)->Throw(env, throwable);
+    vips_error_clear();
 }
