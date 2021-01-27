@@ -2,7 +2,7 @@ add_library(JVipsTest SHARED VipsEnumTest.c ${PROJECT_SOURCE_DIR}/src/main/c/Vip
 
 add_dependencies(JVipsTest JVips VipsEnumTest_header)
 
-target_link_libraries(JVipsTest ${VIPS_LIBRARIES})
+target_link_libraries(JVipsTest ${VIPS_LIBRARIES} "-lvips")
 target_include_directories(JVipsTest PUBLIC ${PROJECT_SOURCE_DIR}/src/main/c)
 
 if ("${BUILD_TARGET}" STREQUAL "w64")
