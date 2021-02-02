@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2019 Criteo
+  Copyright (c) 2021 Criteo
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,10 +19,8 @@ package com.criteo.vips;
 import com.criteo.vips.enums.*;
 
 import java.awt.*;
-import java.io.Closeable;
-import java.io.IOException;
 
-public interface Image extends Closeable {
+public interface Image extends AutoCloseable {
     /**
      * Pass image through a linear transform, ie. (@out = @in * @a + @b)
      *
@@ -295,7 +293,7 @@ public interface Image extends Closeable {
      * {@inheritDoc}
      */
     @Override
-    default void close() throws IOException {
+    default void close() {
         release();
     }
 }
