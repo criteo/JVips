@@ -31,8 +31,11 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -858,6 +861,21 @@ public class VipsImageTest {
         }
         finally {
             copy.release();
+        }
+    }
+
+    @Test
+    public void TestWriteToFilename() throws IOException, VipsException {
+        String filename = "in_vips.jpg";
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
+        Path path = Paths.get(System.getProperty("java.io.tmpdir"));
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
+            path = path.resolve(filename);
+            File file = path.toAbsolutePath().toFile();
+            img.writeToFile(file.getAbsolutePath());
+            assertTrue(file.exists());
+            assertTrue(file.isFile());
+            assertTrue(file.delete());
         }
     }
 }

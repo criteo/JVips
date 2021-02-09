@@ -387,6 +387,19 @@ Java_com_criteo_vips_VipsImage_writeAVIFToArrayNative(JNIEnv *env, jobject obj, 
     return ret;
 }
 
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImage_writeToFile(JNIEnv *env, jobject obj, jstring name)
+{
+    const char *filename = (*env)->GetStringUTFChars(env, name, NULL);
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+
+    if (vips_image_write_to_file(im, filename, NULL))
+    {
+        throwVipsException(env, "Unable to write to file");
+    }
+    (*env)->ReleaseStringUTFChars(env, name, filename);
+}
+
 JNIEXPORT jint JNICALL
 Java_com_criteo_vips_VipsImage_getWidth(JNIEnv *env, jobject obj)
 {

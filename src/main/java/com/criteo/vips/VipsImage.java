@@ -190,6 +190,8 @@ public class VipsImage extends Vips implements Image {
         return writeToArrayNative(imageFormat.getFileExtension(), quality, strip);
     }
 
+    private native byte[] writeToArrayNative(String extension, int quality, boolean strip) throws VipsException;
+
     public byte[] writePNGToArray(int compression, boolean palette, int colors, boolean strip) throws VipsException {
         return writePNGToArrayNative(compression, palette, colors, strip);
     }
@@ -202,7 +204,7 @@ public class VipsImage extends Vips implements Image {
 
     private native byte[] writeAVIFToArrayNative(int Q, boolean lossless, int speed) throws VipsException;
 
-    private native byte[] writeToArrayNative(String extension, int quality, boolean strip) throws VipsException;
+    public native void writeToFile(String name) throws VipsException;;
 
     public native int getWidth();
 

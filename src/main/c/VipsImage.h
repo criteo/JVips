@@ -169,6 +169,14 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_flattenNative
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    writeToArrayNative
+ * Signature: (Ljava/lang/String;IZ)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_criteo_vips_VipsImage_writeToArrayNative
+  (JNIEnv *, jobject, jstring, jint, jboolean);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    writePNGToArrayNative
  * Signature: (IZIZ)[B
  */
@@ -185,11 +193,11 @@ JNIEXPORT jbyteArray JNICALL Java_com_criteo_vips_VipsImage_writeAVIFToArrayNati
 
 /*
  * Class:     com_criteo_vips_VipsImage
- * Method:    writeToArrayNative
- * Signature: (Ljava/lang/String;IZ)[B
+ * Method:    writeToFile
+ * Signature: (Ljava/lang/String;)V
  */
-JNIEXPORT jbyteArray JNICALL Java_com_criteo_vips_VipsImage_writeToArrayNative
-  (JNIEnv *, jobject, jstring, jint, jboolean);
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_writeToFile
+  (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     com_criteo_vips_VipsImage

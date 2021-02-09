@@ -221,6 +221,14 @@ public interface Image extends AutoCloseable {
     byte[] writePNGToArray(int compression, boolean palette, int colors, boolean strip) throws VipsException;
 
     /**
+     * Write VipsImage to file
+     *
+     * @param name Output file name
+     * @throws VipsException if error
+     */
+    void writeToFile(String name) throws VipsException;
+
+    /**
      * @return VipsImage width
      */
     int getWidth();
