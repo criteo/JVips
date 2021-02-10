@@ -135,10 +135,10 @@ else()
     add_custom_target(libspng "")
 endif()
 
-find_library(LIBPNG libpng PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+find_library(LIBPNG png PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LIBPNG)
     ExternalProject_Add(libpng
-      URL "https://downloads.sourceforge.net/libpng/libpng-${PNG_VERSION}.tar.gz"
+      URL "https://downloads.sourceforge.net/project/libpng/libpng16/${PNG_VERSION}/libpng-${PNG_VERSION}.tar.gz"
       PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libpng"
       CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libpng/src/libpng/configure
       ${CONFIGURE_VARS}
@@ -225,7 +225,7 @@ if (WITH_LIBHEIF)
           -DCMAKE_BUILD_TYPE=Release
           -DHAVE_AOM=yes
           -DHAVE_GO=no
-           DEPENDS libaom
+          DEPENDS libaom
           BUILD_IN_SOURCE 1
           )
     else()
