@@ -198,6 +198,19 @@ public class VipsImage extends Vips implements Image {
 
     private native byte[] writePNGToArrayNative(int compression, boolean palette, int colors, boolean strip) throws VipsException;
 
+    /**
+     * Write a VIPS Image to a byte array as JPEG
+     * @param quality Quality factor
+     * @param strip Whether to remove all metadata from image
+     * @return JPEG image as byte array
+     * @throws VipsException
+     */
+    public byte[] writeJPEGToArray(int quality, boolean strip) throws VipsException {
+        return writeJPEGToArrayNative(quality, strip);
+    }
+
+    private native byte[] writeJPEGToArrayNative(int quality, boolean strip) throws VipsException;
+
     public byte[] writeAVIFToArray(int Q, boolean lossless, int speed) throws VipsException {
         return writeAVIFToArrayNative(Q, lossless, speed);
     }

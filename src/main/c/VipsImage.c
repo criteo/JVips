@@ -364,6 +364,26 @@ Java_com_criteo_vips_VipsImage_writePNGToArrayNative(JNIEnv *env, jobject obj, j
 }
 
 JNIEXPORT jbyteArray JNICALL
+Java_com_criteo_vips_VipsImage_writeJPEGToArrayNative(JNIEnv *env, jobject obj, jint q, jboolean strip)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+
+    void *buffer;
+    size_t buffer_size;
+
+    if (vips_jpegsave_buffer(im, &buffer, &buffer_size, "Q", q, "strip", strip, NULL))
+    {
+        throwVipsException(env, "Unable to write JPEG image buffer");
+        return NULL;
+    }
+
+    jbyteArray ret = (*env)->NewByteArray(env, buffer_size);
+    (*env)->SetByteArrayRegion(env, ret, 0, buffer_size, buffer);
+    g_free(buffer);
+    return ret;
+}
+
+JNIEXPORT jbyteArray JNICALL
 Java_com_criteo_vips_VipsImage_writeAVIFToArrayNative(JNIEnv *env, jobject obj, jint q, jboolean lossless, jint speed)
 {
     jbyteArray ret;
