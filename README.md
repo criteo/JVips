@@ -107,6 +107,12 @@ $ sudo yum install vips-devel
 $ ./build.sh --without-w64 --with-linux --without-macos
 ```
 
+To build with Docker:
+```
+$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/linux/Dockerfile -t jvips-builder-linux .
+$ docker run --rm -v $(pwd):/app -w /app jvips-builder-linux
+```
+
 ### 🏁 Windows
 
 Windows builds are cross-compiled from Linux using MingW64. WSL and Docker are both supported.
