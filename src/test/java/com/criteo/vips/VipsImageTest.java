@@ -878,4 +878,16 @@ public class VipsImageTest {
             assertTrue(file.delete());
         }
     }
+
+    @Theory
+    public void TestWriteJPEGFromByteArrayShouldNotThrows(@FromDataPoints("filenames") String filename,
+                                                         boolean strip)
+            throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray(filename);
+        int quality = 95;
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
+            byte[] out = img.writeJPEGToArray(quality, strip);
+            assertNotNull(out);
+        }
+    }
 }
