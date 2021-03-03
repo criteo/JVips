@@ -162,6 +162,12 @@ public class VipsImage extends Vips implements Image {
 
     private native void thumbnailImageNative(int width, int height, boolean scale) throws VipsException;
 
+    public void resize(double hscale, double vscale, VipsKernel kernel) throws VipsException {
+        resizeNative(hscale, vscale, kernel.getValue());
+    }
+
+    private native void resizeNative(double hscale, double vscale, int kernel) throws VipsException;
+
     public Max1Result max1() throws VipsException {
         Max1Result r = new Max1Result();
         max1Native(r);

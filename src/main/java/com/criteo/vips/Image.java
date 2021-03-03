@@ -161,6 +161,16 @@ public interface Image extends AutoCloseable {
     void resize(Dimension dimension, boolean scale) throws VipsException;
 
     /**
+     * Resize this VipsImage with target scaling factor and resampling kernel
+     *
+     * @param hscale Horizontal scale factor
+     * @param vscale Vertical scale factor
+     * @param kernel Resampling kernel
+     * @throws VipsException if error
+     */
+    void resize(double hscale, double vscale, VipsKernel kernel) throws VipsException;
+
+    /**
      * Pad VipsImage with new target dimension and background pixel
      *
      * @param dimension  Target dimension
