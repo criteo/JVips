@@ -136,15 +136,31 @@ public class VipsImage extends Vips implements Image {
 
     private native void histFindNdimNative(int bins) throws VipsException;
 
+    public void thumbnailImage(Dimension dimension, boolean scale) throws VipsException {
+        thumbnailImageNative(dimension.width, dimension.height, scale);
+    }
+
+    public void thumbnailImage(int width, int height, boolean scale) throws VipsException {
+        thumbnailImageNative(width, height, scale);
+    }
+
+    /**
+     * @deprecated Use {@link #thumbnailImage(Dimension, boolean)} instead.
+     */
+    @Deprecated
     public void resize(Dimension dimension, boolean scale) throws VipsException {
-        resizeNative(dimension.width, dimension.height, scale);
+        thumbnailImageNative(dimension.width, dimension.height, scale);
     }
 
+    /**
+     * @deprecated Use {@link #thumbnailImage(int, int, boolean)} instead.
+     */
+    @Deprecated
     public void resize(int width, int height, boolean scale) throws VipsException {
-        resizeNative(width, height, scale);
+        thumbnailImageNative(width, height, scale);
     }
 
-    private native void resizeNative(int width, int height, boolean scale) throws VipsException;
+    private native void thumbnailImageNative(int width, int height, boolean scale) throws VipsException;
 
     public Max1Result max1() throws VipsException {
         Max1Result r = new Max1Result();
