@@ -253,6 +253,16 @@ public interface Image extends AutoCloseable {
     byte[] writePNGToArray(int compression, boolean palette, int colors, boolean strip) throws VipsException;
 
     /**
+     * Write a VIPS Image to byte array in JPEG output format
+     *
+     * @param quality Quality factor
+     * @param strip Whether to remove all metadata from image
+     * @return Byte array of encoded VipsImageImpl
+     * @throws VipsException if error
+     */
+    byte[] writeJPEGToArray(int quality, boolean strip) throws VipsException;
+
+    /**
      * Write VipsImage to file
      *
      * @param name Output file name
