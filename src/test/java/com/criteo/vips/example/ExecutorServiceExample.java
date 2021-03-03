@@ -47,7 +47,7 @@ public class ExecutorServiceExample {
                     @Override
                     public Void call() throws Exception {
                         try (VipsImage image = new VipsImage(contents.clone(), contents.length);) {
-                            image.resize(new Dimension(256, 256), true);
+                            image.thumbnailImage(new Dimension(256, 256), true);
                             image.pad(new Dimension(512, 512),
                                     new PixelPacket(255, 255, 255),
                                     VipsCompassDirection.Centre);

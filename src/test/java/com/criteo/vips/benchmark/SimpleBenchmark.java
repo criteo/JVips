@@ -35,7 +35,7 @@ import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
 
 public class SimpleBenchmark {
-    private static Dimension resizeTarget = new Dimension(512, 512);
+    private static Dimension thumbnailTarget = new Dimension(512, 512);
     private static Rectangle cropTarget = new Rectangle(128, 128, 128, 128);
     private static Dimension padTarget = new Dimension(256, 256);
     private static PixelPacket pixelPacket = new PixelPacket(255.0, 255.0, 255.0);
@@ -80,19 +80,19 @@ public class SimpleBenchmark {
     }
 
     @Benchmark
-    public void ResizeCropPadJpeg(BenchmarkState state, Blackhole bh) {
-        ResizeCropPad(state.jpegContent, VipsImageFormat.JPG);
+    public void ThumbnailCropPadJpeg(BenchmarkState state, Blackhole bh) {
+        ThumbnailCropPad(state.jpegContent, VipsImageFormat.JPG);
     }
 
     @Benchmark
-    public void ResizeCropPadPng(BenchmarkState state, Blackhole bh) {
-        ResizeCropPad(state.pngContent, VipsImageFormat.PNG);
+    public void ThumbnailCropPadPng(BenchmarkState state, Blackhole bh) {
+        ThumbnailCropPad(state.pngContent, VipsImageFormat.PNG);
     }
 
-    private void ResizeCropPad(byte[] content, VipsImageFormat format) {
+    private void ThumbnailCropPad(byte[] content, VipsImageFormat format) {
         VipsImage img = new VipsImage(content, content.length);
 
-        img.resize(resizeTarget, false);
+        img.thumbnailImage(thumbnailTarget, false);
         img.crop(cropTarget);
         img.pad(padTarget, pixelPacket, VipsCompassDirection.Centre);
         byte[] out = img.writeToArray(format, 80, false);

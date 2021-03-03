@@ -310,11 +310,11 @@ public class VipsImageTest {
     }
 
     @Test
-    public void TestShouldResizeAndKeepAspectRatio() throws IOException, VipsException {
+    public void TestShouldRenderThumbnailAndKeepAspectRatio() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             double aspectRatio = (double) img.getWidth() / (double) img.getHeight();
-            img.resize(new Dimension(800, 800), false);
+            img.thumbnailImage(new Dimension(800, 800), false);
             assertEquals(800, img.getWidth());
             assertEquals(450, img.getHeight());
             assertEquals(aspectRatio, (double) img.getWidth() / (double) img.getHeight(), Delta);
@@ -322,10 +322,10 @@ public class VipsImageTest {
     }
 
     @Test
-    public void TestShouldResizeWithExactDimension() throws IOException, VipsException {
+    public void TestShouldRenderThumbnailWithExactDimension() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            img.resize(new Dimension(800, 800), true);
+            img.thumbnailImage(new Dimension(800, 800), true);
             assertEquals(800, img.getWidth());
             assertEquals(800, img.getHeight());
         }
@@ -542,7 +542,7 @@ public class VipsImageTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
         PixelPacket pixel = new PixelPacket(5.0, 255.0, 25.0);
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            img.resize(new Dimension(400, 400), false);
+            img.thumbnailImage(new Dimension(400, 400), false);
             int width = img.getWidth();
             int height = img.getHeight();
             img.crop(new Rectangle(10, 10, width - 10, height - 10));

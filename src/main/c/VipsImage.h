@@ -113,10 +113,10 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_histFindNdimNative
 
 /*
  * Class:     com_criteo_vips_VipsImage
- * Method:    resizeNative
+ * Method:    thumbnailImageNative
  * Signature: (IIZ)V
  */
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_resizeNative
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_thumbnailImageNative
   (JNIEnv *, jobject, jint, jint, jboolean);
 
 /*

@@ -130,12 +130,34 @@ public interface Image extends AutoCloseable {
     void colourspace(VipsInterpretation space, VipsInterpretation source_space) throws VipsException;
 
     /**
-     * Resize this VipsImage with new target dimension
+     * Make a thumbnail of this VipsImage with new target dimension
      *
      * @param dimension Target dimension
      * @param scale     If scale is enabled, force to resize ignoring aspect ratio
      * @throws VipsException if error
      */
+    void thumbnailImage(Dimension dimension, boolean scale) throws VipsException;
+
+    /**
+     * Make a thumbnail of this VipsImage with new target dimension
+     *
+     * @param width  Target width
+     * @param height Target height
+     * @param scale  If scale is enabled, force to resize ignoring aspect ratio
+     * @throws VipsException if error
+     */
+    void thumbnailImage(int width, int height, boolean scale) throws VipsException;
+
+    /**
+     * Make a thumbnail of this VipsImage with new target dimension
+     *
+     * @param dimension Target dimension
+     * @param scale     If scale is enabled, force to resize ignoring aspect ratio
+     * @throws VipsException if error
+     *
+     * @deprecated Use {@link #thumbnailImage(Dimension, boolean)} instead.
+     */
+    @Deprecated
     void resize(Dimension dimension, boolean scale) throws VipsException;
 
     /**

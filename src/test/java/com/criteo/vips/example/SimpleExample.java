@@ -35,7 +35,7 @@ public class SimpleExample {
             int width = image.getWidth();
             int height = image.getHeight();
 
-            image.resize(new Dimension(width / 2, height / 2), true);
+            image.thumbnailImage(new Dimension(width / 2, height / 2), true);
             System.out.println(String.format("Image has been correctly resized: (%d,%d) -> (%d,%d)",
                     width, height, image.getWidth(), image.getHeight()));
             contents = image.writeToArray(VipsImageFormat.JPG, false);

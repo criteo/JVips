@@ -168,7 +168,7 @@ Java_com_criteo_vips_VipsImage_colourspaceNative__II(JNIEnv *env, jobject obj, i
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImage_resizeNative(JNIEnv *env, jobject obj, jint width, jint height, jboolean scale)
+Java_com_criteo_vips_VipsImage_thumbnailImageNative(JNIEnv *env, jobject obj, jint width, jint height, jboolean scale)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
     VipsImage *out = NULL;
@@ -176,7 +176,7 @@ Java_com_criteo_vips_VipsImage_resizeNative(JNIEnv *env, jobject obj, jint width
 
     if (vips_thumbnail_image(im, &out, width, "height", height, "size", vipsSize, NULL))
     {
-        throwVipsException(env, "Unable to resize image");
+        throwVipsException(env, "Unable to make thumbnail image");
         return;
     }
     (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
