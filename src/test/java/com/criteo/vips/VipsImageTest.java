@@ -332,7 +332,17 @@ public class VipsImageTest {
     }
 
     @Test
-    public void TestShouldFlattenTransparentBackground() throws IOException, VipsException {
+    public void TestShouldResize() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
+            img.resize(2.0, 2.0, VipsKernel.Cubic);
+            assertEquals(3840, img.getWidth());
+            assertEquals(2160, img.getHeight());
+        }
+    }
+
+    @Test
+    public void TestShouldFlattenTransparanentBackground() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("transparent.png");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             PixelPacket blue = new PixelPacket(0, 0, 255);

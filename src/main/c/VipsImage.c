@@ -184,6 +184,21 @@ Java_com_criteo_vips_VipsImage_thumbnailImageNative(JNIEnv *env, jobject obj, ji
 }
 
 JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImage_resizeNative(JNIEnv *env, jobject obj, jdouble hscale, jdouble vscale, jint kernel)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_resize(im, &out, hscale, "vscale", vscale, "kernel", kernel, NULL))
+    {
+        throwVipsException(env, "Unable to resize image");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
+JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsImage_padNative(JNIEnv *env, jobject obj, jint width, jint height, jdoubleArray background, jint gravity)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);

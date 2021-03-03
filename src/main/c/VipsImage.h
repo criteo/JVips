@@ -121,6 +121,14 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_thumbnailImageNative
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    resizeNative
+ * Signature: (DDI)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_resizeNative
+  (JNIEnv *, jobject, jdouble, jdouble, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    max1Native
  * Signature: (Lcom/criteo/vips/Max1Result;)V
  */
