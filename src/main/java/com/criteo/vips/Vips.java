@@ -20,7 +20,7 @@ import java.io.*;
 import java.util.logging.Logger;
 
 public class Vips {
-    private static final Logger LOGGER = Logger.getLogger("com.criteo.thirdparty.Vips");
+    private static final Logger LOGGER = Logger.getLogger("com.criteo.vips.Vips");
     private static final String SYSTEM_NAME = System.getProperty("os.name").toLowerCase();
 
     private static final String[] LINUX_LIBRARIES = {
