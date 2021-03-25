@@ -102,6 +102,7 @@ public class Vips {
             byte[] buffer = new byte[1024];
             int read;
             temp = File.createTempFile(libName, "");
+            temp.deleteOnExit();
             try (FileOutputStream fos = new FileOutputStream(temp)) {
                 while ((read = in.read(buffer)) != -1) {
                     fos.write(buffer, 0, read);
