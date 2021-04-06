@@ -263,6 +263,17 @@ public interface Image extends AutoCloseable {
     byte[] writeJPEGToArray(int quality, boolean strip) throws VipsException;
 
     /**
+     * Write a VIPS Image to byte array in WEBP output format
+     *
+     * @param quality Quality factor
+     * @param lossless Whether to use lossless compression
+     * @param strip Whether to remove all metadata from image
+     * @return Byte array of encoded VipsImageImpl
+     * @throws VipsException if error
+     */
+    byte[] writeWEBPToArray(int quality, boolean lossless, boolean strip) throws VipsException;
+
+    /**
      * Write VipsImage to file
      *
      * @param name Output file name

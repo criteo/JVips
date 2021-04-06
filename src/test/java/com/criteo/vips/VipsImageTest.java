@@ -703,6 +703,30 @@ public class VipsImageTest {
     }
 
     @Theory
+    public void TestWriteWEBPFromByteArrayShouldNotThrows(@FromDataPoints("filenames") String filename,
+                                                         boolean lossless,
+                                                         boolean strip)
+      throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray(filename);
+        int compression = 9;
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
+            byte[] out = img.writeWEBPToArray(compression, lossless, strip);
+            assertNotNull(out);
+        }
+    }
+
+    @Test
+    public void TestWriteWEBPFromByteArrayShouldShrinkOutputSize()
+      throws IOException, VipsException {
+        byte[] buffer = VipsTestUtils.getByteArray("logo_with_transparent_padding_50x50.png");
+        int compression = 9;
+        try (VipsImage img = new VipsImage(buffer, buffer.length)) {
+            byte[] out = img.writeWEBPToArray(compression, true, true);
+            Assert.assertTrue(buffer.length > out.length);
+        }
+    }
+
+    @Theory
     public void TestDominantColour(@FromDataPoints("fileColours") DominantColour fileColour) throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(fileColour.filename);
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {

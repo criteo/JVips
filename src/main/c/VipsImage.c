@@ -422,6 +422,29 @@ Java_com_criteo_vips_VipsImage_writeAVIFToArrayNative(JNIEnv *env, jobject obj, 
     return ret;
 }
 
+JNIEXPORT jbyteArray JNICALL
+Java_com_criteo_vips_VipsImage_writeWEBPToArrayNative(JNIEnv *env, jobject obj, jint q, jboolean lossless, jboolean strip)
+{
+    jbyteArray ret;
+    void *buffer = NULL;
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    size_t result_length = 0;
+
+    if (vips_webpsave_buffer(im, &buffer, &result_length,
+                            "Q", q,
+                            "lossless", lossless,
+                            "strip", strip,
+                            NULL))
+    {
+        throwVipsException(env, "Unable to write WEBP image buffer");
+        return ret;
+    }
+    ret = (*env)->NewByteArray(env, result_length);
+    (*env)->SetByteArrayRegion(env, ret, 0, result_length * sizeof (jbyte), buffer);
+    g_free(buffer);
+    return ret;
+}
+
 JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsImage_writeToFile(JNIEnv *env, jobject obj, jstring name)
 {
