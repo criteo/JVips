@@ -28,6 +28,7 @@
 
 jfieldID handle_fid = NULL;
 jfieldID buffer_fid = NULL;
+jmethodID ctor_mid = NULL;
 
 
 static VipsImage *
@@ -81,6 +82,7 @@ Java_com_criteo_vips_VipsImage_initFieldIDs(JNIEnv *env, jobject cls)
 {
     handle_fid = (*env)->GetFieldID(env, cls, "vipsImageHandler", "J");
     buffer_fid = (*env)->GetFieldID(env, cls, "bufferHandler", "J");
+    ctor_mid = (*env)->GetMethodID(env, cls, "<init>", "(J)V");
 }
 
 JNIEXPORT void JNICALL
@@ -676,6 +678,36 @@ JNICALL Java_com_criteo_vips_VipsImage_linearNative(JNIEnv *env, jobject image_o
 }
 
 JNIEXPORT void
+JNICALL Java_com_criteo_vips_VipsImage_gaussblur(JNIEnv *env, jobject image_obj, jdouble sigma, jdouble min_ampl)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_gaussblur(im, &out, sigma, "min_ampl", min_ampl, NULL))
+    {
+        throwVipsException(env, "Unable to apply gaussian blur");
+        return;
+    }
+    (*env)->SetLongField(env, image_obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
+JNIEXPORT jobject
+JNICALL Java_com_criteo_vips_VipsImage_extractArea(JNIEnv *env, jobject image_obj, jint left, jint top, jint width, jint height)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+    VipsImage *out = NULL;
+    jobject cls = (*env)->FindClass(env, "com/criteo/vips/VipsImage");
+
+    if (vips_extract_area(im, &out, left, top, width, height, NULL))
+    {
+        throwVipsException(env, "Unable to extract image area");
+        return;
+    }
+    return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
+}
+
+JNIEXPORT void
 JNICALL Java_com_criteo_vips_VipsImage_autorot(JNIEnv *env, jobject image_obj)
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
@@ -696,14 +728,12 @@ JNICALL Java_com_criteo_vips_VipsImage_clone(JNIEnv *env, jobject image_obj)
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
     VipsImage *out = NULL;
     jobject cls = (*env)->FindClass(env, "com/criteo/vips/VipsImage");
-    jmethodID ctor = (*env)->GetMethodID(env, cls, "<init>", "(J)V");
-    jobject image_copy_obj;
 
     if (vips_copy(im, &out, NULL))
     {
         throwVipsException(env, "Unable to copy image");
     }
-    return (*env)->NewObject(env, cls, ctor, (jlong) out);
+    return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
 }
 
 JNIEXPORT void
@@ -711,4 +741,20 @@ JNICALL Java_com_criteo_vips_VipsImage_removeAutorotAngle(JNIEnv *env, jobject i
 {
     VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
     vips_autorot_remove_angle(im);
+}
+
+
+JNIEXPORT jobject
+JNICALL Java_com_criteo_vips_VipsImage_joinNative(JNIEnv *env, jclass cls, jobject in1, jobject in2, jint direction)
+{
+    VipsImage *im1 = (VipsImage *) (*env)->GetLongField(env, in1, handle_fid);
+    VipsImage *im2 = (VipsImage *) (*env)->GetLongField(env, in2, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_join(im1, im2, &out, direction, NULL))
+    {
+        throwVipsException(env, "Unable to join image");
+        return;
+    }
+    return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
 }
