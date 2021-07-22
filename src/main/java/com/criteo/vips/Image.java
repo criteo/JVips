@@ -314,6 +314,29 @@ public interface Image extends AutoCloseable {
     VipsInterpretation getInterpretation();
 
     /**
+     * Blur the image
+     *
+     * @param sigma Set sigma larger to make the blur more blurry
+     * @param minAmpl Minimum amplitude
+     *
+     * @throws VipsException if error
+     */
+    void gaussblur(double sigma, double minAmpl) throws VipsException;
+
+
+    /**
+     * Extract an area from an image
+     *
+     * @param left
+     * @param top
+     * @param width
+     * @param height
+     *
+     * @throws VipsException if error
+     */
+    VipsImage extractArea(int left, int top, int width, int height) throws VipsException;
+
+    /**
      * Convert image colorspace to sRGB
      *
      * @throws VipsException if error

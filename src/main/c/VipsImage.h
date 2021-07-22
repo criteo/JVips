@@ -281,6 +281,22 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_linearNative
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    gaussblur
+ * Signature: (DD)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_gaussblur
+  (JNIEnv *, jobject, jdouble, jdouble);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
+ * Method:    extractArea
+ * Signature: (IIII)Lcom/criteo/vips/VipsImage;
+ */
+JNIEXPORT jobject JNICALL Java_com_criteo_vips_VipsImage_extractArea
+  (JNIEnv *, jobject, jint, jint, jint, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    convertTosRGB
  * Signature: ()V
  */
@@ -326,6 +342,14 @@ JNIEXPORT jobject JNICALL Java_com_criteo_vips_VipsImage_clone
  */
 JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_release
   (JNIEnv *, jobject);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
+ * Method:    joinNative
+ * Signature: (Lcom/criteo/vips/VipsImage;Lcom/criteo/vips/VipsImage;I)Lcom/criteo/vips/VipsImage;
+ */
+JNIEXPORT jobject JNICALL Java_com_criteo_vips_VipsImage_joinNative
+  (JNIEnv *, jclass, jobject, jobject, jint);
 
 #ifdef __cplusplus
 }

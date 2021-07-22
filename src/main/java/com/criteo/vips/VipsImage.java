@@ -285,6 +285,10 @@ public class VipsImage extends Vips implements Image {
         return imageGetInterpretation();
     }
 
+    public native void gaussblur(double sigma, double minAmpl) throws VipsException;
+
+    public native VipsImage extractArea(int left, int top, int width, int height) throws VipsException;
+
     public native void convertTosRGB() throws VipsException;
 
     public native int getNbFrame();
@@ -296,4 +300,19 @@ public class VipsImage extends Vips implements Image {
     public native VipsImage clone() throws VipsException;
 
     public native void release();
+
+    /**
+     * Join in1 and in2 together, left-right or up-down depending on the value of direction
+     *
+     * @param in1 left image
+     * @param in2 right image
+     * @param direction left-right or up-down depending on the value of direction
+     * @return Concat image
+     * @throws VipsException
+     */
+    public static VipsImage join(VipsImage in1, VipsImage in2, VipsDirection direction) throws VipsException {
+        return joinNative(in1, in2, direction.getValue());
+    }
+
+    public static native VipsImage joinNative(VipsImage in1, VipsImage in2, int direction) throws VipsException;
 }
