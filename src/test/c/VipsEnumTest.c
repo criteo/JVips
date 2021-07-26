@@ -205,6 +205,11 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PNG_FILTER_AVG, "com/criteo/vips/enums/VipsForeignPngFilter", "Avg");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PNG_FILTER_PAETH, "com/criteo/vips/enums/VipsForeignPngFilter", "Paeth");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PNG_FILTER_ALL, "com/criteo/vips/enums/VipsForeignPngFilter", "All");
+    // VipsForeignSubsample
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_SUBSAMPLE_AUTO, "com/criteo/vips/enums/VipsForeignSubsample", "Auto");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_SUBSAMPLE_ON, "com/criteo/vips/enums/VipsForeignSubsample", "On");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_SUBSAMPLE_OFF, "com/criteo/vips/enums/VipsForeignSubsample", "Off");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_SUBSAMPLE_LAST, "com/criteo/vips/enums/VipsForeignSubsample", "Last");
     // VipsForeignTiffCompression
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_NONE, "com/criteo/vips/enums/VipsForeignTiffCompression", "None");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_JPEG, "com/criteo/vips/enums/VipsForeignTiffCompression", "Jpeg");
@@ -214,6 +219,7 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_LZW, "com/criteo/vips/enums/VipsForeignTiffCompression", "Lzw");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_WEBP, "com/criteo/vips/enums/VipsForeignTiffCompression", "Webp");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_ZSTD, "com/criteo/vips/enums/VipsForeignTiffCompression", "Zstd");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_JP2K, "com/criteo/vips/enums/VipsForeignTiffCompression", "Jp2K");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_COMPRESSION_LAST, "com/criteo/vips/enums/VipsForeignTiffCompression", "Last");
     // VipsForeignTiffPredictor
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_TIFF_PREDICTOR_NONE, "com/criteo/vips/enums/VipsForeignTiffPredictor", "None");
