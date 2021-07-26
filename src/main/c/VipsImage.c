@@ -702,7 +702,6 @@ JNICALL Java_com_criteo_vips_VipsImage_extractArea(JNIEnv *env, jobject image_ob
     if (vips_extract_area(im, &out, left, top, width, height, NULL))
     {
         throwVipsException(env, "Unable to extract image area");
-        return;
     }
     return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
 }
@@ -754,7 +753,6 @@ JNICALL Java_com_criteo_vips_VipsImage_joinNative(JNIEnv *env, jclass cls, jobje
     if (vips_join(im1, im2, &out, direction, NULL))
     {
         throwVipsException(env, "Unable to join image");
-        return;
     }
     return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
 }
