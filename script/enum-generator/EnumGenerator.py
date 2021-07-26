@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from string import Template
 from itertools import takewhile
 
-DEFAULT_VIPS_VERSION = '8.9.0'
+DEFAULT_VIPS_VERSION = '8.11.2'
 JAVA_ENUM_TEMPLATE = "template/Enum.java"
 C_ENUM_TEST_TEMPLATE = "template/VipsEnumTest.c"
 
