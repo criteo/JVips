@@ -169,6 +169,14 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_compose
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    insert
+ * Signature: (Lcom/criteo/vips/Image;II)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_insert
+  (JNIEnv *, jobject, jobject, jint, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    flattenNative
  * Signature: ([D)V
  */
