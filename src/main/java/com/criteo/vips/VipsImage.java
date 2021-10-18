@@ -197,6 +197,8 @@ public class VipsImage extends Vips implements Image {
 
     public native void compose(Image sub) throws VipsException;
 
+    public native void insert(Image sub, int x, int y) throws VipsException;
+
     public void flatten(PixelPacket background) throws VipsException {
         flattenNative(background.getComponents());
     }

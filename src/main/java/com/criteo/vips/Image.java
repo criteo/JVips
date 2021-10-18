@@ -208,6 +208,16 @@ public interface Image extends AutoCloseable {
      * @throws VipsException if error
      */
     void compose(Image sub) throws VipsException;
+    
+    /**
+     * Insert a sub VipsImage into this VipsImage at (x, y) coordinates
+     *
+     * @param sub VipsImage to insert
+     * @param x left position of sub
+     * @param y top position of sub
+     * @throws VipsException if error
+     */
+    void insert(Image sub, int x, int y) throws VipsException;
 
     /**
      * Take the last band of this VipsImage as an alpha and use it tot blend the remaining channels with background

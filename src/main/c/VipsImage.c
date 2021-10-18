@@ -289,9 +289,25 @@ Java_com_criteo_vips_VipsImage_compose(JNIEnv *env, jobject obj, jobject sub)
     VipsImage *overlay = (VipsImage *) (*env)->GetLongField(env, sub, handle_fid);
     VipsImage *out = NULL;
 
-    if (vips_composite2(im, overlay, &out,VIPS_BLEND_MODE_OVER, NULL))
+    if (vips_composite2(im, overlay, &out, VIPS_BLEND_MODE_OVER, NULL))
     {
         throwVipsException(env, "Unable to compose image");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImage_insert(JNIEnv *env, jobject obj, jobject sub, jint x, jint y)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *im2 = (VipsImage *) (*env)->GetLongField(env, sub, handle_fid);
+    VipsImage *out = NULL;
+    
+    if (vips_insert(im, im2, &out, x, y, NULL))
+    {
+        throwVipsException(env, "Unable to insert image");
         return;
     }
     (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
