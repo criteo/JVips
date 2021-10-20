@@ -134,7 +134,7 @@ jobs:
         env:
           MAVEN_USERNAME: criteo-oss
           MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.SONATYPE_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_SECRING_PASSWORD }}
 
       # - name: Publish to GitHub Packages
       #   run: mvn -B -DskipTests -P deploy deploy
