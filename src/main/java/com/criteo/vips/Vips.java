@@ -96,7 +96,7 @@ public class Vips {
         File temp;
         try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(libName)) {
             if (in == null) {
-                LOGGER.severe("Could not load lib '" + libName + "' via classloader");
+                LOGGER.warning("Could not load lib '" + libName + "' via classloader");
                 return;
             }
             byte[] buffer = new byte[1024];
