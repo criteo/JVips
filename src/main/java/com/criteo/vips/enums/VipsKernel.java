@@ -23,6 +23,7 @@ public enum VipsKernel {
     Linear(1),
     // Convolve with a cubic filter. 
     Cubic(2),
+    // Convolve with a Mitchell kernel.
     Mitchell(3),
     // Convolve with a two-lobe Lanczos kernel.
     Lanczos2(4),

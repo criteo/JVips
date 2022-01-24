@@ -16,30 +16,32 @@ package com.criteo.vips.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum VipsOperationMath2 {
-    // pow( left, right )
-    Pow(0),
-    // pow( right, left ) 
-    Wop(1),
-    // atan2( left, right ) 
-    Atan2(2),
-    Last(3);
+public enum VipsForeignPpmFormat {
+    // portable bitmap
+    Pbm(0),
+    // portable greymap
+    Pgm(1),
+    // portable pixmap
+    Ppm(2),
+    // portable float map
+    Pfm(3),
+    Last(4);
 
     private int value;
-    private static Map map = new HashMap<VipsOperationMath2, Integer>();
+    private static Map map = new HashMap<VipsForeignPpmFormat, Integer>();
 
-    private VipsOperationMath2(int i) {
+    private VipsForeignPpmFormat(int i) {
       value = i;
     }
 
     static {
-        for (VipsOperationMath2 e : VipsOperationMath2.values()) {
+        for (VipsForeignPpmFormat e : VipsForeignPpmFormat.values()) {
             map.put(e.value, e);
         }
     }
 
-    public static VipsOperationMath2 valueOf(int i) {
-        return (VipsOperationMath2) map.get(i);
+    public static VipsForeignPpmFormat valueOf(int i) {
+        return (VipsForeignPpmFormat) map.get(i);
     }
 
     public int getValue() {

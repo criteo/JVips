@@ -165,6 +165,12 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_EXTEND_WHITE, "com/criteo/vips/enums/VipsExtend", "White");
     assertEqualsNativeEnumValue(env, VIPS_EXTEND_BACKGROUND, "com/criteo/vips/enums/VipsExtend", "Background");
     assertEqualsNativeEnumValue(env, VIPS_EXTEND_LAST, "com/criteo/vips/enums/VipsExtend", "Last");
+    // VipsFailOn
+    assertEqualsNativeEnumValue(env, VIPS_FAIL_ON_NONE, "com/criteo/vips/enums/VipsFailOn", "None");
+    assertEqualsNativeEnumValue(env, VIPS_FAIL_ON_TRUNCATED, "com/criteo/vips/enums/VipsFailOn", "Truncated");
+    assertEqualsNativeEnumValue(env, VIPS_FAIL_ON_ERROR, "com/criteo/vips/enums/VipsFailOn", "Error");
+    assertEqualsNativeEnumValue(env, VIPS_FAIL_ON_WARNING, "com/criteo/vips/enums/VipsFailOn", "Warning");
+    assertEqualsNativeEnumValue(env, VIPS_FAIL_ON_LAST, "com/criteo/vips/enums/VipsFailOn", "Last");
     // VipsForeignDzContainer
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_CONTAINER_FS, "com/criteo/vips/enums/VipsForeignDzContainer", "Fs");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_CONTAINER_ZIP, "com/criteo/vips/enums/VipsForeignDzContainer", "Zip");
@@ -180,6 +186,7 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_ZOOMIFY, "com/criteo/vips/enums/VipsForeignDzLayout", "Zoomify");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_GOOGLE, "com/criteo/vips/enums/VipsForeignDzLayout", "Google");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_IIIF, "com/criteo/vips/enums/VipsForeignDzLayout", "Iiif");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_IIIF3, "com/criteo/vips/enums/VipsForeignDzLayout", "Iiif3");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_DZ_LAYOUT_LAST, "com/criteo/vips/enums/VipsForeignDzLayout", "Last");
     // VipsForeignFlags
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_NONE, "com/criteo/vips/enums/VipsForeignFlags", "None");
@@ -205,6 +212,12 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PNG_FILTER_AVG, "com/criteo/vips/enums/VipsForeignPngFilter", "Avg");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PNG_FILTER_PAETH, "com/criteo/vips/enums/VipsForeignPngFilter", "Paeth");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PNG_FILTER_ALL, "com/criteo/vips/enums/VipsForeignPngFilter", "All");
+    // VipsForeignPpmFormat
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PPM_FORMAT_PBM, "com/criteo/vips/enums/VipsForeignPpmFormat", "Pbm");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PPM_FORMAT_PGM, "com/criteo/vips/enums/VipsForeignPpmFormat", "Pgm");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PPM_FORMAT_PPM, "com/criteo/vips/enums/VipsForeignPpmFormat", "Ppm");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PPM_FORMAT_PFM, "com/criteo/vips/enums/VipsForeignPpmFormat", "Pfm");
+    assertEqualsNativeEnumValue(env, VIPS_FOREIGN_PPM_FORMAT_LAST, "com/criteo/vips/enums/VipsForeignPpmFormat", "Last");
     // VipsForeignSubsample
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_SUBSAMPLE_AUTO, "com/criteo/vips/enums/VipsForeignSubsample", "Auto");
     assertEqualsNativeEnumValue(env, VIPS_FOREIGN_SUBSAMPLE_ON, "com/criteo/vips/enums/VipsForeignSubsample", "On");
@@ -329,10 +342,17 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_LOG10, "com/criteo/vips/enums/VipsOperationMath", "Log10");
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_EXP, "com/criteo/vips/enums/VipsOperationMath", "Exp");
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_EXP10, "com/criteo/vips/enums/VipsOperationMath", "Exp10");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_SINH, "com/criteo/vips/enums/VipsOperationMath", "Sinh");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_COSH, "com/criteo/vips/enums/VipsOperationMath", "Cosh");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_TANH, "com/criteo/vips/enums/VipsOperationMath", "Tanh");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_ASINH, "com/criteo/vips/enums/VipsOperationMath", "Asinh");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_ACOSH, "com/criteo/vips/enums/VipsOperationMath", "Acosh");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_ATANH, "com/criteo/vips/enums/VipsOperationMath", "Atanh");
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_LAST, "com/criteo/vips/enums/VipsOperationMath", "Last");
     // VipsOperationMath2
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH2_POW, "com/criteo/vips/enums/VipsOperationMath2", "Pow");
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH2_WOP, "com/criteo/vips/enums/VipsOperationMath2", "Wop");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH2_ATAN2, "com/criteo/vips/enums/VipsOperationMath2", "Atan2");
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH2_LAST, "com/criteo/vips/enums/VipsOperationMath2", "Last");
     // VipsOperationMorphology
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MORPHOLOGY_ERODE, "com/criteo/vips/enums/VipsOperationMorphology", "Erode");
