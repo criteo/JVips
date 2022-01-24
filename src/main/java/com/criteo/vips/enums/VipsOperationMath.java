@@ -37,7 +37,19 @@ public enum VipsOperationMath {
     Exp(8),
     // 10 to the something
     Exp10(9),
-    Last(10);
+    // sinh(), angles in radians
+    Sinh(10),
+    // cosh(), angles in radians
+    Cosh(11),
+    // tanh(), angles in radians
+    Tanh(12),
+    // asinh(), angles in radians
+    Asinh(13),
+    // acosh(), angles in radians
+    Acosh(14),
+    // atanh(), angles in radians
+    Atanh(15),
+    Last(16);
 
     private int value;
     private static Map map = new HashMap<VipsOperationMath, Integer>();
