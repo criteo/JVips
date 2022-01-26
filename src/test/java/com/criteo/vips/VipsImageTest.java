@@ -924,4 +924,22 @@ public class VipsImageTest {
             assertNotNull(out);
         }
     }
+
+    @Test
+    public void TestShouldThrowErrorOnOperationIfTruncatedImage() throws IOException, VipsException {
+        byte[] bufferArray = VipsTestUtils.getByteArray("truncated_image_missing_20_bytes.jpg");
+
+        // Should succeed
+        VipsImage image = new VipsImage(bufferArray, bufferArray.length);
+        image.writeToArray(VipsImageFormat.JPG, false);
+
+        try {
+            // Should fail
+            VipsImage truncatedImage = new VipsImage(bufferArray, bufferArray.length, "fail-on=truncated");
+            truncatedImage.writeToArray(VipsImageFormat.JPG, false);
+            fail("should throw exception for truncated image if fail-on is set");
+        } catch (VipsException e) {
+            // expected
+        }
+    }
 }

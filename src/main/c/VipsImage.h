@@ -20,16 +20,32 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_initFieldIDs
  * Method:    newFromByteBuffer
  * Signature: (Ljava/nio/ByteBuffer;I)V
  */
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromByteBuffer
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromByteBuffer__Ljava_nio_ByteBuffer_2I
   (JNIEnv *, jobject, jobject, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
+ * Method:    newFromByteBuffer
+ * Signature: (Ljava/nio/ByteBuffer;ILjava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromByteBuffer__Ljava_nio_ByteBuffer_2ILjava_lang_String_2
+  (JNIEnv *, jobject, jobject, jint, jstring);
 
 /*
  * Class:     com_criteo_vips_VipsImage
  * Method:    newFromBuffer
  * Signature: ([BI)V
  */
-JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromBuffer
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromBuffer___3BI
   (JNIEnv *, jobject, jbyteArray, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
+ * Method:    newFromBuffer
+ * Signature: ([BILjava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_newFromBuffer___3BILjava_lang_String_2
+  (JNIEnv *, jobject, jbyteArray, jint, jstring);
 
 /*
  * Class:     com_criteo_vips_VipsImage
