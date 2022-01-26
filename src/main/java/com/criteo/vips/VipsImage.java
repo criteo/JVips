@@ -43,7 +43,11 @@ public class VipsImage extends Vips implements Image {
 
     private native void newFromByteBuffer(ByteBuffer buffer, int length) throws VipsException;
 
+    private native void newFromByteBuffer(ByteBuffer buffer, int length, String options) throws VipsException;
+
     private native void newFromBuffer(byte[] buffer, int length) throws VipsException;
+
+    private native void newFromBuffer(byte[] buffer, int length, String options) throws VipsException;
 
     private native void newFromFile(String filename) throws VipsException;
 
@@ -51,8 +55,16 @@ public class VipsImage extends Vips implements Image {
         newFromByteBuffer(buffer, length);
     }
 
+    public VipsImage(ByteBuffer buffer, int length, String options) throws VipsException {
+        newFromByteBuffer(buffer, length, options);
+    }
+
     public VipsImage(byte[] buffer, int length) throws VipsException {
         newFromBuffer(buffer, length);
+    }
+
+    public VipsImage(byte[] buffer, int length, String options) throws VipsException {
+        newFromBuffer(buffer, length, options);
     }
 
     public VipsImage(VipsImage image, PixelPacket color) throws VipsException {

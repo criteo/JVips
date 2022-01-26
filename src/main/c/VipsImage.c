@@ -43,6 +43,21 @@ new_from_buffer(JNIEnv *env, void *buffer, int length)
     return im;
 }
 
+static VipsImage *
+new_from_buffer_with_options(JNIEnv *env, void *buffer, int length, jstring options)
+{
+    const char *options_str = (*env)->GetStringUTFChars(env, options, NULL);
+    VipsImage *im = NULL;
+    if ((im = vips_image_new_from_buffer(buffer, length, options_str, NULL)) == NULL)
+    {
+        (*env)->ReleaseStringUTFChars(env, options, options_str);
+        throwVipsException(env, "Unable to decode image buffer");
+        return NULL;
+    }
+    (*env)->ReleaseStringUTFChars(env, options, options_str);
+    return im;
+}
+
 JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsImage_blackNative(JNIEnv *env, jobject obj, jint width, jint height)
 {
@@ -86,7 +101,7 @@ Java_com_criteo_vips_VipsImage_initFieldIDs(JNIEnv *env, jobject cls)
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImage_newFromByteBuffer(JNIEnv *env, jobject obj, jobject buffer, jint length)
+Java_com_criteo_vips_VipsImage_newFromByteBuffer__Ljava_nio_ByteBuffer_2I(JNIEnv *env, jobject obj, jobject buffer, jint length)
 {
     void *buf = (*env)->GetDirectBufferAddress(env, buffer);
 
@@ -95,7 +110,16 @@ Java_com_criteo_vips_VipsImage_newFromByteBuffer(JNIEnv *env, jobject obj, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_com_criteo_vips_VipsImage_newFromBuffer(JNIEnv *env, jobject obj, jbyteArray buffer, jint length)
+Java_com_criteo_vips_VipsImage_newFromByteBuffer__Ljava_nio_ByteBuffer_2ILjava_lang_String_2(JNIEnv *env, jobject obj, jobject buffer, jint length, jstring options)
+{
+    void *buf = (*env)->GetDirectBufferAddress(env, buffer);
+
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) new_from_buffer_with_options(env, buf, length, options));
+    (*env)->SetLongField(env, obj, buffer_fid, (jlong) NULL);
+}
+
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImage_newFromBuffer___3BI(JNIEnv *env, jobject obj, jbyteArray buffer, jint length)
 {
     void *internal_buffer = NULL;
     VipsImage* im = NULL;
@@ -110,6 +134,26 @@ Java_com_criteo_vips_VipsImage_newFromBuffer(JNIEnv *env, jobject obj, jbyteArra
     }
     (*env)->GetByteArrayRegion(env, buffer, 0, len, internal_buffer);
     im = new_from_buffer(env, internal_buffer, length);
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) im);
+    (*env)->SetLongField(env, obj, buffer_fid, (jlong) internal_buffer);
+}
+
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImage_newFromBuffer___3BILjava_lang_String_2(JNIEnv *env, jobject obj, jbyteArray buffer, jint length, jstring options)
+{
+    void *internal_buffer = NULL;
+    VipsImage* im = NULL;
+    size_t len = length * sizeof(jbyte);
+
+    if ((internal_buffer = vips_tracked_malloc(len)) == NULL)
+    {
+        (*env)->SetLongField(env, obj, handle_fid, (jlong) NULL);
+        (*env)->SetLongField(env, obj, buffer_fid, (jlong) NULL);
+        throwVipsException(env, "Unable to allocate memory");
+        return;
+    }
+    (*env)->GetByteArrayRegion(env, buffer, 0, len, internal_buffer);
+    im = new_from_buffer_with_options(env, internal_buffer, length, options);
     (*env)->SetLongField(env, obj, handle_fid, (jlong) im);
     (*env)->SetLongField(env, obj, buffer_fid, (jlong) internal_buffer);
 }
