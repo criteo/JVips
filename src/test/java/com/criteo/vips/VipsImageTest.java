@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2019 Criteo
+  Copyright (c) 2022 Criteo
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -56,17 +58,22 @@ public class VipsImageTest {
     private static PixelPacket WhitePixel = new PixelPacket(255.0, 255.0, 255.0);
     private static PixelPacket TransparentPixel = new PixelPacket(255.0, 255.0, 255.0, 0.0);
 
-    private static Map<String, byte[]> SignatureByExtension = new HashMap<>();
+    private static Map<String, ArrayList<Byte[]>> SignaturesByExtension = new HashMap<>();
 
     static {
-        SignatureByExtension.put(".jpg", new byte[]{(byte) 0xFF, (byte) 0xD8, (byte) 0xFF});
-        SignatureByExtension.put(".png", new byte[]{(byte) 137, 80, 78, 71, 13, 10, 26, 10});
-        SignatureByExtension.put(".webp", new byte[]{'R', 'I', 'F', 'F'});
-        SignatureByExtension.put(".gif", new byte[]{'G', 'I', 'F'});
-        SignatureByExtension.put(".avif", new byte[]{(byte)
+        SignaturesByExtension.put(".jpg", new ArrayList() {{ add(new Byte[]{(byte) 0xFF, (byte) 0xD8, (byte) 0xFF}); }});
+        SignaturesByExtension.put(".png", new ArrayList() {{ add(new Byte[]{(byte) 137, 80, 78, 71, 13, 10, 26, 10}); }});
+        SignaturesByExtension.put(".webp", new ArrayList() {{ add(new Byte[]{'R', 'I', 'F', 'F'}); }});
+        SignaturesByExtension.put(".gif", new ArrayList() {{ add(new Byte[]{'G', 'I', 'F'}); }});
+        SignaturesByExtension.put(".avif", new ArrayList() {{ add(new Byte[]{(byte)
             0x00, 0x00, 0x00, 0x18,
             'f', 't', 'y', 'p', 'a', 'v', 'i', 'f' 
-        });
+        }); }});
+        // TIFF file begins with "II" for little-endian or "MM" for big-endian
+        SignaturesByExtension.put(".tiff", new ArrayList() {{
+            add(new Byte[]{'I', 'I'});
+            add(new Byte[]{'M', 'M'});
+        }});
     }
 
     @DataPoints("filenames")
@@ -75,7 +82,11 @@ public class VipsImageTest {
             "transparent.png",
             "logo.webp",
             "cat.gif",
-            "02.gif"
+            "02.gif",
+            "deflate_compression.tiff",
+            "lzw_compression.tiff",
+            "none_compression.tiff",
+            "pack_bits_compression.tiff"
     };
 
     static class DominantColour {
@@ -105,7 +116,6 @@ public class VipsImageTest {
     };
 
     @BeforeClass
-
     public static void onceExecutedBeforeAll() {
         VipsContext.setLeak(true);
         VipsContext.setMaxCache(0);
@@ -510,13 +520,20 @@ public class VipsImageTest {
         // libvips can't save into gif format
         Assume.assumeTrue(vipsImageFormat != VipsImageFormat.GIF);
         Assume.assumeTrue(vipsImageFormat != VipsImageFormat.AVIF);
-        byte[] expected = SignatureByExtension.get(vipsImageFormat.getFileExtension());
-        byte[] signature = new byte[expected.length];
+        ArrayList<Byte[]> expectedSignatures = SignaturesByExtension.get(vipsImageFormat.getFileExtension());
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer(filename);
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             byte[] out = img.writeToArray(vipsImageFormat, JPGQuality, true);
-            System.arraycopy(out, 0, signature, 0, signature.length);
-            assertArrayEquals(expected, signature);
+            boolean success = false;
+            for (Byte[] signature : expectedSignatures) {
+                if (success)
+                    break;
+                byte[] expectedSignature = VipsTestUtils.toPrimitives(signature);
+                byte[] fileSignature = new byte[signature.length];
+                System.arraycopy(out, 0, fileSignature, 0, fileSignature.length);
+                success |= Arrays.equals(fileSignature, expectedSignature);
+            }
+            assertTrue("The file image format signature is not equal to the expected one", success);
         }
     }
 
