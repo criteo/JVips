@@ -108,6 +108,24 @@ else()
     add_custom_target(libjpeg "")
 endif()
 
+find_library(TIFF tiff EXACT PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT TIFF)
+   ExternalProject_Add(tiff
+     URL "http://download.osgeo.org/libtiff/tiff-${TIFF_VERSION}.tar.gz"
+     PREFIX "${CMAKE_CURRENT_BINARY_DIR}/tiff"
+     CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/tiff/src/tiff/configure
+     ${CONFIGURE_VARS}
+     --enable-shared
+     --disable-static
+     --without-x
+     --disable-cxx
+     --disable-lzma
+     DEPENDS libjpeg
+     )
+else()
+   add_custom_target(tiff "")
+endif()
+
 if (WITH_LIBSPNG)
     list(APPEND LIBSPNG_FLAGS
     --with-libspng
@@ -181,6 +199,8 @@ if(NOT LIBWEBP)
       --with-jpeglibdir=${EXT_INSTALL_DIR}/lib
       --with-pngincludedir=${EXT_INSTALL_DIR}/include
       --with-pnglibdir=${EXT_INSTALL_DIR}/lib
+      --with-tiffincludedir=${EXT_INSTALL_DIR}/include
+      --with-tifflibdir=${EXT_INSTALL_DIR}/lib
       --enable-shared
       --disable-static
       --disable-dependency-tracking
@@ -191,7 +211,7 @@ if(NOT LIBWEBP)
       --enable-sse4.1
       --enable-sse2
       --enable-threading
-      DEPENDS libjpeg libpng giflib
+      DEPENDS libjpeg libpng giflib tiff
       )
 else()
     add_custom_target(libwebp "")
@@ -272,13 +292,16 @@ if(NOT VIPS)
       --with-jpeg
       --with-jpeg-includes=${EXT_INSTALL_DIR}/include
       --with-jpeg-libraries=${EXT_INSTALL_DIR}/lib
+      --with-tiff
+      --with-tiff-includes=${EXT_INSTALL_DIR}/include
+      --with-tiff-libraries=${EXT_INSTALL_DIR}/lib
       --without-magick
       --without-orc
       --without-gsf
       --without-rsvg
       ${LIBSPNG_FLAGS}
       ${LIBHEIF_FLAGS}
-      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2 libheif
+      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2 libheif tiff
       BUILD_IN_SOURCE 1
       )
 else()

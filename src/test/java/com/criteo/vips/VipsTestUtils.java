@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2019 Criteo
+  Copyright (c) 2022 Criteo
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -36,5 +36,16 @@ public class VipsTestUtils {
         ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
         buffer.put(bytes, 0, bytes.length);
         return buffer;
+    }
+
+    public static byte[] toPrimitives(Byte[] oBytes)
+    {
+
+        byte[] bytes = new byte[oBytes.length];
+        for(int i = 0; i < oBytes.length; i++){
+            bytes[i] = oBytes[i];
+        }
+        return bytes;
+
     }
 }
