@@ -1,0 +1,29 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 0000000..2c9a440
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,22 @@
++cmake_minimum_required(VERSION 3.5)
++
++project(GIFLIB VERSION 5.2.1 LANGUAGES C)
++
++set(CMAKE_C_FLAGS "-std=gnu99 -fPIC -Wall -Wno-format-truncation -O2")
++
++set(PUBLIC_HEADER_FILES gif_lib.h)
++set(SOURCE_FILES dgif_lib.c egif_lib.c gifalloc.c gif_err.c gif_font.c gif_hash.c openbsd-reallocarray.c gif_hash.h gif_lib_private.h ${PUBLIC_HEADER_FILES})
++
++set(LIBMAJOR 7)
++set(LIBMINOR 2)
++set(LIBPOINT 0)
++set(LIBVER ${LIBMAJOR}.${LIBMINOR}.${LIBPOINT})
++
++add_library(gif SHARED ${SOURCE_FILES})
++set_target_properties(gif PROPERTIES VERSION ${LIBVER})
++set_target_properties(gif PROPERTIES PUBLIC_HEADER ${PUBLIC_HEADER_FILES})
++
++install(TARGETS gif
++        RUNTIME DESTINATION bin
++        LIBRARY DESTINATION lib
++        PUBLIC_HEADER DESTINATION include)
+\ No newline at end of file
