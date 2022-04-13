@@ -173,14 +173,16 @@ find_library(GIFLIB gif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if (NOT GIFLIB)
     # giflib hasn't a standard build system, don't append CONFIGURE_VARS
     ExternalProject_Add(giflib
-      URL "https://downloads.sourceforge.net/project/giflib/giflib-${GIF_VERSION}.tar.bz2"
+      URL "https://downloads.sourceforge.net/project/giflib/giflib-${GIF_VERSION}.tar.gz"
       PREFIX "${CMAKE_CURRENT_BINARY_DIR}/giflib"
-      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/giflib/src/giflib/configure
-      --prefix=${EXT_INSTALL_DIR}
-      ${CONFIGURE_HOST}
-      --enable-shared
-      --disable-static
-      --disable-dependency-tracking
+      PATCH_COMMAND patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/patches/giflib-cmake.patch
+      CMAKE_ARGS
+      -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+      -DCMAKE_BUILD_TYPE=Release
+      -DCMAKE_INSTALL_LIBDIR=lib
+      -DBUILD_SHARED_LIBS=1
+      -DENABLE_CCACHE=0
+      BUILD_IN_SOURCE 1
       )
 else()
     add_custom_target(giflib "")
