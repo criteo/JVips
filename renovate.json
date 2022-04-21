@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^lib/VERSIONS$"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)( packageName=(?<packageName>.*?))?( extractVersionTemplate=(?<extractVersionTemplate>.*?))?\\s[a-zA-Z_]+?=(?<currentValue>.+?)\\s"
+      ],
+      "extractVersionTemplate": "{{#if extractVersionTemplate}}{{{extractVersionTemplate}}}{{else}}^v(?<version>.*)${{/if}}"
+    }
+  ]
+}

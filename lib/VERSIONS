@@ -1,12 +1,35 @@
+# renovate: datasource=github-tags depName=libimagequant packageName=ImageOptim/libimagequant extractVersionTemplate=^(?<version>.*)$
 LIQ_VERSION=2.12.6
+
+# renovate: datasource=github-releases depName=libexif packageName=libexif/libexif
 EXIF_VERSION=0.6.22
+
+# renovate: datasource=github-releases depName=libjpeg-turbo packageName=libjpeg-turbo/libjpeg-turbo extractVersionTemplate=^(?<version>.*)$
 JPG_VERSION=2.0.5
+
+# renovate: datasource=git-tags depName=libpng packageName=https://git.code.sf.net/p/libpng/code
 PNG_VERSION=1.6.37
+
+# renovate: datasource=github-releases depName=libspng packageName=randy408/libspng
 SPNG_VERSION=0.6.0
+
+# renovate: datasource=git-tags depName=giflib packageName=https://git.code.sf.net/p/giflib/code extractVersionTemplate=^(?<version>.*)$
 GIF_VERSION=5.2.1
+
+# renovate: datasource=github-tags depName=libwebp packageName=webmproject/libwebp
 WEBP_VERSION=1.1.0
+
+# renovate: datasource=git-tags depName=libaom packageName=https://aomedia.googlesource.com/aom
 AOM_VERSION=2.0.0
+
+# renovate: datasource=github-tags depName=libheif packageName=strukturag/libheif
 HEIF_VERSION=1.9.1
+
+# renovate: datasource=github-releases depName=little-cms packageName=mm2/Little-CMS
 LCMS2_VERSION=2.11
+
+# renovate: datasource=gitlab-tags depName=libtiff packageName=libtiff/libtiff
 TIFF_VERSION=4.1.0
+
+# renovate: datasource=github-releases depName=libvips packageName=libvips/libvips
 VIPS_VERSION=8.12.2
