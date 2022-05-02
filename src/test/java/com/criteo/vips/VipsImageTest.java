@@ -320,7 +320,7 @@ public class VipsImageTest {
     }
 
     @Test
-    public void TestShouldRenderThumbnailAndKeepAspectRatio() throws IOException, VipsException {
+    public void TestShouldRenderThumbnailImageAndKeepAspectRatio() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             double aspectRatio = (double) img.getWidth() / (double) img.getHeight();
@@ -332,12 +332,23 @@ public class VipsImageTest {
     }
 
     @Test
-    public void TestShouldRenderThumbnailWithExactDimension() throws IOException, VipsException {
+    public void TestShouldRenderThumbnailImageWithExactDimension() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             img.thumbnailImage(new Dimension(800, 800), true);
             assertEquals(800, img.getWidth());
             assertEquals(800, img.getHeight());
+        }
+    }
+
+    @Test
+    public void TestShouldRenderThumbnailWithExactDimension() throws IOException, VipsException {
+        String filename = VipsTestUtils.getRessourcePath("in_vips.jpg");
+        int expectedWidth = 800;
+        int expectedHeight = 600;
+        try (VipsImage img = VipsImage.thumbnail(filename, new Dimension(expectedWidth, expectedHeight), true)) {
+            assertEquals(expectedWidth, img.getWidth());
+            assertEquals(expectedHeight, img.getHeight());
         }
     }
 

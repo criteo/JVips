@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2019 Criteo
+  Copyright (c) 2022 Criteo
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -156,6 +156,23 @@ public class VipsImage extends Vips implements Image {
         thumbnailImageNative(width, height, scale);
     }
 
+    public static VipsImage thumbnail(String filename, Dimension dimension, boolean scale) throws VipsException {
+        return thumbnailNative(filename, dimension.width, dimension.height, scale);
+    }
+
+    /**
+     * Make a thumbnail from a file with new target dimension
+     *
+     * @param filename name of the file to load
+     * @param width  Target width
+     * @param height Target height
+     * @param scale  If scale is enabled, force to resize ignoring aspect ratio
+     * @throws VipsException if error
+     */
+    public static VipsImage thumbnail(String filename, int width, int height, boolean scale) throws VipsException {
+        return thumbnailNative(filename, width, height, scale);
+    }
+
     /**
      * @deprecated Use {@link #thumbnailImage(Dimension, boolean)} instead.
      */
@@ -173,6 +190,8 @@ public class VipsImage extends Vips implements Image {
     }
 
     private native void thumbnailImageNative(int width, int height, boolean scale) throws VipsException;
+
+    private static native VipsImage thumbnailNative(String filename, int width, int height, boolean scale) throws VipsException;
 
     public void resize(double hscale, double vscale, VipsKernel kernel) throws VipsException {
         resizeNative(hscale, vscale, kernel.getValue());
