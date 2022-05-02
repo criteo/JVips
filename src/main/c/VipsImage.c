@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2020 Criteo
+  Copyright (c) 2022 Criteo
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -227,6 +227,24 @@ Java_com_criteo_vips_VipsImage_thumbnailImageNative(JNIEnv *env, jobject obj, ji
     }
     (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
     g_object_unref(im);
+}
+
+JNIEXPORT jobject JNICALL
+Java_com_criteo_vips_VipsImage_thumbnailNative(JNIEnv *env, jobject obj, jstring filename, jint width, jint height, jboolean scale)
+{
+    jobject cls = (*env)->FindClass(env, "com/criteo/vips/VipsImage");
+    VipsImage *out = NULL;
+    const char *name = (*env)->GetStringUTFChars(env, filename, NULL);
+    VipsSize vipsSize = scale ? VIPS_SIZE_FORCE : VIPS_SIZE_BOTH;
+
+    if (vips_thumbnail(name, &out, width, "height", height, "size", vipsSize, NULL))
+    {
+        (*env)->ReleaseStringUTFChars(env, filename, name);
+        throwVipsException(env, "Unable to make thumbnail");
+        return;
+    }
+    (*env)->ReleaseStringUTFChars(env, filename, name);
+    return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
 }
 
 JNIEXPORT void JNICALL
