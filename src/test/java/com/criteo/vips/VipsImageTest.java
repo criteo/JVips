@@ -959,4 +959,17 @@ public class VipsImageTest {
             // expected
         }
     }
+
+    @Test
+    public void TestShouldRenderUTF8TextFromFontfile() throws VipsException {
+        String fontfile = VipsTestUtils.getRessourcePath("Roboto-Regular.ttf");
+        int expectedWidth = 512;
+        int expectedHeight = 256;
+        int dpi = 144;
+        int spacing = 1;
+        try (VipsImage text = VipsImage.text("<span foreground=\"red\">Здравейте от София!</span>", "Roboto Regular 32", expectedWidth, expectedHeight,
+                VipsAlign.Centre, false, dpi, spacing, fontfile, true)) {
+            text.writeToFile("/tmp/text.png");
+        }
+    }
 }

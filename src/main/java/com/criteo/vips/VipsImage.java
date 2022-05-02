@@ -311,6 +311,34 @@ public class VipsImage extends Vips implements Image {
 
     public native void removeAutorotAngle();
 
+    /**
+     * Draw the string text to an image.
+     * Output image is normally a one-band 8-bit unsigned char image, with 0 for no text and 255 for text.
+     * Values between are used for anti-aliasing.
+     *
+     * @param text is the text to render as a UTF-8 string. It can contain Pango markup, for example <i>The</i>Guardian
+     * @param font font to render with
+     * @param width image should be no wider than this many pixels
+     * @param height image should be no higher than this many pixels
+     * @param align set justification alignment
+     * @param justify justify lines
+     * @param dpi render at this resolution
+     * @param rgba enable RGBA output
+     * @param spacing space lines by this in points
+     * @param fontfile load this font file
+     * @param rgba enable RGBA output
+     * @throws VipsException if error
+     */
+    public static VipsImage text(String text, String font, int width, int height, VipsAlign align, boolean justify,
+                                 int dpi, int spacing, String fontfile, boolean rgba)
+            throws VipsException {
+        return textNative(text, font, width, height, align.getValue(), justify, dpi, spacing, fontfile, rgba);
+    }
+
+    private static native VipsImage textNative(String text, String font, int width, int height, int align,
+                                               boolean justify, int dpi, int spacing, String fontfile, boolean rgba)
+            throws VipsException;
+
     public native VipsImage clone() throws VipsException;
 
     public native void release();
