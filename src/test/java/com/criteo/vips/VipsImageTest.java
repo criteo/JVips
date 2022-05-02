@@ -970,4 +970,40 @@ public class VipsImageTest {
             // expected
         }
     }
+
+    @Test
+    public void TestShouldRenderTextFromDefaultFont() throws VipsException {
+        int expectedBands = 1;
+        int width = 512;
+        int height = 256;
+        int dpi = 144;
+        int spacing = 1;
+        String str = "Hello World!";
+        try (VipsImage text = VipsImage.text(str, null, width, height, VipsAlign.Centre, false, dpi, spacing,
+                null, false)) {
+            assertEquals(expectedBands, text.getBands());
+        }
+        catch (Exception e) {
+            fail("Should not throw exception when rendering text");
+        }
+    }
+
+    @Test
+    public void TestShouldRenderCyrillicTextFromFontfile() throws VipsException {
+        String fontfile = VipsTestUtils.getRessourcePath("Roboto-Regular.ttf");
+        String font = "Roboto Regular 32";
+        int expectedBands = 4;
+        int width = 512;
+        int height = 256;
+        int dpi = 144;
+        int spacing = 1;
+        String str = "<span color=\"red\"> Здравейте от София!</span>";
+        try (VipsImage text = VipsImage.text(str, font, width, height, VipsAlign.Centre, false, dpi, spacing,
+                fontfile, true)) {
+            assertEquals(expectedBands, text.getBands());
+        }
+        catch (Exception e) {
+            fail("Should not throw exception when rendering text");
+        }
+    }
 }

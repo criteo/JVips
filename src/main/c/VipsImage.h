@@ -361,6 +361,14 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_removeAutorotAngle
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    textNative
+ * Signature: (Ljava/lang/String;Ljava/lang/String;IIIZIILjava/lang/String;Z)Lcom/criteo/vips/VipsImage;
+ */
+JNIEXPORT jobject JNICALL Java_com_criteo_vips_VipsImage_textNative
+  (JNIEnv *, jclass, jstring, jstring, jint, jint, jint, jboolean, jint, jint, jstring, jboolean);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    clone
  * Signature: ()Lcom/criteo/vips/VipsImage;
  */

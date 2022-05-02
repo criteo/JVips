@@ -50,7 +50,8 @@ RUN yum install ${YUM_OPTIONS} \
     mingw64-gcc-c++ \
     mingw64-glib2 \
     mingw64-win-iconv \
-    mingw64-expat
+    mingw64-expat \
+    mingw64-pango
 
 # Link the system version of libmpfr, which is more recent than expected, but works fine.
 RUN ln -s /lib64/libmpfr.so.6 /lib64/libmpfr.so.4
