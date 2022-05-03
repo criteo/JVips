@@ -230,18 +230,15 @@ Java_com_criteo_vips_VipsImage_thumbnailImageNative(JNIEnv *env, jobject obj, ji
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_criteo_vips_VipsImage_thumbnailNative(JNIEnv *env, jobject obj, jstring filename, jint width, jint height, jboolean scale)
+Java_com_criteo_vips_VipsImage_thumbnailNative(JNIEnv *env, jclass cls, jstring filename, jint width, jint height, jboolean scale)
 {
-    jobject cls = (*env)->FindClass(env, "com/criteo/vips/VipsImage");
     VipsImage *out = NULL;
     const char *name = (*env)->GetStringUTFChars(env, filename, NULL);
     VipsSize vipsSize = scale ? VIPS_SIZE_FORCE : VIPS_SIZE_BOTH;
 
     if (vips_thumbnail(name, &out, width, "height", height, "size", vipsSize, NULL))
     {
-        (*env)->ReleaseStringUTFChars(env, filename, name);
         throwVipsException(env, "Unable to make thumbnail");
-        return;
     }
     (*env)->ReleaseStringUTFChars(env, filename, name);
     return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
