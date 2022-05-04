@@ -1,5 +1,8 @@
 include(ExternalProject)
 
+find_program(MESON meson REQUIRED)
+find_program(NINJA ninja REQUIRED)
+
 # Read external project versions
 file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/VERSIONS VERSIONS_LIST)
 foreach(ITEM ${VERSIONS_LIST})
@@ -42,6 +45,14 @@ list(APPEND CONFIGURE_VARS
   CPPFLAGS=-I${EXT_INSTALL_DIR}/include
   --prefix=${EXT_INSTALL_DIR}
   ${CONFIGURE_HOST}
+  )
+
+list(APPEND MESON_VARS
+  --bindir=${EXT_INSTALL_DIR}/bin
+  --libdir=${EXT_INSTALL_DIR}/lib
+  --includedir=${EXT_INSTALL_DIR}/include
+  --datadir=${EXT_INSTALL_DIR}/share
+  --prefix=${EXT_INSTALL_DIR}
   )
 
 find_library(LIBIMAGEQUANT imagequant PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
@@ -88,6 +99,27 @@ if(NOT FREETYPE)
       )
 else()
     add_custom_target(freetype "")
+endif()
+
+find_library(HARFBUZZ harfbuzz PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT HARFBUZZ)
+    ExternalProject_Add(harfbuzz
+      URL "https://github.com/harfbuzz/harfbuzz/releases/download/${HARFBUZZ_VERSION}/harfbuzz-${HARFBUZZ_VERSION}.tar.xz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/harfbuzz"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/harfbuzz/src/harfbuzz/configure
+      ${CONFIGURE_VARS}
+      --enable-shared=yes
+      --enable-static=no
+      --disable-gtk-doc
+      --disable-gtk-doc-html
+      --disable-gtk-doc-pdf
+      --with-icu=no
+      --enable-introspection=no
+      --with-freetype=yes
+      DEPENDS freetype
+      )
+else()
+    add_custom_target(harfbuzz "")
 endif()
 
 find_library(LIBEXIF exif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
