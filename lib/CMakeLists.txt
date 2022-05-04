@@ -20,8 +20,8 @@ elseif(${BUILD_TARGET} STREQUAL "w64")
 endif()
 
 if (NOT DEFINED CMAKE_BUILD_TYPE)
-set(CONFIGURE_CFLAGS "${CMAKE_C_FLAGS}")
-set(CONFIGURE_CXXFLAGS "${CMAKE_CXX_FLAGS}")
+  set(CONFIGURE_CFLAGS "${CMAKE_C_FLAGS}")
+  set(CONFIGURE_CXXFLAGS "${CMAKE_CXX_FLAGS}")
 elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
   set(CONFIGURE_CFLAGS ${CMAKE_C_FLAGS_RELEASE})
   set(CONFIGURE_CXXFLAGS ${CMAKE_CXX_FLAGS_RELEASE})
@@ -72,6 +72,22 @@ if (NOT LIBIMAGEQUANT)
     endif()
 else()
     add_custom_target(libimagequant "")
+endif()
+
+find_library(FREETYPE freetype PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT FREETYPE)
+    ExternalProject_Add(freetype
+      URL "http://download.savannah.nongnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/freetype"
+      CMAKE_ARGS
+      -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+      -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+      -DCMAKE_BUILD_TYPE=Release
+      -DBUILD_SHARED_LIBS=1
+      -DENABLE_CCACHE=0
+      )
+else()
+    add_custom_target(freetype "")
 endif()
 
 find_library(LIBEXIF exif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2019 Criteo
+  Copyright (c) 2022 Criteo
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ public class Vips {
     private static final String SYSTEM_NAME = System.getProperty("os.name").toLowerCase();
 
     private static final String[] LINUX_LIBRARIES = {
+            "freetype",
             "aom",
             "heif",
             "exif",
