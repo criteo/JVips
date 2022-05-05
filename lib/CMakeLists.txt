@@ -122,6 +122,21 @@ else()
     add_custom_target(harfbuzz "")
 endif()
 
+find_library(FRIBIDI fribidi PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT FRIBIDI)
+    ExternalProject_Add(fribidi
+      URL "https://github.com/fribidi/fribidi/releases/download/v${FRIBIDI_VERSION}/fribidi-${FRIBIDI_VERSION}.tar.xz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/fribidi"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fribidi/src/fribidi/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      )
+else()
+    add_custom_target(fribidi "")
+endif()
+
 find_library(LIBEXIF exif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LIBEXIF)
     ExternalProject_Add(libexif

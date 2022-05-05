@@ -26,6 +26,7 @@ public class Vips {
     private static final String[] LINUX_LIBRARIES = {
             "freetype",
             "harfbuzz",
+            "fribidi",
             "aom",
             "heif",
             "exif",
