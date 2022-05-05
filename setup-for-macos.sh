@@ -10,6 +10,8 @@ function brew-install-version {
     git -C "$(brew --repo homebrew/core)" fetch --unshallow || echo "Homebrew repo already unshallowed"
 
     commit=$(brew log --max-count=50 --oneline "$formula_name" | grep "$formula_version" | head -n1 | cut -d ' ' -f1)
+    # vips 8.12.2 broken repository fix. See: https://github.com/criteo/JVips/pull/127#issuecomment-1119602094
+    commit="6a728cd675"
 
     [ -z "$commit" ] && {
         echo >&2 "No version matching '$formula_version' for '$formula_name'"
@@ -31,6 +33,10 @@ command -v brew || {
     exit 1
 }
 
+command -v brew update || {
+    brew update
+}
+
 command -v java || {
     brew tap homebrew/cask-versions
     brew cask install homebrew/cask-versions/adoptopenjdk8
@@ -49,7 +55,7 @@ command -v pkg-config || {
     brew unlink python@3.9
     brew uninstall --ignore-dependencies sqlite
     brew uninstall llvm
-    brew uninstall php
+    brew uninstall --ignore-dependencies php
     brew uninstall postgresql
 }
 
