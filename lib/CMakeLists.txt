@@ -248,6 +248,34 @@ else()
     add_custom_target(libpng "")
 endif()
 
+find_library(CAIRO cairo PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT CAIRO)
+    if (NOT DEFINED BUILD_TARGET)
+      set(CAIRO_XLIB_FLAG "--enable-xlib")
+      set(CAIRO_CROSS_TARGET_FLAG "")
+    elseif(${BUILD_TARGET} STREQUAL "w64")
+      set(CAIRO_XLIB_FLAG "--disable-xlib")
+      set(CAIRO_CROSS_TARGET_FLAG "--enable-win32")
+    endif()
+    ExternalProject_Add(cairo
+      URL "http://www.cairographics.org/releases/cairo-${CAIRO_VERSION}.tar.xz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/cairo"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/cairo/src/cairo/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      --disable-gl
+      --disable-xcb
+      --without-x
+      --disable-ps
+      ${CAIRO_CROSS_TARGET_FLAGS}
+      DEPENDS libpng freetype pixman
+      )
+else()
+    add_custom_target(cairo "")
+endif()
+
 find_library(GIFLIB gif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if (NOT GIFLIB)
     # giflib hasn't a standard build system, don't append CONFIGURE_VARS

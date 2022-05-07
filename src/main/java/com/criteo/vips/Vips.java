@@ -28,6 +28,7 @@ public class Vips {
             "harfbuzz",
             "fribidi",
             "pixman-1",
+            "cairo",
             "aom",
             "heif",
             "exif",
