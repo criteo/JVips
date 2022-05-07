@@ -34,6 +34,8 @@ RUN yum install ${YUM_OPTIONS} \
     automake \
     libtool \
     diffutils \
+    gperf \
+    gettext-devel \
     openssl-devel \
     expat-devel \
     zlib-devel \

@@ -248,6 +248,24 @@ else()
     add_custom_target(libpng "")
 endif()
 
+find_library(FONTCONFIG fontconfig PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT FONTCONFIG)
+    ExternalProject_Add(fontconfig
+      URL "https://github.com/freedesktop/fontconfig/archive/refs/tags/${FONTCONFIG_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/fontconfig"
+      CONFIGURE_COMMAND ./autogen.sh
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      --disable-nls
+      DEPENDS freetype
+      BUILD_IN_SOURCE 1
+      )
+else()
+    add_custom_target(fontconfig "")
+endif()
+
 find_library(CAIRO cairo PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT CAIRO)
     if (NOT DEFINED BUILD_TARGET)
@@ -270,7 +288,7 @@ if(NOT CAIRO)
       --without-x
       --disable-ps
       ${CAIRO_CROSS_TARGET_FLAGS}
-      DEPENDS libpng freetype pixman
+      DEPENDS libpng freetype pixman fontconfig
       )
 else()
     add_custom_target(cairo "")
