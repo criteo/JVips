@@ -27,6 +27,7 @@ public class Vips {
             "freetype",
             "harfbuzz",
             "fribidi",
+            "pixman-1",
             "aom",
             "heif",
             "exif",

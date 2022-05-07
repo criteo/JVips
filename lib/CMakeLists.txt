@@ -137,6 +137,22 @@ else()
     add_custom_target(fribidi "")
 endif()
 
+find_library(PIXMAN pixman-1 PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT PIXMAN)
+    ExternalProject_Add(pixman
+      URL "http://www.cairographics.org/releases/pixman-${PIXMAN_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/pixman"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pixman/src/pixman/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      --disable-gtk
+      )
+else()
+    add_custom_target(pixman "")
+endif()
+
 find_library(LIBEXIF exif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LIBEXIF)
     ExternalProject_Add(libexif
