@@ -55,6 +55,12 @@ list(APPEND MESON_VARS
   --prefix=${EXT_INSTALL_DIR}
   )
 
+if (NOT DEFINED BUILD_TARGET)
+  set(MESON_CROSS_FILE "")
+elseif(${BUILD_TARGET} STREQUAL "w64")
+  set(MESON_CROSS_FILE --cross-file ${PROJECT_SOURCE_DIR}/meson/x86_64-w64-mingw32-crossfile.txt)
+endif()
+
 find_library(LIBIMAGEQUANT imagequant PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if (NOT LIBIMAGEQUANT)
     # https://github.com/ImageOptim/libimagequant/issues/36
@@ -294,6 +300,23 @@ else()
     add_custom_target(cairo "")
 endif()
 
+find_library(PANGO pango-1.0 PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT PANGO)
+    ExternalProject_Add(pango
+      URL "https://gitlab.gnome.org/GNOME/pango/-/archive/${PANGO_VERSION}/pango-${PANGO_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/pango"
+      CONFIGURE_COMMAND meson ${CMAKE_CURRENT_BINARY_DIR}/pango/buildir ${MESON_CROSS_FILE}
+      ${MESON_VARS}
+      -Dintrospection=disabled
+      BUILD_COMMAND ninja -C ${CMAKE_CURRENT_BINARY_DIR}/pango/buildir
+      INSTALL_COMMAND ninja -C ${CMAKE_CURRENT_BINARY_DIR}/pango/buildir install
+      BUILD_IN_SOURCE 1
+      DEPENDS cairo freetype harfbuzz fribidi
+      )
+else()
+    add_custom_target(pango "")
+endif()
+
 find_library(GIFLIB gif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if (NOT GIFLIB)
     # giflib hasn't a standard build system, don't append CONFIGURE_VARS
@@ -428,7 +451,7 @@ if(NOT VIPS)
       --without-rsvg
       ${LIBSPNG_FLAGS}
       ${LIBHEIF_FLAGS}
-      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2 libheif tiff
+      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2 libheif tiff pango
       BUILD_IN_SOURCE 1
       )
 else()

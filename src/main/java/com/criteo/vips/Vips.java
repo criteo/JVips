@@ -30,6 +30,7 @@ public class Vips {
             "pixman-1",
             "fontconfig",
             "cairo",
+            "pango-1.0",
             "aom",
             "heif",
             "exif",

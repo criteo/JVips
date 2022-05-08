@@ -48,7 +48,7 @@ For Fedora and CentOS:
 sudo yum install vips
 ```
 
-However, note that `JVips.jar` embeds `libvips.so` and its dependencies (expected pango used for `vips_text`). The `jar` file is self-sufficient for Linux. Look the `--minimal` flag documented below if you don't want this behavior and prefer to rely on system-wide libraries.
+However, note that `JVips.jar` embeds `libvips.so` and its dependencies. The `jar` file is self-sufficient for Linux. Look the `--minimal` flag documented below if you don't want this behavior and prefer to rely on system-wide libraries.
 
 ### 🏁 Windows
 
@@ -211,7 +211,6 @@ $ docker run --rm -v $(pwd):/app -w /app -u root -it builder bash
 - [ ] Add the missing operations
 - [ ] Adapt the binding design for calling function by operation name (see also: https://libvips.github.io/libvips/API/current/binding.md.html)
 - [ ] Publish artifacts to Maven Central
-- [ ] Build pango and its dependencies from scratch (check how to deal with meson and ninja with cmake `ExternalProject_Add` function)
 
 # Contact
 
