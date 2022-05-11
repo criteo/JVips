@@ -1,5 +1,8 @@
 include(ExternalProject)
 
+find_program(MESON meson REQUIRED)
+find_program(NINJA ninja REQUIRED)
+
 # Read external project versions
 file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/VERSIONS VERSIONS_LIST)
 foreach(ITEM ${VERSIONS_LIST})
@@ -20,8 +23,8 @@ elseif(${BUILD_TARGET} STREQUAL "w64")
 endif()
 
 if (NOT DEFINED CMAKE_BUILD_TYPE)
-set(CONFIGURE_CFLAGS "${CMAKE_C_FLAGS}")
-set(CONFIGURE_CXXFLAGS "${CMAKE_CXX_FLAGS}")
+  set(CONFIGURE_CFLAGS "${CMAKE_C_FLAGS}")
+  set(CONFIGURE_CXXFLAGS "${CMAKE_CXX_FLAGS}")
 elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
   set(CONFIGURE_CFLAGS ${CMAKE_C_FLAGS_RELEASE})
   set(CONFIGURE_CXXFLAGS ${CMAKE_CXX_FLAGS_RELEASE})
@@ -43,6 +46,20 @@ list(APPEND CONFIGURE_VARS
   --prefix=${EXT_INSTALL_DIR}
   ${CONFIGURE_HOST}
   )
+
+list(APPEND MESON_VARS
+  --bindir=${EXT_INSTALL_DIR}/bin
+  --libdir=${EXT_INSTALL_DIR}/lib
+  --includedir=${EXT_INSTALL_DIR}/include
+  --datadir=${EXT_INSTALL_DIR}/share
+  --prefix=${EXT_INSTALL_DIR}
+  )
+
+if (NOT DEFINED BUILD_TARGET)
+  set(MESON_CROSS_FILE "")
+elseif(${BUILD_TARGET} STREQUAL "w64")
+  set(MESON_CROSS_FILE --cross-file ${PROJECT_SOURCE_DIR}/meson/x86_64-w64-mingw32-crossfile.txt)
+endif()
 
 find_library(LIBIMAGEQUANT imagequant PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if (NOT LIBIMAGEQUANT)
@@ -72,6 +89,74 @@ if (NOT LIBIMAGEQUANT)
     endif()
 else()
     add_custom_target(libimagequant "")
+endif()
+
+find_library(FREETYPE freetype PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT FREETYPE)
+    ExternalProject_Add(freetype
+      URL "http://download.savannah.nongnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/freetype"
+      CMAKE_ARGS
+      -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+      -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+      -DCMAKE_BUILD_TYPE=Release
+      -DBUILD_SHARED_LIBS=1
+      -DENABLE_CCACHE=0
+      )
+else()
+    add_custom_target(freetype "")
+endif()
+
+find_library(HARFBUZZ harfbuzz PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT HARFBUZZ)
+    ExternalProject_Add(harfbuzz
+      URL "https://github.com/harfbuzz/harfbuzz/releases/download/${HARFBUZZ_VERSION}/harfbuzz-${HARFBUZZ_VERSION}.tar.xz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/harfbuzz"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/harfbuzz/src/harfbuzz/configure
+      ${CONFIGURE_VARS}
+      --enable-shared=yes
+      --enable-static=no
+      --disable-gtk-doc
+      --disable-gtk-doc-html
+      --disable-gtk-doc-pdf
+      --with-icu=no
+      --enable-introspection=no
+      --with-freetype=yes
+      DEPENDS freetype
+      )
+else()
+    add_custom_target(harfbuzz "")
+endif()
+
+find_library(FRIBIDI fribidi PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT FRIBIDI)
+    ExternalProject_Add(fribidi
+      URL "https://github.com/fribidi/fribidi/releases/download/v${FRIBIDI_VERSION}/fribidi-${FRIBIDI_VERSION}.tar.xz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/fribidi"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fribidi/src/fribidi/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      )
+else()
+    add_custom_target(fribidi "")
+endif()
+
+find_library(PIXMAN pixman-1 PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT PIXMAN)
+    ExternalProject_Add(pixman
+      URL "http://www.cairographics.org/releases/pixman-${PIXMAN_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/pixman"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pixman/src/pixman/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      --disable-gtk
+      )
+else()
+    add_custom_target(pixman "")
 endif()
 
 find_library(LIBEXIF exif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
@@ -167,6 +252,69 @@ if(NOT LIBPNG)
       )
 else()
     add_custom_target(libpng "")
+endif()
+
+find_library(FONTCONFIG fontconfig PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT FONTCONFIG)
+    ExternalProject_Add(fontconfig
+      URL "https://github.com/freedesktop/fontconfig/archive/refs/tags/${FONTCONFIG_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/fontconfig"
+      CONFIGURE_COMMAND ./autogen.sh
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      --disable-nls
+      DEPENDS freetype
+      BUILD_IN_SOURCE 1
+      )
+else()
+    add_custom_target(fontconfig "")
+endif()
+
+find_library(CAIRO cairo PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT CAIRO)
+    if (NOT DEFINED BUILD_TARGET)
+      set(CAIRO_XLIB_FLAG "--enable-xlib")
+      set(CAIRO_CROSS_TARGET_FLAG "")
+    elseif(${BUILD_TARGET} STREQUAL "w64")
+      set(CAIRO_XLIB_FLAG "--disable-xlib")
+      set(CAIRO_CROSS_TARGET_FLAG "--enable-win32")
+    endif()
+    ExternalProject_Add(cairo
+      URL "http://www.cairographics.org/releases/cairo-${CAIRO_VERSION}.tar.xz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/cairo"
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/cairo/src/cairo/configure
+      ${CONFIGURE_VARS}
+      --enable-shared
+      --disable-static
+      --disable-docs
+      --disable-gl
+      --disable-xcb
+      --without-x
+      --disable-ps
+      ${CAIRO_CROSS_TARGET_FLAGS}
+      DEPENDS libpng freetype pixman fontconfig
+      )
+else()
+    add_custom_target(cairo "")
+endif()
+
+find_library(PANGO pango-1.0 PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if(NOT PANGO)
+    ExternalProject_Add(pango
+      URL "https://gitlab.gnome.org/GNOME/pango/-/archive/${PANGO_VERSION}/pango-${PANGO_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/pango"
+      CONFIGURE_COMMAND meson ${CMAKE_CURRENT_BINARY_DIR}/pango/buildir ${MESON_CROSS_FILE}
+      ${MESON_VARS}
+      -Dintrospection=disabled
+      BUILD_COMMAND ninja -C ${CMAKE_CURRENT_BINARY_DIR}/pango/buildir
+      INSTALL_COMMAND ninja -C ${CMAKE_CURRENT_BINARY_DIR}/pango/buildir install
+      BUILD_IN_SOURCE 1
+      DEPENDS cairo freetype harfbuzz fribidi
+      )
+else()
+    add_custom_target(pango "")
 endif()
 
 find_library(GIFLIB gif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
@@ -303,7 +451,7 @@ if(NOT VIPS)
       --without-rsvg
       ${LIBSPNG_FLAGS}
       ${LIBHEIF_FLAGS}
-      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2 libheif tiff
+      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2 libheif tiff pango
       BUILD_IN_SOURCE 1
       )
 else()

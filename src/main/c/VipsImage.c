@@ -817,6 +817,38 @@ JNICALL Java_com_criteo_vips_VipsImage_removeAutorotAngle(JNIEnv *env, jobject i
     vips_autorot_remove_angle(im);
 }
 
+JNIEXPORT jobject
+JNICALL Java_com_criteo_vips_VipsImage_textNative(JNIEnv *env, jclass cls, jstring text, jstring font, jint width,
+                                                  jint height, jint align, jboolean justify, jint dpi, jint spacing,
+                                                  jstring fontfile, jboolean rgba)
+{
+    VipsImage *out = NULL;
+    const char *_text = NULL;
+    const char *_font = NULL;
+    const char *_fontfile = NULL;
+
+    if (text != NULL)
+        _text = (*env)->GetStringUTFChars(env, text, NULL);
+    if (font != NULL)
+        _font = (*env)->GetStringUTFChars(env, font, NULL);
+    if (fontfile != NULL)
+        _fontfile = (*env)->GetStringUTFChars(env, fontfile, NULL);
+
+    if (vips_text(&out, _text, "font", _font, "width", width, "height", height, "align", align, "justify", justify,
+                  "dpi", dpi, "spacing", spacing, "fontfile", _fontfile, "rgba", rgba, NULL))
+    {
+        throwVipsException(env, "Unable to render text image");
+    }
+
+    if (text != NULL)
+        (*env)->ReleaseStringUTFChars(env, text, _text);
+    if (font != NULL)
+        (*env)->ReleaseStringUTFChars(env, font, _font);
+    if (fontfile != NULL)
+        (*env)->ReleaseStringUTFChars(env, fontfile, _fontfile);
+    return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
+}
+
 
 JNIEXPORT jobject
 JNICALL Java_com_criteo_vips_VipsImage_joinNative(JNIEnv *env, jclass cls, jobject in1, jobject in2, jint direction)

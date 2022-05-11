@@ -1,4 +1,4 @@
-FROM fedora:32
+FROM fedora:33
 
 # Set default build arguments.
 ARG NODE_VERSION=10.x
@@ -9,7 +9,7 @@ ARG UID=1000
 ARG GID=1000
 
 # Set default environment variables.
-ENV JAVA_HOME=/usr/lib/jvm/java-openjdk
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 ENV PATH="${OSX_CROSS_HOME}/bin:${PATH}"
 ENV YUM_OPTIONS="-y --setopt=skip_missing_names_on_install=False"
 
@@ -33,6 +33,8 @@ RUN yum install ${YUM_OPTIONS} \
     automake \
     libtool \
     diffutils \
+    gperf \
+    gettext-devel \
     openssl-devel \
     expat-devel \
     zlib-devel \
@@ -44,13 +46,17 @@ RUN yum install ${YUM_OPTIONS} \
     gtk-doc \
     gobject-introspection gobject-introspection-devel \
     glib2.x86_64 glib2-devel.x86_64 \
-    java-1.8.0-openjdk \
+    java-1.8.0-openjdk-devel \
     mingw-w64-tools \
     mingw64-gcc \
     mingw64-gcc-c++ \
     mingw64-glib2 \
     mingw64-win-iconv \
-    mingw64-expat
+    mingw64-expat \
+    mingw64-pango
+
+RUN alternatives --install "/usr/bin/java" "java" "${JAVA_HOME}/bin/java" 1
+RUN alternatives --set java ${JAVA_HOME}/bin/java
 
 # Link the system version of libmpfr, which is more recent than expected, but works fine.
 RUN ln -s /lib64/libmpfr.so.6 /lib64/libmpfr.so.4

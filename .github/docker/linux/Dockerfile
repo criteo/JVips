@@ -34,6 +34,8 @@ RUN yum install ${YUM_OPTIONS} \
     automake \
     libtool \
     diffutils \
+    gperf \
+    gettext-devel \
     openssl-devel \
     expat-devel \
     zlib-devel \
@@ -42,6 +44,7 @@ RUN yum install ${YUM_OPTIONS} \
     mpfr-devel \
     gmp-devel \
     libmpc-devel \
+    pango-devel \
     gtk-doc \
     gobject-introspection gobject-introspection-devel \
     glib2.x86_64 glib2-devel.x86_64 \
