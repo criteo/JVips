@@ -3,9 +3,14 @@
   "extends": [
     "config:base"
   ],
-  "labels": [
+  "prConcurrentLimit": 2,
+  "addLabels": [
     "dependencies"
   ],
+  "dependencyDashboardLabels": [
+    "dependencies"
+  ],
+  "commitMessageAction": "⬆️ Update",
   "regexManagers": [
     {
       "fileMatch": [
@@ -14,7 +19,8 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)( packageName=(?<packageName>.*?))?( extractVersionTemplate=(?<extractVersionTemplate>.*?))?\\s[a-zA-Z_]+?=(?<currentValue>.+?)\\s"
       ],
-      "extractVersionTemplate": "{{#if extractVersionTemplate}}{{{extractVersionTemplate}}}{{else}}^v(?<version>.*)${{/if}}"
+      "extractVersionTemplate": "{{#if extractVersionTemplate}}{{{extractVersionTemplate}}}{{else}}^v(?<version>.*)${{/if}}",
+      "depTypeTemplate": "libraries"
     }
   ]
 }

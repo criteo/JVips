@@ -141,7 +141,16 @@ $ ./build.sh --without-w64 --without-linux --with-macos
 
 ## Dependency upgrades
 
-Libraries are downloaded from hard-coded URL in `lib/build.sh`. Libraries can be upgraded by changing the version number in `lib/variable.sh`.
+Libraries are downloaded from hard-coded URL defined in the [lib/CMakeLists.txt](lib/CMakeLists.txt) CMake project.
+
+These libraries can be upgraded by changing the version number in the [lib/VERSIONS](lib/VERSIONS) file.
+
+This repository uses [Renovate](https://github.com/renovatebot/renovate) as an automated dependency upgrade checking mechanism:
+
+* The [Renovate Github app](https://github.com/apps/renovate) will periodically check the dependencies for updates
+* The [lib/VERSIONS](lib/VERSIONS) file also contains Bash comments parsed by Renovate. These comments are used by Renovate to find out which data source to use to check for the latest versions of dependencies (see [Regex Managers](https://docs.renovatebot.com/configuration-options/#regexmanagers) feature)
+
+The Renovate configuration is located in [.github/renovate.json](.github/renovate.json).
 
 ## Benchmark
 
