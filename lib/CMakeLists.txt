@@ -235,6 +235,9 @@ if (WITH_LIBHEIF)
           -DCMAKE_INSTALL_LIBDIR=lib
           -DBUILD_SHARED_LIBS=1
           -DENABLE_CCACHE=0
+          -DENABLE_TESTS=0
+          -DENABLE_EXAMPLES=0
+          -DENABLE_DOCS=0
           )
     else()
         add_custom_target(libaom "")
@@ -250,6 +253,7 @@ if (WITH_LIBHEIF)
           -DCMAKE_BUILD_TYPE=Release
           -DHAVE_AOM=yes
           -DHAVE_GO=no
+          -DWITH_EXAMPLES=no
           DEPENDS libaom
           BUILD_IN_SOURCE 1
           )
