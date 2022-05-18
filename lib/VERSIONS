@@ -2,7 +2,7 @@
 LIQ_VERSION=2.12.6
 
 # renovate: datasource=github-releases depName=libexif packageName=libexif/libexif
-EXIF_VERSION=0.6.22
+EXIF_VERSION=0.6.24
 
 # renovate: datasource=github-releases depName=libjpeg-turbo packageName=libjpeg-turbo/libjpeg-turbo extractVersionTemplate=^(?<version>.*)$
 JPG_VERSION=2.0.5

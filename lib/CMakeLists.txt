@@ -13,7 +13,6 @@ foreach(ITEM ${VERSIONS_LIST})
 endforeach()
 
 set(VIPS_VERSION ${VIPS_VERSION} PARENT_SCOPE)
-string(REPLACE "." "_" EXIF_VERSION_TAG ${EXIF_VERSION})
 
 # Set the host target
 if (NOT DEFINED BUILD_TARGET)
@@ -80,13 +79,14 @@ endif()
 find_library(LIBEXIF exif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LIBEXIF)
     ExternalProject_Add(libexif
-      URL "https://github.com/libexif/libexif/releases/download/libexif-${EXIF_VERSION_TAG}-release/libexif-${EXIF_VERSION}.tar.gz"
+      URL "https://github.com/libexif/libexif/releases/download/v${EXIF_VERSION}/libexif-${EXIF_VERSION}.tar.bz2"
       PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libexif"
       CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/libexif/src/libexif/configure
       ${CONFIGURE_VARS}
       --enable-shared
       --disable-static
       --disable-docs
+      --disable-dependency-tracking
       )
 else()
     add_custom_target(libexif "")
