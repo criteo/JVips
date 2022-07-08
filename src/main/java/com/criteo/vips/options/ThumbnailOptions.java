@@ -23,11 +23,11 @@ public class ThumbnailOptions {
 
 	private boolean scale;
 	private boolean noRotate;
-	private int crop;
+	private int crop = -1;
 	private boolean linear;
 	private String importProfile;
 	private String exportProfile;
-	private int intent;
+	private int intent = -1;
 
 	public boolean isScale() {
 		return scale;
