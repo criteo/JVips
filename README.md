@@ -30,7 +30,14 @@ Look at the hello world program in [SimpleExample.java](src/test/java/com/criteo
 
 ## From prebuilt packages
 
-You can download the latest JVips build from [GitHub Releases](https://github.com/criteo/JVips/releases). We currently don't release to Maven Central.
+You can download the latest JVips build from [GitHub Releases](https://github.com/criteo/JVips/releases) or from [Maven Central](https://search.maven.org/artifact/com.criteo/jvips):
+
+```xml
+<dependency>
+  <groupId>com.criteo</groupId>
+  <artifactId>jvips</artifactId>
+</dependency>
+```
 
 Then, ensure your `libvips` and its dependencies are available on your system.
 
@@ -219,7 +226,7 @@ $ docker run --rm -v $(pwd):/app -w /app -u root -it builder bash
 
 - [ ] Add the missing operations
 - [ ] Adapt the binding design for calling function by operation name (see also: https://libvips.github.io/libvips/API/current/binding.md.html)
-- [ ] Publish artifacts to Maven Central
+- [X] Publish artifacts to Maven Central
 
 # Contact
 
