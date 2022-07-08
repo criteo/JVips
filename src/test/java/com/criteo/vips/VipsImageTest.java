@@ -17,6 +17,8 @@
 package com.criteo.vips;
 
 import com.criteo.vips.enums.*;
+import com.criteo.vips.options.ThumbnailOptions;
+
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -336,6 +338,26 @@ public class VipsImageTest {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
             img.thumbnailImage(new Dimension(800, 800), true);
+            assertEquals(800, img.getWidth());
+            assertEquals(800, img.getHeight());
+        }
+    }
+
+    @Test
+    public void TestShouldRenderThumbnailImageWithExactDimensionUsingOptions() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
+            img.thumbnailImage(new Dimension(800, 800), new ThumbnailOptions().scale(true));
+            assertEquals(800, img.getWidth());
+            assertEquals(800, img.getHeight());
+        }
+    }
+
+    @Test
+    public void TestShouldRenderThumbnailImageWithExactDimensionUsingCrop() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
+            img.thumbnailImage(new Dimension(800, 800), new ThumbnailOptions().crop(VipsInteresting.Attention));
             assertEquals(800, img.getWidth());
             assertEquals(800, img.getHeight());
         }

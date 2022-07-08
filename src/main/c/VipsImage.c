@@ -229,6 +229,42 @@ Java_com_criteo_vips_VipsImage_thumbnailImageNative(JNIEnv *env, jobject obj, ji
     g_object_unref(im);
 }
 
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsImage_thumbnailImageWithOptionsNative(JNIEnv *env, jobject obj, jint width, jint height, jobject options)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, obj, handle_fid);
+    VipsImage *out = NULL;
+
+    jclass optionsCls = (*env)->GetObjectClass(env, options);
+    jfieldID scaleFid = (*env)->GetFieldID(env, optionsCls, "scale", "Z");
+    jfieldID noRotateFid = (*env)->GetFieldID(env, optionsCls, "noRotate", "Z");
+    jfieldID cropFid = (*env)->GetFieldID(env, optionsCls, "crop", "I");
+    jfieldID linearFid = (*env)->GetFieldID(env, optionsCls, "linear", "Z");
+    jfieldID importProfileFid = (*env)->GetFieldID(env, optionsCls, "importProfile", "Ljava/lang/String;");
+    jfieldID exportProfileFid = (*env)->GetFieldID(env, optionsCls, "exportProfile", "Ljava/lang/String;");
+    jfieldID intentFid = (*env)->GetFieldID(env, optionsCls, "intent", "I");
+
+    jboolean scale = (*env)->GetBooleanField(env, options, scaleFid);
+    jboolean noRotate = (*env)->GetBooleanField(env, options, noRotateFid);
+    jint crop = (*env)->GetIntField(env, options, cropFid);
+    jboolean linear = (*env)->GetBooleanField(env, options, linearFid);
+    jstring importProfile = (*env)->GetStringField(env, options, importProfileFid); // TODO how to pass if set, as there is no default
+    jstring exportProfile = (*env)->GetStringField(env, options, exportProfileFid); // TODO how to pass if set, as there is no default
+    jint intent = (*env)->GetIntField(env, options, intentFid);
+
+    VipsSize vipsSize = scale ? VIPS_SIZE_FORCE : VIPS_SIZE_BOTH;
+    VipsInteresting vipsCrop = crop != -1 ? crop : VIPS_INTERESTING_NONE;
+    VipsIntent vipsIntent = intent != -1 ? intent : VIPS_INTENT_RELATIVE;
+
+    if (vips_thumbnail_image(im, &out, width, "height", height, "size", vipsSize, "no-rotate", noRotate, "crop", vipsCrop, "linear", linear, "intent", intent, NULL))
+    {
+        throwVipsException(env, "Unable to make thumbnail image");
+        return;
+    }
+    (*env)->SetLongField(env, obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
 JNIEXPORT jobject JNICALL
 Java_com_criteo_vips_VipsImage_thumbnailNative(JNIEnv *env, jclass cls, jstring filename, jint width, jint height, jboolean scale)
 {
@@ -237,6 +273,41 @@ Java_com_criteo_vips_VipsImage_thumbnailNative(JNIEnv *env, jclass cls, jstring 
     VipsSize vipsSize = scale ? VIPS_SIZE_FORCE : VIPS_SIZE_BOTH;
 
     if (vips_thumbnail(name, &out, width, "height", height, "size", vipsSize, NULL))
+    {
+        throwVipsException(env, "Unable to make thumbnail");
+    }
+    (*env)->ReleaseStringUTFChars(env, filename, name);
+    return (*env)->NewObject(env, cls, ctor_mid, (jlong) out);
+}
+
+JNIEXPORT jobject JNICALL
+Java_com_criteo_vips_VipsImage_thumbnailWithImageNative(JNIEnv *env, jclass cls, jstring filename, jint width, jint height, jobject options)
+{
+    VipsImage *out = NULL;
+    const char *name = (*env)->GetStringUTFChars(env, filename, NULL);
+
+    jclass optionsCls = (*env)->GetObjectClass(env, options);
+    jfieldID scaleFid = (*env)->GetFieldID(env, optionsCls, "scale", "Z");
+    jfieldID noRotateFid = (*env)->GetFieldID(env, optionsCls, "noRotate", "Z");
+    jfieldID cropFid = (*env)->GetFieldID(env, optionsCls, "crop", "I");
+    jfieldID linearFid = (*env)->GetFieldID(env, optionsCls, "linear", "Z");
+    jfieldID importProfileFid = (*env)->GetFieldID(env, optionsCls, "importProfile", "Ljava/lang/String;");
+    jfieldID exportProfileFid = (*env)->GetFieldID(env, optionsCls, "exportProfile", "Ljava/lang/String;");
+    jfieldID intentFid = (*env)->GetFieldID(env, optionsCls, "intent", "I");
+
+    jboolean scale = (*env)->GetBooleanField(env, options, scaleFid);
+    jboolean noRotate = (*env)->GetBooleanField(env, options, noRotateFid);
+    jint crop = (*env)->GetIntField(env, options, cropFid);
+    jboolean linear = (*env)->GetBooleanField(env, options, linearFid);
+    jstring importProfile = (*env)->GetStringField(env, options, importProfileFid); // TODO how to pass if set, as there is no default
+    jstring exportProfile = (*env)->GetStringField(env, options, exportProfileFid); // TODO how to pass if set, as there is no default
+    jint intent = (*env)->GetIntField(env, options, intentFid);
+
+    VipsSize vipsSize = scale ? VIPS_SIZE_FORCE : VIPS_SIZE_BOTH;
+    VipsInteresting vipsCrop = crop != -1 ? crop : VIPS_INTERESTING_NONE;
+    VipsIntent vipsIntent = intent != -1 ? intent : VIPS_INTENT_RELATIVE;
+
+    if (vips_thumbnail(name, &out, width, "height", height, "size", vipsSize, "no-rotate", noRotate, "crop", vipsCrop, "linear", linear, "intent", intent, NULL))
     {
         throwVipsException(env, "Unable to make thumbnail");
     }

@@ -137,11 +137,27 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_thumbnailImageNative
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    thumbnailImageWithOptionsNative
+ * Signature: (IILcom/criteo/vips/options/ThumbnailOptions;)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_thumbnailImageWithOptionsNative
+  (JNIEnv *, jobject, jint, jint, jobject);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    thumbnailNative
  * Signature: (Ljava/lang/String;IIZ)Lcom/criteo/vips/VipsImage;
  */
 JNIEXPORT jobject JNICALL Java_com_criteo_vips_VipsImage_thumbnailNative
   (JNIEnv *, jclass, jstring, jint, jint, jboolean);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
+ * Method:    thumbnailWithOptionsNative
+ * Signature: (Ljava/lang/String;IILcom/criteo/vips/options/ThumbnailOptions;)Lcom/criteo/vips/VipsImage;
+ */
+JNIEXPORT jobject JNICALL Java_com_criteo_vips_VipsImage_thumbnailWithOptionsNative
+  (JNIEnv *, jclass, jstring, jint, jint, jobject);
 
 /*
  * Class:     com_criteo_vips_VipsImage
