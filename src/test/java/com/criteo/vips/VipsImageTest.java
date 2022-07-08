@@ -347,7 +347,7 @@ public class VipsImageTest {
     public void TestShouldRenderThumbnailImageWithExactDimensionUsingOptions() throws IOException, VipsException {
         ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
         try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
-            img.thumbnailImage(new Dimension(800, 800), new ThumbnailOptions().scale(true));
+            img.thumbnailImage(new Dimension(800, 800), new ThumbnailOptions().size(VipsSize.Force));
             assertEquals(800, img.getWidth());
             assertEquals(800, img.getHeight());
         }

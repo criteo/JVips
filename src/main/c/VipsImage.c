@@ -236,7 +236,7 @@ Java_com_criteo_vips_VipsImage_thumbnailImageWithOptionsNative(JNIEnv *env, jobj
     VipsImage *out = NULL;
 
     jclass optionsCls = (*env)->GetObjectClass(env, options);
-    jfieldID scaleFid = (*env)->GetFieldID(env, optionsCls, "scale", "Z");
+    jfieldID sizeFid = (*env)->GetFieldID(env, optionsCls, "size", "I");
     jfieldID noRotateFid = (*env)->GetFieldID(env, optionsCls, "noRotate", "Z");
     jfieldID cropFid = (*env)->GetFieldID(env, optionsCls, "crop", "I");
     jfieldID linearFid = (*env)->GetFieldID(env, optionsCls, "linear", "Z");
@@ -244,7 +244,7 @@ Java_com_criteo_vips_VipsImage_thumbnailImageWithOptionsNative(JNIEnv *env, jobj
     jfieldID exportProfileFid = (*env)->GetFieldID(env, optionsCls, "exportProfile", "Ljava/lang/String;");
     jfieldID intentFid = (*env)->GetFieldID(env, optionsCls, "intent", "I");
 
-    jboolean scale = (*env)->GetBooleanField(env, options, scaleFid);
+    jint size = (*env)->GetIntField(env, options, sizeFid);
     jboolean noRotate = (*env)->GetBooleanField(env, options, noRotateFid);
     jint crop = (*env)->GetIntField(env, options, cropFid);
     jboolean linear = (*env)->GetBooleanField(env, options, linearFid);
@@ -252,7 +252,7 @@ Java_com_criteo_vips_VipsImage_thumbnailImageWithOptionsNative(JNIEnv *env, jobj
     jstring exportProfile = (jstring) (*env)->GetObjectField(env, options, exportProfileFid); // TODO how to pass if set, as there is no default
     jint intent = (*env)->GetIntField(env, options, intentFid);
 
-    VipsSize vipsSize = scale ? VIPS_SIZE_FORCE : VIPS_SIZE_BOTH;
+    VipsSize vipsSize = size != -1 ? size : VIPS_SIZE_BOTH;
     VipsInteresting vipsCrop = crop != -1 ? crop : VIPS_INTERESTING_NONE;
     VipsIntent vipsIntent = intent != -1 ? intent : VIPS_INTENT_RELATIVE;
 
@@ -287,7 +287,7 @@ Java_com_criteo_vips_VipsImage_thumbnailWithImageNative(JNIEnv *env, jclass cls,
     const char *name = (*env)->GetStringUTFChars(env, filename, NULL);
 
     jclass optionsCls = (*env)->GetObjectClass(env, options);
-    jfieldID scaleFid = (*env)->GetFieldID(env, optionsCls, "scale", "Z");
+    jfieldID sizeFid = (*env)->GetFieldID(env, optionsCls, "size", "I");
     jfieldID noRotateFid = (*env)->GetFieldID(env, optionsCls, "noRotate", "Z");
     jfieldID cropFid = (*env)->GetFieldID(env, optionsCls, "crop", "I");
     jfieldID linearFid = (*env)->GetFieldID(env, optionsCls, "linear", "Z");
@@ -295,7 +295,7 @@ Java_com_criteo_vips_VipsImage_thumbnailWithImageNative(JNIEnv *env, jclass cls,
     jfieldID exportProfileFid = (*env)->GetFieldID(env, optionsCls, "exportProfile", "Ljava/lang/String;");
     jfieldID intentFid = (*env)->GetFieldID(env, optionsCls, "intent", "I");
 
-    jboolean scale = (*env)->GetBooleanField(env, options, scaleFid);
+    jint size = (*env)->GetIntField(env, options, sizeFid);
     jboolean noRotate = (*env)->GetBooleanField(env, options, noRotateFid);
     jint crop = (*env)->GetIntField(env, options, cropFid);
     jboolean linear = (*env)->GetBooleanField(env, options, linearFid);
@@ -303,7 +303,7 @@ Java_com_criteo_vips_VipsImage_thumbnailWithImageNative(JNIEnv *env, jclass cls,
     jstring exportProfile = (jstring) (*env)->GetObjectField(env, options, exportProfileFid); // TODO how to pass if set, as there is no default
     jint intent = (*env)->GetIntField(env, options, intentFid);
 
-    VipsSize vipsSize = scale ? VIPS_SIZE_FORCE : VIPS_SIZE_BOTH;
+    VipsSize vipsSize = size != -1 ? size : VIPS_SIZE_BOTH;
     VipsInteresting vipsCrop = crop != -1 ? crop : VIPS_INTERESTING_NONE;
     VipsIntent vipsIntent = intent != -1 ? intent : VIPS_INTENT_RELATIVE;
 

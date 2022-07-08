@@ -18,10 +18,11 @@ package com.criteo.vips.options;
 
 import com.criteo.vips.enums.VipsIntent;
 import com.criteo.vips.enums.VipsInteresting;
+import com.criteo.vips.enums.VipsSize;
 
 public class ThumbnailOptions {
 
-	private boolean scale;
+	private int size = 1;
 	private boolean noRotate;
 	private int crop = -1;
 	private boolean linear;
@@ -29,16 +30,24 @@ public class ThumbnailOptions {
 	private String exportProfile;
 	private int intent = -1;
 
-	public boolean isScale() {
-		return scale;
+	public VipsSize getSize() {
+		if (size != -1) {
+			return VipsSize.valueOf(size);
+		} else {
+			return null;
+		}
 	}
 
-	public void setScale(boolean scale) {
-		this.scale = scale;
+	public void setSize(VipsSize size) {
+		if (size != null) {
+			this.size = size.getValue();
+		} else {
+			this.size = -1;
+		}
 	}
 
-	public ThumbnailOptions scale(boolean scale) {
-		setScale(scale);
+	public ThumbnailOptions size(VipsSize size) {
+		setSize(size);
 		return this;
 	}
 
