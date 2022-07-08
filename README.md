@@ -73,7 +73,7 @@ The `build.sh` script will download and build a subset of `JVips` dependencies f
 Additionally, `build.sh` accepts the following options:
 - `--with-w64`, `--without-w64`: enable/disable Windows 64 build (default: disable)
 - `--with-linux`, `--without-linux`: enable/disable Linux build (default: enable)
-- `--with-macos`, `--without-macos`: enable/disable Linux build (default: disable)
+- `--with-macos`, `--without-macos`: enable/disable macOS build (default: disable)
 - `--skip-test`: disable unit tests (default: enable)
 - `--run-benchmark`: launch benchmark suite (default: disable)
 - `--dist`: build a `.tar.gz` archive containing all the build artifacts (default: disable)
