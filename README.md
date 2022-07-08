@@ -218,8 +218,14 @@ Java_com_criteo_vips_VipsImageImpl_hasAlpha(JNIEnv *env, jobject obj)
 
 To debug the Docker image, you should build, run, and enter it as root:
 ```
-$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/linux/Dockerfile -t builder .
-$ docker run --rm -v $(pwd):/app -w /app -u root -it builder bash
+$ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f .github/docker/linux/Dockerfile -t jvips-builder-linux .
+$ docker run --rm -v $(pwd):/app -w /app -u root -it jvips-builder-linux bash
+```
+
+Once the Docker container is running and you have a prompt:
+
+```
+$ ./build.sh
 ```
 
 ## TODO
