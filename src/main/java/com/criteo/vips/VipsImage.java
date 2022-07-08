@@ -187,6 +187,10 @@ public class VipsImage extends Vips implements Image {
         return thumbnailNative(filename, width, height, scale);
     }
 
+    public static VipsImage thumbnail(String filename, int width, int height, ThumbnailOptions options) throws VipsException {
+        return thumbnailWithOptionsNative(filename, width, height, options);
+    }
+
     /**
      * @deprecated Use {@link #thumbnailImage(Dimension, boolean)} instead.
      */
