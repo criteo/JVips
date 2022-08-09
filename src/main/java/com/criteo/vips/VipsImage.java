@@ -17,6 +17,7 @@
 package com.criteo.vips;
 
 import com.criteo.vips.enums.*;
+import com.criteo.vips.options.ThumbnailOptions;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
@@ -152,12 +153,25 @@ public class VipsImage extends Vips implements Image {
         thumbnailImageNative(dimension.width, dimension.height, scale);
     }
 
+    public void thumbnailImage(Dimension dimension, ThumbnailOptions options) throws VipsException {
+        thumbnailImageWithOptionsNative(dimension.width, dimension.height, options);
+    }
+
     public void thumbnailImage(int width, int height, boolean scale) throws VipsException {
         thumbnailImageNative(width, height, scale);
     }
 
+    @Override
+    public void thumbnailImage(int width, int height, ThumbnailOptions options) throws VipsException {
+        thumbnailImageWithOptionsNative(width, height, options);
+    }
+
     public static VipsImage thumbnail(String filename, Dimension dimension, boolean scale) throws VipsException {
         return thumbnailNative(filename, dimension.width, dimension.height, scale);
+    }
+
+    public static VipsImage thumbnail(String filename, Dimension dimension, ThumbnailOptions options) throws VipsException {
+        return thumbnailWithOptionsNative(filename, dimension.width, dimension.height, options);
     }
 
     /**
@@ -171,6 +185,10 @@ public class VipsImage extends Vips implements Image {
      */
     public static VipsImage thumbnail(String filename, int width, int height, boolean scale) throws VipsException {
         return thumbnailNative(filename, width, height, scale);
+    }
+
+    public static VipsImage thumbnail(String filename, int width, int height, ThumbnailOptions options) throws VipsException {
+        return thumbnailWithOptionsNative(filename, width, height, options);
     }
 
     /**
@@ -191,7 +209,11 @@ public class VipsImage extends Vips implements Image {
 
     private native void thumbnailImageNative(int width, int height, boolean scale) throws VipsException;
 
+    private native void thumbnailImageWithOptionsNative(int width, int height, ThumbnailOptions options) throws VipsException;
+
     private static native VipsImage thumbnailNative(String filename, int width, int height, boolean scale) throws VipsException;
+
+    private static native VipsImage thumbnailWithOptionsNative(String filename, int width, int height, ThumbnailOptions options) throws VipsException;
 
     public void resize(double hscale, double vscale, VipsKernel kernel) throws VipsException {
         resizeNative(hscale, vscale, kernel.getValue());

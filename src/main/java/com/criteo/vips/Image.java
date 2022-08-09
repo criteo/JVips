@@ -17,6 +17,7 @@
 package com.criteo.vips;
 
 import com.criteo.vips.enums.*;
+import com.criteo.vips.options.ThumbnailOptions;
 
 import java.awt.*;
 
@@ -138,6 +139,8 @@ public interface Image extends AutoCloseable {
      */
     void thumbnailImage(Dimension dimension, boolean scale) throws VipsException;
 
+    void thumbnailImage(Dimension dimension, ThumbnailOptions options) throws VipsException;
+
     /**
      * Make a thumbnail of this VipsImage with new target dimension
      *
@@ -147,6 +150,8 @@ public interface Image extends AutoCloseable {
      * @throws VipsException if error
      */
     void thumbnailImage(int width, int height, boolean scale) throws VipsException;
+
+    void thumbnailImage(int width, int height, ThumbnailOptions options) throws VipsException;
 
     /**
      * Make a thumbnail of this VipsImage with new target dimension
