@@ -250,6 +250,7 @@ if (WITH_LIBHEIF)
           PREFIX "${CMAKE_CURRENT_BINARY_DIR}/libheif"
           CMAKE_ARGS
           -DCMAKE_INSTALL_PREFIX=${EXT_INSTALL_DIR}
+          -DCMAKE_INSTALL_LIBDIR=lib
           -DCMAKE_BUILD_TYPE=Release
           -DHAVE_AOM=yes
           -DHAVE_GO=no
