@@ -424,7 +424,7 @@ Java_com_criteo_vips_VipsImage_writeToArrayNative(JNIEnv *env, jobject obj, jstr
     {
         (*env)->ReleaseStringUTFChars(env, extension, ext);
         throwVipsException(env, "Unable to write image buffer");
-        return ret;
+        return NULL;
     }
     ret = (*env)->NewByteArray(env, result_length);
     (*env)->SetByteArrayRegion(env, ret, 0, result_length * sizeof (jbyte), buffer);
@@ -570,7 +570,7 @@ Java_com_criteo_vips_VipsImage_getPointPixelPacketNative(JNIEnv *env, jobject ob
     {
         throwVipsException(env, "Unable to get image point");
         g_free(pixel);
-        return ret;
+        return NULL;
     }
     // Convert to uchar
     for (int i = 0; i < result_length; ++i)
