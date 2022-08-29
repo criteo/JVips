@@ -32,4 +32,4 @@ LCMS2_VERSION=2.11
 TIFF_VERSION=4.1.0
 
 # renovate: datasource=github-releases depName=libvips packageName=libvips/libvips
-VIPS_VERSION=8.12.2
+VIPS_VERSION=8.13.0

@@ -34,5 +34,8 @@ assertEqualsNativeEnumValue(JNIEnv *env, const int expected, const char *classNa
 JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
 {
+    if (VIPS_INIT("java") != 0) {
+        throwVipsException(env, "Unable to init vips");
+    }
 $tests
 }

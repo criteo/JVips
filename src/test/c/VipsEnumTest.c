@@ -45,6 +45,9 @@ assertEqualsNativeEnumValue(JNIEnv *env, const int expected, const char *classNa
 JNIEXPORT void JNICALL
 Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
 {
+    if (VIPS_INIT("java") != 0) {
+        throwVipsException(env, "Unable to init vips");
+    }
     // VipsAccess
     assertEqualsNativeEnumValue(env, VIPS_ACCESS_RANDOM, "com/criteo/vips/enums/VipsAccess", "Random");
     assertEqualsNativeEnumValue(env, VIPS_ACCESS_SEQUENTIAL, "com/criteo/vips/enums/VipsAccess", "Sequential");
@@ -331,6 +334,8 @@ Java_com_criteo_vips_VipsEnumTest_TestNativeEnums(JNIEnv *env, jclass c)
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_SEQUENTIAL_UNBUFFERED, "com/criteo/vips/enums/VipsOperationFlags", "SequentialUnbuffered");
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_NOCACHE, "com/criteo/vips/enums/VipsOperationFlags", "Nocache");
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_DEPRECATED, "com/criteo/vips/enums/VipsOperationFlags", "Deprecated");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_UNTRUSTED, "com/criteo/vips/enums/VipsOperationFlags", "Untrusted");
+    assertEqualsNativeEnumValue(env, VIPS_OPERATION_BLOCKED, "com/criteo/vips/enums/VipsOperationFlags", "Blocked");
     // VipsOperationMath
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_SIN, "com/criteo/vips/enums/VipsOperationMath", "Sin");
     assertEqualsNativeEnumValue(env, VIPS_OPERATION_MATH_COS, "com/criteo/vips/enums/VipsOperationMath", "Cos");
