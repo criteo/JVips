@@ -26,7 +26,7 @@ public enum VipsForeignDzDepth {
     Last(3);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignDzDepth, Integer>();
+    private static Map<Integer, VipsForeignDzDepth> map = new HashMap<>();
 
     private VipsForeignDzDepth(int i) {
       value = i;

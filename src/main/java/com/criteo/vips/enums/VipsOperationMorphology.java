@@ -24,7 +24,7 @@ public enum VipsOperationMorphology {
     Last(2);
 
     private int value;
-    private static Map map = new HashMap<VipsOperationMorphology, Integer>();
+    private static Map<Integer, VipsOperationMorphology> map = new HashMap<>();
 
     private VipsOperationMorphology(int i) {
       value = i;

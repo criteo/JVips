@@ -24,7 +24,7 @@ public enum VipsDirection {
     Last(2);
 
     private int value;
-    private static Map map = new HashMap<VipsDirection, Integer>();
+    private static Map<Integer, VipsDirection> map = new HashMap<>();
 
     private VipsDirection(int i) {
       value = i;

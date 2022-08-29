@@ -28,7 +28,7 @@ public enum VipsForeignPpmFormat {
     Last(4);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignPpmFormat, Integer>();
+    private static Map<Integer, VipsForeignPpmFormat> map = new HashMap<>();
 
     private VipsForeignPpmFormat(int i) {
       value = i;

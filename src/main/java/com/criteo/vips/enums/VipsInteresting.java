@@ -34,7 +34,7 @@ public enum VipsInteresting {
     Last(7);
 
     private int value;
-    private static Map map = new HashMap<VipsInteresting, Integer>();
+    private static Map<Integer, VipsInteresting> map = new HashMap<>();
 
     private VipsInteresting(int i) {
       value = i;

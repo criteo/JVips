@@ -37,7 +37,7 @@ public enum VipsArgumentFlags {
     Modify(128);
 
     private int value;
-    private static Map map = new HashMap<VipsArgumentFlags, Integer>();
+    private static Map<Integer, VipsArgumentFlags> map = new HashMap<>();
 
     private VipsArgumentFlags(int i) {
       value = i;

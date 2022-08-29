@@ -32,7 +32,7 @@ public enum VipsKernel {
     Last(6);
 
     private int value;
-    private static Map map = new HashMap<VipsKernel, Integer>();
+    private static Map<Integer, VipsKernel> map = new HashMap<>();
 
     private VipsKernel(int i) {
       value = i;

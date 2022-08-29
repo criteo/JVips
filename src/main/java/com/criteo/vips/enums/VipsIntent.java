@@ -28,7 +28,7 @@ public enum VipsIntent {
     Last(4);
 
     private int value;
-    private static Map map = new HashMap<VipsIntent, Integer>();
+    private static Map<Integer, VipsIntent> map = new HashMap<>();
 
     private VipsIntent(int i) {
       value = i;

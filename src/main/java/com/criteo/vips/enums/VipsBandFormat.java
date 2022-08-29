@@ -42,7 +42,7 @@ public enum VipsBandFormat {
     FormatLast(10);
 
     private int value;
-    private static Map map = new HashMap<VipsBandFormat, Integer>();
+    private static Map<Integer, VipsBandFormat> map = new HashMap<>();
 
     private VipsBandFormat(int i) {
       value = i;

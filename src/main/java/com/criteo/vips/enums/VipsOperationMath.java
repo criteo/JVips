@@ -52,7 +52,7 @@ public enum VipsOperationMath {
     Last(16);
 
     private int value;
-    private static Map map = new HashMap<VipsOperationMath, Integer>();
+    private static Map<Integer, VipsOperationMath> map = new HashMap<>();
 
     private VipsOperationMath(int i) {
       value = i;

@@ -28,7 +28,7 @@ public enum VipsImageType {
     Partial(7);
 
     private int value;
-    private static Map map = new HashMap<VipsImageType, Integer>();
+    private static Map<Integer, VipsImageType> map = new HashMap<>();
 
     private VipsImageType(int i) {
       value = i;

@@ -38,7 +38,7 @@ public enum VipsForeignTiffCompression {
     Last(9);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignTiffCompression, Integer>();
+    private static Map<Integer, VipsForeignTiffCompression> map = new HashMap<>();
 
     private VipsForeignTiffCompression(int i) {
       value = i;

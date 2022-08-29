@@ -26,7 +26,7 @@ public enum VipsAlign {
     Last(3);
 
     private int value;
-    private static Map map = new HashMap<VipsAlign, Integer>();
+    private static Map<Integer, VipsAlign> map = new HashMap<>();
 
     private VipsAlign(int i) {
       value = i;

@@ -28,7 +28,7 @@ public enum VipsFailOn {
     Last(4);
 
     private int value;
-    private static Map map = new HashMap<VipsFailOn, Integer>();
+    private static Map<Integer, VipsFailOn> map = new HashMap<>();
 
     private VipsFailOn(int i) {
       value = i;

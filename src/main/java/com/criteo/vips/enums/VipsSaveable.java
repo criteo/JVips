@@ -32,7 +32,7 @@ public enum VipsSaveable {
     Last(6);
 
     private int value;
-    private static Map map = new HashMap<VipsSaveable, Integer>();
+    private static Map<Integer, VipsSaveable> map = new HashMap<>();
 
     private VipsSaveable(int i) {
       value = i;
