@@ -409,9 +409,9 @@ Java_com_criteo_vips_VipsImage_writeToArrayNative(JNIEnv *env, jobject obj, jstr
 
     if (strcmp(ext, ".avif") == 0) {
         if (quality < 0)
-            status = vips_heifsave_buffer(im, &buffer, &result_length, "Q", quality, "compression", VIPS_FOREIGN_HEIF_COMPRESSION_AV1, NULL);
-        else
             status = vips_heifsave_buffer(im, &buffer, &result_length, "compression", VIPS_FOREIGN_HEIF_COMPRESSION_AV1, NULL);
+        else
+            status = vips_heifsave_buffer(im, &buffer, &result_length, "Q", quality, "compression", VIPS_FOREIGN_HEIF_COMPRESSION_AV1, NULL);
     } else {
         if (quality < 0)
             status = vips_image_write_to_buffer(im, ext, &buffer, &result_length, "strip", strip, NULL);
