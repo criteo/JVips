@@ -32,7 +32,7 @@ public enum VipsRegionShrink {
     Last(6);
 
     private int value;
-    private static Map map = new HashMap<VipsRegionShrink, Integer>();
+    private static Map<Integer, VipsRegionShrink> map = new HashMap<>();
 
     private VipsRegionShrink(int i) {
       value = i;

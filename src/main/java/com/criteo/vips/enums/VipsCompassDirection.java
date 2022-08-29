@@ -38,7 +38,7 @@ public enum VipsCompassDirection {
     Last(9);
 
     private int value;
-    private static Map map = new HashMap<VipsCompassDirection, Integer>();
+    private static Map<Integer, VipsCompassDirection> map = new HashMap<>();
 
     private VipsCompassDirection(int i) {
       value = i;

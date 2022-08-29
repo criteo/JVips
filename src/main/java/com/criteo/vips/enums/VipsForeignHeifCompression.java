@@ -28,7 +28,7 @@ public enum VipsForeignHeifCompression {
     Last(5);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignHeifCompression, Integer>();
+    private static Map<Integer, VipsForeignHeifCompression> map = new HashMap<>();
 
     private VipsForeignHeifCompression(int i) {
       value = i;

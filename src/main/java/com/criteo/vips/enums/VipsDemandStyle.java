@@ -28,7 +28,7 @@ public enum VipsDemandStyle {
     Any(3);
 
     private int value;
-    private static Map map = new HashMap<VipsDemandStyle, Integer>();
+    private static Map<Integer, VipsDemandStyle> map = new HashMap<>();
 
     private VipsDemandStyle(int i) {
       value = i;

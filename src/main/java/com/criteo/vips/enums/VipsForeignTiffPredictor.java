@@ -26,7 +26,7 @@ public enum VipsForeignTiffPredictor {
     Last(4);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignTiffPredictor, Integer>();
+    private static Map<Integer, VipsForeignTiffPredictor> map = new HashMap<>();
 
     private VipsForeignTiffPredictor(int i) {
       value = i;

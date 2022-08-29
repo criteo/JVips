@@ -36,7 +36,7 @@ public enum VipsAngle45 {
     Last(8);
 
     private int value;
-    private static Map map = new HashMap<VipsAngle45, Integer>();
+    private static Map<Integer, VipsAngle45> map = new HashMap<>();
 
     private VipsAngle45(int i) {
       value = i;

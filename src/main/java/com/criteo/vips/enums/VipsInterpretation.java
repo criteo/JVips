@@ -58,7 +58,7 @@ public enum VipsInterpretation {
     Last(30);
 
     private int value;
-    private static Map map = new HashMap<VipsInterpretation, Integer>();
+    private static Map<Integer, VipsInterpretation> map = new HashMap<>();
 
     private VipsInterpretation(int i) {
       value = i;

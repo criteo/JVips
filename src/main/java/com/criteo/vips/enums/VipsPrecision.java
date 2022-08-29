@@ -26,7 +26,7 @@ public enum VipsPrecision {
     Last(3);
 
     private int value;
-    private static Map map = new HashMap<VipsPrecision, Integer>();
+    private static Map<Integer, VipsPrecision> map = new HashMap<>();
 
     private VipsPrecision(int i) {
       value = i;

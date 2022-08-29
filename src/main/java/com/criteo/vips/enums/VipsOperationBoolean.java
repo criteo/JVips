@@ -30,7 +30,7 @@ public enum VipsOperationBoolean {
     Last(5);
 
     private int value;
-    private static Map map = new HashMap<VipsOperationBoolean, Integer>();
+    private static Map<Integer, VipsOperationBoolean> map = new HashMap<>();
 
     private VipsOperationBoolean(int i) {
       value = i;

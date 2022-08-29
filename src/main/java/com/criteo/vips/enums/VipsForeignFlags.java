@@ -28,7 +28,7 @@ public enum VipsForeignFlags {
     All(7);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignFlags, Integer>();
+    private static Map<Integer, VipsForeignFlags> map = new HashMap<>();
 
     private VipsForeignFlags(int i) {
       value = i;

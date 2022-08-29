@@ -32,7 +32,7 @@ public enum VipsForeignWebpPreset {
     Last(6);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignWebpPreset, Integer>();
+    private static Map<Integer, VipsForeignWebpPreset> map = new HashMap<>();
 
     private VipsForeignWebpPreset(int i) {
       value = i;

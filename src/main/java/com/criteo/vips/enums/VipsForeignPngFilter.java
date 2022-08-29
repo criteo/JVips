@@ -31,7 +31,7 @@ public enum VipsForeignPngFilter {
     All(248);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignPngFilter, Integer>();
+    private static Map<Integer, VipsForeignPngFilter> map = new HashMap<>();
 
     private VipsForeignPngFilter(int i) {
       value = i;

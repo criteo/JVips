@@ -31,7 +31,7 @@ public enum VipsOperationRelational {
     Last(6);
 
     private int value;
-    private static Map map = new HashMap<VipsOperationRelational, Integer>();
+    private static Map<Integer, VipsOperationRelational> map = new HashMap<>();
 
     private VipsOperationRelational(int i) {
       value = i;

@@ -29,7 +29,7 @@ public enum VipsToken {
     Comma(5);
 
     private int value;
-    private static Map map = new HashMap<VipsToken, Integer>();
+    private static Map<Integer, VipsToken> map = new HashMap<>();
 
     private VipsToken(int i) {
       value = i;

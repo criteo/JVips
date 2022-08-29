@@ -24,7 +24,7 @@ public enum VipsPCS {
     csLast(2);
 
     private int value;
-    private static Map map = new HashMap<VipsPCS, Integer>();
+    private static Map<Integer, VipsPCS> map = new HashMap<>();
 
     private VipsPCS(int i) {
       value = i;

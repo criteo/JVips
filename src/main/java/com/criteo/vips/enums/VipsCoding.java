@@ -27,7 +27,7 @@ public enum VipsCoding {
     Last(7);
 
     private int value;
-    private static Map map = new HashMap<VipsCoding, Integer>();
+    private static Map<Integer, VipsCoding> map = new HashMap<>();
 
     private VipsCoding(int i) {
       value = i;

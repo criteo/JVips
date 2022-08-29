@@ -26,7 +26,7 @@ public enum VipsForeignSubsample {
     Last(3);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignSubsample, Integer>();
+    private static Map<Integer, VipsForeignSubsample> map = new HashMap<>();
 
     private VipsForeignSubsample(int i) {
       value = i;

@@ -70,7 +70,7 @@ public enum VipsBlendMode {
     Last(25);
 
     private int value;
-    private static Map map = new HashMap<VipsBlendMode, Integer>();
+    private static Map<Integer, VipsBlendMode> map = new HashMap<>();
 
     private VipsBlendMode(int i) {
       value = i;

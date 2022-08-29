@@ -30,7 +30,7 @@ public enum VipsForeignDzLayout {
     Last(5);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignDzLayout, Integer>();
+    private static Map<Integer, VipsForeignDzLayout> map = new HashMap<>();
 
     private VipsForeignDzLayout(int i) {
       value = i;

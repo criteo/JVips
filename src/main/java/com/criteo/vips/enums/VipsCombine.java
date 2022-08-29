@@ -26,7 +26,7 @@ public enum VipsCombine {
     Last(3);
 
     private int value;
-    private static Map map = new HashMap<VipsCombine, Integer>();
+    private static Map<Integer, VipsCombine> map = new HashMap<>();
 
     private VipsCombine(int i) {
       value = i;

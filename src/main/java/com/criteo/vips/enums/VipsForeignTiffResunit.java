@@ -24,7 +24,7 @@ public enum VipsForeignTiffResunit {
     Last(2);
 
     private int value;
-    private static Map map = new HashMap<VipsForeignTiffResunit, Integer>();
+    private static Map<Integer, VipsForeignTiffResunit> map = new HashMap<>();
 
     private VipsForeignTiffResunit(int i) {
       value = i;
