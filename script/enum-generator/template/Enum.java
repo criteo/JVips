@@ -9,7 +9,7 @@ public enum $name {
 $values;
 
     private int value;
-    private static Map map = new HashMap<$name, Integer>();
+    private static Map<Integer, $name> map = new HashMap<>();
 
     private $name(int i) {
       value = i;
