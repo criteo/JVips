@@ -66,3 +66,9 @@ Java_com_criteo_vips_VipsContext_shutdown(__attribute__((unused)) JNIEnv *env, _
 {
     vips_shutdown();
 }
+
+JNIEXPORT void JNICALL
+Java_com_criteo_vips_VipsContext_setBlockUntrusted(__attribute__((unused))JNIEnv *env, __attribute__((unused)) jclass obj, jboolean enable)
+{
+    vips_block_untrusted_set(enable);
+}

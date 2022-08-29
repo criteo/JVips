@@ -71,6 +71,14 @@ JNIEXPORT jint JNICALL Java_com_criteo_vips_VipsContext_getMaxCacheMem
 JNIEXPORT void JNICALL Java_com_criteo_vips_VipsContext_shutdown
   (JNIEnv *, jclass);
 
+/*
+ * Class:     com_criteo_vips_VipsContext
+ * Method:    setBlockUntrusted
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsContext_setBlockUntrusted
+  (JNIEnv *, jclass, jboolean);
+
 #ifdef __cplusplus
 }
 #endif
