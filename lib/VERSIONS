@@ -16,6 +16,9 @@ SPNG_VERSION=0.6.0
 # renovate: datasource=git-tags depName=giflib packageName=https://git.code.sf.net/p/giflib/code extractVersionTemplate=^(?<version>.*)$
 GIF_VERSION=5.2.1
 
+# renovate: datasource=github-releases depName=cgif packageName=dloebl/cgif extractVersionTemplate=^V(?<version>.*)$
+CGIF_VERSION=0.3.0
+
 # renovate: datasource=github-tags depName=libwebp packageName=webmproject/libwebp
 WEBP_VERSION=1.1.0
 
@@ -32,4 +35,4 @@ LCMS2_VERSION=2.11
 TIFF_VERSION=4.1.0
 
 # renovate: datasource=github-releases depName=libvips packageName=libvips/libvips
-VIPS_VERSION=8.12.2
+VIPS_VERSION=8.13.0

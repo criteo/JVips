@@ -25,7 +25,11 @@ public enum VipsOperationFlags {
     // must not be cached
     Nocache(4),
     // a compatibility thing
-    Deprecated(8);
+    Deprecated(8),
+    // not hardened for untrusted input
+    Untrusted(16),
+    // prevent this operation from running
+    Blocked(32);
 
     private int value;
     private static Map map = new HashMap<VipsOperationFlags, Integer>();

@@ -70,4 +70,11 @@ public class VipsContext extends Vips {
      * Shutdown vips context
      */
     public static native void shutdown();
+
+    /**
+     * Set whether or not to block untrusted operations from running.
+     * @param blockUntrusted
+     */
+    public static native void setBlockUntrusted(boolean blockUntrusted);
+
 }

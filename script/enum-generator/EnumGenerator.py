@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from string import Template
 from itertools import takewhile
 
-DEFAULT_VIPS_VERSION = '8.12.2'
+DEFAULT_VIPS_VERSION = '8.13.0'
 JAVA_ENUM_TEMPLATE = "template/Enum.java"
 C_ENUM_TEST_TEMPLATE = "template/VipsEnumTest.c"
 
@@ -90,6 +90,9 @@ enum_overwrites = {
     'VIPS_OPERATION_SEQUENTIAL_UNBUFFERED': 2,
     'VIPS_OPERATION_NOCACHE': 4,
     'VIPS_OPERATION_DEPRECATED': 8,
+    'VIPS_OPERATION_UNTRUSTED': 16,
+    'VIPS_OPERATION_BLOCKED': 32,
+
     'VIPS_FOREIGN_NONE': 0,
     'VIPS_FOREIGN_PARTIAL': 1,
     'VIPS_FOREIGN_BIGENDIAN': 2,

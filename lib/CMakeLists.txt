@@ -191,6 +191,33 @@ else()
     add_custom_target(giflib "")
 endif()
 
+find_program(Meson_EXECUTABLE meson)
+if(NOT Meson_EXECUTABLE)
+  message(FATAL_ERROR "Cooking: Meson is required!")
+endif()
+
+find_program(Ninja_EXECUTABLE ninja)
+if(NOT Ninja_EXECUTABLE)
+  message(FATAL_ERROR "Cooking: Ninja is required!")
+endif()
+
+find_library(CGIF cgif PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
+if (NOT CGIF)
+    ExternalProject_Add(cgif
+      URL "https://github.com/dloebl/cgif/archive/refs/tags/V${CGIF_VERSION}.tar.gz"
+      PREFIX "${CMAKE_CURRENT_BINARY_DIR}/cgif"
+      INSTALL_DIR ${EXT_INSTALL_DIR}
+      CONFIGURE_COMMAND
+        ${Meson_EXECUTABLE} --prefix=<INSTALL_DIR> --libdir=lib <BINARY_DIR> <SOURCE_DIR>
+      BUILD_COMMAND
+        ${Ninja_EXECUTABLE} -C <BINARY_DIR>
+      INSTALL_COMMAND
+        ${Ninja_EXECUTABLE} -C <BINARY_DIR> install
+      )
+else()
+    add_custom_target(cgif "")
+endif()
+
 find_library(LIBWEBP webp webpmux webpdemux PATHS "${EXT_INSTALL_DIR}/lib" NO_DEFAULT_PATH)
 if(NOT LIBWEBP)
     ExternalProject_Add(libwebp
@@ -304,13 +331,14 @@ if(NOT VIPS)
       --with-tiff
       --with-tiff-includes=${EXT_INSTALL_DIR}/include
       --with-tiff-libraries=${EXT_INSTALL_DIR}/lib
+      --with-cgif
       --without-magick
       --without-orc
       --without-gsf
       --without-rsvg
       ${LIBSPNG_FLAGS}
       ${LIBHEIF_FLAGS}
-      DEPENDS libjpeg libpng libspng giflib libwebp libimagequant lcms2 libheif tiff
+      DEPENDS libjpeg libpng libspng giflib cgif libwebp libimagequant lcms2 libheif tiff
       BUILD_IN_SOURCE 1
       )
 else()
