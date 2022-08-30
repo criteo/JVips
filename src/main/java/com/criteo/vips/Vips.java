@@ -30,6 +30,7 @@ public class Vips {
             "png16",
             "spng",
             "gif",
+            "cgif",
             "jpeg",
             "turbojpeg",
             "webp",
