@@ -52,7 +52,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Runtime dependencies -->
-        <jmh.version>1.21</jmh.version>
+        <jmh.version>1.36</jmh.version>
         <junit.version>4.13.1</junit.version>
     </properties>
 
