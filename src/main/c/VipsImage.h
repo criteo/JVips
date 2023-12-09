@@ -353,6 +353,14 @@ JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_autorot
 
 /*
  * Class:     com_criteo_vips_VipsImage
+ * Method:    rotNative
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_criteo_vips_VipsImage_rotNative
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_criteo_vips_VipsImage
  * Method:    removeAutorotAngle
  * Signature: ()V
  */

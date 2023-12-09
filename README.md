@@ -189,12 +189,13 @@ The following steps explain how to bind a function from `libvips`.
 
 Let's add `hasAlpha()` method:
 
-1. Declare method in [`VipsImage`](src/main/java/com/criteo/vips/VipsImage.java) interface
-2. Declare native method in [`VipsImageImpl`](src/main/java/com/criteo/vips/VipsImageImpl.java)
+1. Declare the method in [`VipsImage`](src/main/java/com/criteo/vips/VipsImage.java) class and
+   [Image](src/main/java/com/criteo/vips/Image.java) interface
+1. Declare the native method in [`VipsImage`](src/main/java/com/criteo/vips/VipsImage.java) class
 ```java
 public native boolean hasAlpha();
 ```
-3. Run build.sh to generate JNI header file:
+1. Run build.sh to generate JNI header file:
 ```c
 /*
  * Class:     com_criteo_vips_VipsImageImpl
@@ -204,7 +205,7 @@ public native boolean hasAlpha();
 JNIEXPORT jboolean JNICALL Java_com_criteo_vips_VipsImageImpl_hasAlpha
   (JNIEnv *, jobject);
 ```
-4. Define and implement function in src/main/c/VipsImage.c
+1. Define and implement function in [VipsImage.c](src/main/c/VipsImage.c)
 ```c
 JNIEXPORT jboolean JNICALL
 Java_com_criteo_vips_VipsImageImpl_hasAlpha(JNIEnv *env, jobject obj)

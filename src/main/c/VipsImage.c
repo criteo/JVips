@@ -796,6 +796,26 @@ JNICALL Java_com_criteo_vips_VipsImage_autorot(JNIEnv *env, jobject image_obj)
     g_object_unref(im);
 }
 
+/*
+ * Class:     com_criteo_vips_VipsImage
+ * Method:    rotNative
+ * Signature: (I)V
+ */
+JNIEXPORT void
+JNICALL Java_com_criteo_vips_VipsImage_rotNative(JNIEnv *env, jobject image_obj, jint angle)
+{
+    VipsImage *im = (VipsImage *) (*env)->GetLongField(env, image_obj, handle_fid);
+    VipsImage *out = NULL;
+
+    if (vips_rot(im, &out, angle, NULL))
+    {
+        throwVipsException(env, "Unable to rotate image");
+        return;
+    }
+    (*env)->SetLongField(env, image_obj, handle_fid, (jlong) out);
+    g_object_unref(im);
+}
+
 JNIEXPORT jobject
 JNICALL Java_com_criteo_vips_VipsImage_clone(JNIEnv *env, jobject image_obj)
 {
