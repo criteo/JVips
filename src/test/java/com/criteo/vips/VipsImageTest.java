@@ -896,6 +896,19 @@ public class VipsImageTest {
     }
 
     @Test
+    public void TestD90Rot() throws IOException, VipsException {
+        ByteBuffer buffer = VipsTestUtils.getDirectByteBuffer("in_vips.jpg");
+
+        try (VipsImage img = new VipsImage(buffer, buffer.capacity())) {
+            int width = img.getWidth();
+            int height = img.getHeight();
+            img.rot(VipsAngle.D90);
+            assertEquals(width, img.getHeight());
+            assertEquals(height, img.getWidth());
+        }
+    }
+
+    @Test
     public void TestCreateVipsImageFromFile() throws IOException, VipsException {
         String filename = VipsTestUtils.getRessourcePath("in_vips.jpg");
         int expectedBands = 3;

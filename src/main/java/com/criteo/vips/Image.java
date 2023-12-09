@@ -366,6 +366,13 @@ public interface Image extends AutoCloseable {
     void autorot() throws VipsException;
 
     /**
+     * Rotates the image by a multiple of 90 degrees
+     *
+     * @throws VipsException if error
+     */
+    void rot(VipsAngle angle) throws VipsException;
+
+    /**
      * Remove the orientation tag on the image
      */
     void removeAutorotAngle();

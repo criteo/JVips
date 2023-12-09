@@ -328,6 +328,12 @@ public class VipsImage extends Vips implements Image {
 
     public native void autorot() throws VipsException;
 
+    public void rot(VipsAngle angle) throws VipsException {
+        rotNative(angle.getValue());
+    }
+
+    public native void rotNative(int angle) throws VipsException;
+
     public native void removeAutorotAngle();
 
     public native VipsImage clone() throws VipsException;
