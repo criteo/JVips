@@ -796,11 +796,6 @@ JNICALL Java_com_criteo_vips_VipsImage_autorot(JNIEnv *env, jobject image_obj)
     g_object_unref(im);
 }
 
-/*
- * Class:     com_criteo_vips_VipsImage
- * Method:    rotNative
- * Signature: (I)V
- */
 JNIEXPORT void
 JNICALL Java_com_criteo_vips_VipsImage_rotNative(JNIEnv *env, jobject image_obj, jint angle)
 {
