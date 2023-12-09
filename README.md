@@ -11,6 +11,8 @@ This project is deployed and used in production at Criteo to serve billions of i
 
 Not all libvips capabilities are implemented. JVips currently exposes:
 - Resize
+- Rotate by a multiple of 90 degrees
+- Autofix rotation based on image EXIF metadata
 - Pad
 - Crop
 - Find trim (get bounding box)
